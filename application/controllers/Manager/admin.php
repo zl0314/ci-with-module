@@ -15,6 +15,6 @@ class Admin extends MY_Controller
 
     public function index ()
     {
-        echo '123';
+        echo '123' . __FILE__;
     }
 }

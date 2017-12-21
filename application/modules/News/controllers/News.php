@@ -15,6 +15,8 @@ class News extends Module_Controller
 
     public function index ()
     {
+        $this->load->library('Test');
+
         $this->tpl->display();
     }
 }

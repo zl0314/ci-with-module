@@ -68,7 +68,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <body>
 
 <div id="container">
-    <h1>Welcome to CodeIgniter! <?=__FILE__?> dsfa</h1>
+    <h1>Welcome to CodeIgniter! <?=__FILE__?> </h1>
 
     <p class="footer">Page rendered in <strong>{elapsed_time}</strong> seconds. <?php echo  (ENVIRONMENT === 'development') ?  'CodeIgniter Version <strong>' . CI_VERSION . '</strong>' : '' ?></p>
 </div>

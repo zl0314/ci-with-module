@@ -41,13 +41,13 @@ class MY_Loader extends CI_Loader
         $this->_ci_view_paths = [ VIEWPATH => true, MODULE_PATH => true ];
 
         //重新定义Helper路径， VIEWPATH + BASEPATH + MODULE_PATH
-        $this->_ci_helper_paths = [ APPPATH, BASEPATH, MODULE_PATH . $class . '/helpers/' ];
+        $this->_ci_helper_paths = [ APPPATH, BASEPATH, MODULE_PATH . $class . '/' ];
 
         //重新定义类路径， VIEWPATH + BASEPATH + MODULE_PATH
-        $this->_ci_library_paths = [ APPPATH, BASEPATH, MODULE_PATH . $class . '/libraries/' ];
+        $this->_ci_library_paths = [ APPPATH, BASEPATH, MODULE_PATH . $class .'/' ];
 
         //重新定义模型路径， VIEWPATH + MODULE_PATH
-        $this->_ci_model_paths = [ APPPATH, MODULE_PATH . $class . '/models/' ];
+        $this->_ci_model_paths = [ APPPATH, MODULE_PATH . $class . '/' ];
 
     }
 
