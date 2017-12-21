@@ -23,7 +23,7 @@ class Module_Controller extends Common_Controller
      */
     public function _remap ( $url_param_1 = '', $dataArr = [] )
     {
-        echo $url_param_1;
+        //echo $url_param_1;
         // do something
     }
 
