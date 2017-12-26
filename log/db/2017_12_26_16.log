@@ -1,0 +1,20 @@
+2017-12-26 16:17:53: SELECT * FROM `admin_user` WHERE `user_name` = 'zhanglong'  LIMIT 1
+2017-12-26 16:17:53: SELECT * FROM `admin_user` WHERE `user_name` = 'zhanglong'  LIMIT 1
+2017-12-26 16:28:12: SELECT * FROM `admin_user` WHERE `user_name` = 'zhanglong'  LIMIT 1
+2017-12-26 16:28:12: SELECT * FROM `admin_user` WHERE `user_name` = 'zhanglong'  LIMIT 1
+2017-12-26 16:28:15: SELECT * FROM `admin_user` WHERE `user_name` = 'zhanglong'  LIMIT 1
+2017-12-26 16:28:15: SELECT * FROM `admin_user` WHERE `user_name` = 'zhanglong'  LIMIT 1
+2017-12-26 16:28:24: SELECT * FROM `admin_user` WHERE `user_name` = 'zhanglong'  LIMIT 1
+2017-12-26 16:28:24: SELECT * FROM `admin_user` WHERE `user_name` = 'zhanglong'  LIMIT 1
+2017-12-26 16:29:33: SELECT * FROM `ci_admin_user` WHERE `user_name` = 'zhanglong'  LIMIT 1
+2017-12-26 16:29:33: SELECT * FROM `ci_admin_user` WHERE `user_name` = 'zhanglong'  LIMIT 1
+2017-12-26 16:30:46: SELECT * FROM `ci_admin_user` WHERE `user_name` = 'zhanglong'  LIMIT 1
+2017-12-26 16:30:46: SELECT * FROM `ci_admin_user` WHERE `user_name` = 'zhanglong'  LIMIT 1
+2017-12-26 16:31:26: SELECT * FROM `ci_adminuser` WHERE `user_name` = 'zhanglong'  LIMIT 1
+2017-12-26 16:31:26: SELECT * FROM `ci_adminuser` WHERE `user_name` = 'zhanglong'  LIMIT 1
+2017-12-26 16:31:48: SELECT * FROM `ci_adminuser` WHERE `username` = 'zhanglong'  LIMIT 1
+2017-12-26 16:31:48: SELECT * FROM `ci_adminuser` WHERE `username` = 'zhanglong'  LIMIT 1
+2017-12-26 16:32:30: SELECT * FROM `ci_adminuser` WHERE `username` = 'zhanglong'  LIMIT 1
+2017-12-26 16:32:30: UPDATE `ci_adminuser` SET `last_login_time` = '2017-12-26 16:32:30' WHERE `id` = '1'
+2017-12-26 16:32:30: SELECT * FROM `ci_adminuser` WHERE `username` = 'zhanglong'  LIMIT 1
+2017-12-26 16:32:30: UPDATE `ci_adminuser` SET `last_login_time` = '2017-12-26 16:32:30' WHERE `id` = '1'
