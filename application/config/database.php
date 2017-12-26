@@ -74,13 +74,13 @@ $active_group = 'default';
 $query_builder = TRUE;
 
 $db['default'] = array(
-	'dsn'	=> '',
-	'hostname' => 'localhost',
-	'username' => '',
-	'password' => '',
-	'database' => '',
-	'dbdriver' => 'mysqli',
-	'dbprefix' => '',
+	'dsn'	=> 'mysql:dbname=ci_module;host=127.0.0.1',
+	'hostname' => '127.0.0.1',
+	'username' => 'root',
+	'password' => 'zlflrhl',
+	'database' => 'ci_module',
+	'dbdriver' => 'pdo',
+	'dbprefix' => 'ci_',
 	'pconnect' => FALSE,
 	'db_debug' => (ENVIRONMENT !== 'production'),
 	'cache_on' => FALSE,

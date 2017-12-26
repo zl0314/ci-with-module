@@ -18,7 +18,7 @@ class Admin extends Base_Controller
 
     public function index()
     {
-
+        print_r($this->session->userdata('admin_info'));
     }
 
     public function login()
@@ -46,7 +46,7 @@ class Admin extends Base_Controller
             if (empty($password)) {
                 $this->message('密码不能为空', manager_url($this->siteclass . '/' . $this->sitemethod));
             }
-            $admin_info = $this->Result_model->getRow('admin_user', '*', array('user_name' => $username));
+            $admin_info = $this->rs_model->getRow('adminuser', '*', array('username' => $username));
 
             if (empty($admin_info)) {
                 $this->message('用户名或密码错误', manager_url($this->siteclass . '/' . $this->sitemethod));
@@ -57,19 +57,19 @@ class Admin extends Base_Controller
                 $this->message('用户名或密码错误', manager_url($this->siteclass . '/' . $this->sitemethod));
             }
 
-            if ($admin_info['status'] == 0) {
+            if ($admin_info['status'] == 1) {
                 $this->message('用户被禁用，请联系管理员');
             }
 
             //更新最后登录时间
             $where = array(
-                'user_id' => $admin_info['user_id']
+                'id' => $admin_info['id']
             );
             $data = array(
                 'last_login_time' => date('Y-m-d H:i:s')
             );
             $admin_info['last_login_time'] = $data['last_login_time'];
-            $this->Result_model->update('admin_user', $where, $data);
+            $this->rs_model->update('adminuser', $where, $data);
 
             unset($admin_info['password']);
             unset($admin_info['addtime']);
