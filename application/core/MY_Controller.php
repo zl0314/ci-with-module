@@ -38,9 +38,20 @@ class Common_Controller extends CI_Controller
      */
     public $_config;
 
+    /**
+     * @var 是否是后台管理操作
+     */
+    public $is_manager = false;
+
     public function __construct()
     {
         parent::__construct();
+
+        //判断是否是后台管理
+        $uri_first = $this->uri->segment(1);
+        if ($uri_first == MANAGER_PATH) {
+            $this->is_manager = true;
+        }
 
         $config = $this->config->config;
         $this->_config = $config;
@@ -92,8 +103,15 @@ class Base_Controller extends Common_Controller
         $this->data['admin_info'] = $this->admin_info;
 
         //定义后台路径
-        define('ADMIN_MANAGER_PATH', site_url(MANAGER_PATH . '/' . SITEC)); //只到控制器
+        define('ADMIN_MANAGER_PATH', site_url(MANAGER_PATH . '/' . SITEC)); //只到当前控制器
         define('ADMIN_MANAGER_FULL_PATH', site_url(MANAGER_PATH . '/' . SITEC . '/' . SITEM)); // 到控制器下面的方法
+
+        //定义头尾文件
+//        $this->data['header'] = $this->is_manager ? SITEC . '/' . strtolower(MANAGER_PATH) . '_header' : SITEC . '/header';
+//        $this->data['footer'] = $this->is_manager ? SITEC . '/' . strtolower(MANAGER_PATH) . '_footer' : SITEC . '/footer';
+
+        $this->data['header'] = strtolower(MANAGER_PATH) . '_header';
+        $this->data['footer'] = strtolower(MANAGER_PATH) . '_footer';
     }
 
     /**
