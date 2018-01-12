@@ -4,12 +4,12 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>欢迎登录后台管理系统</title>
-    <link href="<?= CSS_PATH ?>style.css" rel="stylesheet" type="text/css"/>
+    <link href="<?= ADMIN_CSS_PATH ?>style.css" rel="stylesheet" type="text/css"/>
 
 <!--    <link href="--><?//=JS_PATH?><!--layer/layer.css" rel="stylesheet" type="text/css">-->
 
-    <script language="JavaScript" src="<?= JS_PATH ?>jquery.js"></script>
-    <script language="JavaScript" src="<?= JS_PATH ?>global.js"></script>
+    <script language="JavaScript" src="<?= ADMIN_JS_PATH ?>jquery.js"></script>
+    <script language="JavaScript" src="<?= ADMIN_JS_PATH ?>global.js"></script>
     <!--    <script src="--><? //= JS_PATH ?><!--cloud.js" type="text/javascript"></script>-->
 
     <script language="javascript">
@@ -23,7 +23,7 @@
 
 </head>
 
-<body style="background-color:#1c77ac; background-image:url(<?= IMG_PATH ?>light.png); background-repeat:no-repeat; background-position:center top; overflow:hidden;">
+<body style="background-color:#1c77ac; background-image:url(<?= ADMIN_IMG_PATH ?>light.png); background-repeat:no-repeat; background-position:center top; overflow:hidden;">
 <!---->
 <!---->
 <!--<div id="mainBody">-->
@@ -74,13 +74,13 @@
 </div>
 
 
-<script language="JavaScript" type="text/javascript" src="<?= JS_PATH ?>rsa/jsbn.js"></script>
-<script language="JavaScript" type="text/javascript" src="<?= JS_PATH ?>rsa/prng4.js"></script>
-<script language="JavaScript" type="text/javascript" src="<?= JS_PATH ?>rsa/rng.js"></script>
-<script language="JavaScript" type="text/javascript" src="<?= JS_PATH ?>rsa/rsa.js"></script>
-<script language="JavaScript" type="text/javascript" src="<?= JS_PATH ?>rsa/base64.js"></script>
+<script language="JavaScript" type="text/javascript" src="<?= ADMIN_JS_PATH ?>rsa/jsbn.js"></script>
+<script language="JavaScript" type="text/javascript" src="<?= ADMIN_JS_PATH ?>rsa/prng4.js"></script>
+<script language="JavaScript" type="text/javascript" src="<?= ADMIN_JS_PATH ?>rsa/rng.js"></script>
+<script language="JavaScript" type="text/javascript" src="<?= ADMIN_JS_PATH ?>rsa/rsa.js"></script>
+<script language="JavaScript" type="text/javascript" src="<?= ADMIN_JS_PATH ?>rsa/base64.js"></script>
 
-<script type="text/javascript" src="<?=JS_PATH?>layer/layer.js"></script>
+<script type="text/javascript" src="<?=ADMIN_JS_PATH?>layer/layer.js"></script>
 
 <script>
     var public_key = "<?=RSA_KEY?>";

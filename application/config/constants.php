@@ -115,9 +115,9 @@ define('REDIRECT_URL', isset($_GET['redirect_url']) ? urldecode($_GET['redirect_
 | 后台资源路径
 |--------------------------------------------------------------------------
 */
-define('CSS_PATH', '/static/admin/css/');
-define('JS_PATH', '/static/admin/js/');
-define('IMG_PATH', '/static/admin/images/');
+define('ADMIN_CSS_PATH', '/static/admin/css/');
+define('ADMIN_JS_PATH', '/static/admin/js/');
+define('ADMIN_IMG_PATH', '/static/admin/images/');
 
 /*
 |--------------------------------------------------------------------------
@@ -126,3 +126,11 @@ define('IMG_PATH', '/static/admin/images/');
 */
 define('RSA_KEY', 'ABB9997157EBF1435F639A86361CDC4B29F817986F5029F897EF027B68AD21B7D969ABCAE3B0C89B9F115FA05BFC3BE77493F3A61E666000D70E82F0F1E70660B3E0A217261A29091FB0B25C2DAF9922D28337F24BBEE0835D792823BF92B84C9186A7A18DBF1C23F21F920B7BA885575A3AD933BB77D05F4EF5C76D03B66B9B');
 define('RSA_LEN', '0x10001');
+
+/*
+|--------------------------------------------------------------------------
+| 数据库前缀
+|--------------------------------------------------------------------------
+*/
+define('DB_PREFIX', 'ci_');
+

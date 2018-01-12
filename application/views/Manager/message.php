@@ -4,8 +4,8 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title><?= $err ?></title>
-    <link href="<?= CSS_PATH ?>style.css" rel="stylesheet" type="text/css"/>
-    <script type="text/javascript" src="<?= JS_PATH ?>jquery.js"></script>
+    <link href="<?= ADMIN_CSS_PATH ?>style.css" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" src="<?= ADMIN_JS_PATH ?>jquery.js"></script>
 
     <script language="javascript">
         $(function () {

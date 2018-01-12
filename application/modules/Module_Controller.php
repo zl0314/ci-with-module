@@ -13,6 +13,8 @@ class Module_Controller extends Common_Controller
     public function __construct ()
     {
         parent::__construct();
+        //模块名称
+        define('CUR_MODULE_NAME', ucfirst(SITEC));
     }
 
     /**
