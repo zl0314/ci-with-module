@@ -32,7 +32,7 @@
     </div>
 
     <div class="xline"></div>
-
+    <!--
     <ul class="iconlist">
 
         <li><img src="<?= ADMIN_IMG_PATH ?>ico01.png"/>
@@ -49,7 +49,7 @@
             <p><a href="#">查询</a></p></li>
 
     </ul>
-    <!--
+
     <div class="ibox"><a class="ibtn"><img src="<?= ADMIN_IMG_PATH ?>iadd.png"/>添加新的快捷功能</a></div>
 
     <div class="xline"></div>

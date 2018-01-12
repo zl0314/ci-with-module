@@ -6,7 +6,7 @@
     <title>欢迎登录后台管理系统</title>
     <link href="<?= ADMIN_CSS_PATH ?>style.css" rel="stylesheet" type="text/css"/>
 
-<!--    <link href="--><?//=JS_PATH?><!--layer/layer.css" rel="stylesheet" type="text/css">-->
+    <!--    <link href="--><? //=JS_PATH?><!--layer/layer.css" rel="stylesheet" type="text/css">-->
 
     <script language="JavaScript" src="<?= ADMIN_JS_PATH ?>jquery.js"></script>
     <script language="JavaScript" src="<?= ADMIN_JS_PATH ?>global.js"></script>
@@ -80,7 +80,7 @@
 <script language="JavaScript" type="text/javascript" src="<?= ADMIN_JS_PATH ?>rsa/rsa.js"></script>
 <script language="JavaScript" type="text/javascript" src="<?= ADMIN_JS_PATH ?>rsa/base64.js"></script>
 
-<script type="text/javascript" src="<?=ADMIN_JS_PATH?>layer/layer.js"></script>
+<script type="text/javascript" src="<?= ADMIN_JS_PATH ?>layer/layer.js"></script>
 
 <script>
     var public_key = "<?=RSA_KEY?>";

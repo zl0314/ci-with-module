@@ -12,11 +12,12 @@ class Admin extends Base_Controller
     public function __construct()
     {
         parent::__construct();
+        $this->data['header'] = '';
+        $this->data['footer'] = '';
     }
 
     public function index()
     {
-
         $this->tpl->display();
     }
 

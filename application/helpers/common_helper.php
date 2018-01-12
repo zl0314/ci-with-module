@@ -241,3 +241,13 @@ function _get($key = '', $default = '', $strict = false)
 {
     return _post($key, $default, $strict, '_GET');
 }
+
+/**
+ * 获取后台管理的URL
+ * @param $url URL
+ * @return string 后台 URL
+ */
+function manager_url($url)
+{
+    return site_url(MANAGER_PATH . '/' . $url);
+}
