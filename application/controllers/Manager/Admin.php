@@ -12,17 +12,38 @@ class Admin extends Base_Controller
     public function __construct()
     {
         parent::__construct();
-        $config = $this->config->config;
-        $this->_config = $config;
     }
 
     public function index()
     {
-        print_r($this->session->userdata('admin_info'));
+
+        $this->tpl->display();
     }
+
+    public function top()
+    {
+
+        $this->tpl->display();
+    }
+
+
+    public function left()
+    {
+
+        $this->tpl->display();
+    }
+
+
+    public function main()
+    {
+
+        $this->tpl->display();
+    }
+
 
     public function login()
     {
+
         if (!empty($_POST)) {
             $captcha = _post('captcha');
 
@@ -78,5 +99,12 @@ class Admin extends Base_Controller
             $this->message('登录成功', manager_url($this->siteclass . '/index'));
         }
         $this->tpl->display();
+    }
+
+    public function logout()
+    {
+        $this->session->set_userdata('admin_info', '');
+        $this->session->sess_destroy();
+        $this->message('退出成功', ADMIN_MANAGER_PATH . '/login');
     }
 }
