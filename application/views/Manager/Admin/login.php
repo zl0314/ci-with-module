@@ -48,7 +48,7 @@
 
             <ul>
                 <li><input name="" type="text" autofocus class="loginuser" id="username" value=""/></li>
-                <li><input name="" type="text" class="loginpwd" id="password" value=""/></li>
+                <li><input name="" type="password" class="loginpwd" id="password" value=""/></li>
                 <li>
                     <input type='text' class="dfinput" maxlength="4" placeholder="验证码" name='captcha' id="captcha"
                            class="dl_wbk"

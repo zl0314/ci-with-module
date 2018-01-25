@@ -44,7 +44,6 @@ class Admin extends Base_Controller
 
     public function login()
     {
-
         if (!empty($_POST)) {
             $captcha = _post('captcha');
 
@@ -74,7 +73,7 @@ class Admin extends Base_Controller
                 $this->message('用户名或密码错误', manager_url($this->siteclass . '/' . $this->sitemethod));
             }
 
-            $hash_password = password_hash($password, PASSWORD_BCRYPT);;
+
             if (!password_verify($password, $admin_info['password'])) {
                 $this->message('用户名或密码错误', manager_url($this->siteclass . '/' . $this->sitemethod));
             }
@@ -95,7 +94,6 @@ class Admin extends Base_Controller
 
             unset($admin_info['password']);
             unset($admin_info['addtime']);
-            unset($admin_info['last_login_time']);
             $this->session->set_userdata('admin_info', $admin_info);
             $this->message('登录成功', manager_url($this->siteclass . '/index'));
         }

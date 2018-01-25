@@ -21,10 +21,14 @@ class Setting extends Base_Controller
                 $data['id'] = null;
             }
             $this->system_setting_model->saveData($data);
-            cache_write('system_setting', ($data));
             $this->jump('保存成功', site_url($this->siteclass . '/' . $this->sitemethod));
         }
-        $this->data['setting'] = $this->rs_model->getRow('system_setting','*');
+        $setting = $this->rs_model->getRow('system_setting', '*');
+
+        $vars = [
+            'setting' => json_encode($setting, 1)
+        ];
+        $this->tpl->assign($vars);
         $this->tpl->display();
     }
 
