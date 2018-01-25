@@ -128,21 +128,35 @@ class Base_Controller extends Common_Controller
     }
 
     /**
-     * 提示信息
+     * 跳转提示信息 错误
      * @param string $err 输出信息
      * @param string $url 跳转到URL
      * @param int $sec 跳转秒数
      * @param int $is_right 是否是正确的时候显示的信息
      */
-    public function message($err = '', $url = '', $sec = '1', $is_right = 0)
+    public function message($err = '', $url = '', $sec = '1', $is_right = false)
     {
         if ($err) {
             $this->data['sec'] = $sec * 1000;
             $this->data['url'] = ($url);
             $this->data['err'] = ($err);
+            $this->data['type'] = $is_right ? 'success' : 'fail';
             $this->load->view(MANAGER_PATH . '/message', $this->data);
         }
     }
+
+    /**
+     * 跳转提示信息 成功
+     * @param string $err 输出信息
+     * @param string $url 跳转到URL
+     * @param int $sec 跳转秒数
+     * @param int $is_right 是否是正确的时候显示的信息
+     */
+    public function success_message($err = '', $url = '', $sec = '1', $is_right = true)
+    {
+        $this->message($err, $url, $sec, $is_right);
+    }
+
 }
 
 /**

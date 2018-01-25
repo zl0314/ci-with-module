@@ -28,7 +28,7 @@
 
     <div class="welinfo">
         <span><img src="<?= ADMIN_IMG_PATH ?>time.png" alt="时间"/></span>
-        <i>您上次登录的时间：2013-10-09 15:22</i>
+        <i>您上次登录的时间：<?=$admin_info['last_login_time']?></i>
     </div>
 
     <div class="xline"></div>

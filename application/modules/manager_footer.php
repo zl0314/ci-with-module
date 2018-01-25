@@ -14,12 +14,12 @@
             }
 
             if (confirm('确定删除这些信息吗？')) {
-                $('#Form').attr('action', '<?php echo site_url(MANAGER_PATH . '/' . $siteclass . '/delete')?>');
+                $('#Form').attr('action', '<?php echo site_url(MANAGER_PATH . '/' . SITEC . '/delete')?>');
                 $('#Form').submit();
             }
         } else if (id != 'a') {
             if (confirm('确定删除这些信息吗？')) {
-                $('#Form').attr('action', '<?php echo site_url(MANAGER_PATH . '/' . $siteclass . '/delete?id=')?>' + id);
+                $('#Form').attr('action', '<?php echo site_url(MANAGER_PATH . '/' . SITEC . '/delete?id=')?>' + id);
                 $('#Form').submit();
             }
         } else {

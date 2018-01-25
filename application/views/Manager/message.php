@@ -21,11 +21,15 @@
 
 
 <body style="background:#edf6fa;">
-<div class="error">
+<div class="error" style="background:url(/static/admin/images/<?=$type?>.png) top left no-repeat;">
 
     <h2><?= $err ?></h2>
-    <p>看到这个提示，就自认倒霉吧!
+    <p>
+<!--        看到这个提示，就自认倒霉吧!-->
+        <?php if(!empty($url)):?>
         <i id="sec_jump" style="font-weight: bold;"><?php echo $sec / 1000 ?></i> 秒后浏览器自动跳转...</i> </p>
+    <?php endif;?>
+
     <?php if (empty($url)): ?>
         <div class="reindex"><a href="/">返回首页</a></div>
     <?php else: ?>
