@@ -251,3 +251,104 @@ function manager_url($url)
 {
     return site_url(MANAGER_PATH . '/' . $url);
 }
+
+/**
+ * 读取数据并分页
+ * @param array $where 条件
+ * @param null $model result_model
+ * @param int $perpage 每页显示 数量
+ * @param string $sort 默认排序
+ * @param string $field 字段
+ * @return array  返回结果
+ */
+function get_page($tb, $where = array(), $perpage = 10, $field = '*', $order = '', $page_query = '')
+{
+    $CI =& get_instance();
+    $model = $CI->rs_model;
+    $total_rows_row = $model->getRow($tb, "Count(*) as cnt ", $where, $order);
+    $page['total_rows'] = $total_rows_row['cnt'];
+    // 加载分页类
+    $CI->load->library('pagination');
+    $pagination = new CI_Pagination();
+
+
+    // 当前 控制器
+    $siteclass = SITEC;
+    //  当前方法
+    $sitemethod = SITEM;
+
+    // 分页属性配置
+    $current_page = intval(max(1, $CI->input->get('per_page')));
+
+    //每页数量
+    $page['per_page'] = isset($page['per_page']) ? $page['per_page'] : ($perpage ? $perpage : 10);
+    if (_get('export')) {
+        $page['per_page'] = $page['total_rows'];
+    }
+    $page['cur_page'] = ($current_page < 1) ? 1 : $current_page;
+    //页码
+    $page['offset'] = ($page['cur_page'] - 1) * $page['per_page'];
+
+    //导出操作
+    if (_get('export')) {
+        $page['offset'] = null;
+        $page['per_page'] = 0;
+    }
+
+    $page['first_link'] = ' 第一页 ';
+    $page['last_link'] = ' 末页 ';
+    $page['next_link'] = ' &gt; ';
+    $page['prev_link'] = ' &lt; ';
+    $page['use_page_numbers'] = TRUE;
+    $page['page_query_string'] = TRUE;
+
+    $tag_open = '<li class="paginItem">';
+    $tag_close = '</li>';
+
+    $page['prev_tag_open'] = $tag_open;
+    $page['prev_tag_close'] = '</li>';
+
+    $page['cur_tag_open'] = $tag_open . '<a href="javascript:;">';
+    $page['cur_tag_close'] = '</a>' . $tag_close;
+
+    $page['num_tag_open'] = $tag_open;
+    $page['num_tag_close'] = $tag_close;
+
+    $page['next_tag_open'] = $tag_open;
+    $page['next_tag_close'] = $tag_close;
+
+    $GLOBALS['total_rows'] = $page['total_rows'];
+    $GLOBALS['curpage'] = $page['cur_page'];
+    $GLOBALS['perpage'] = $page['per_page'];
+
+    //查询数据
+    $data = array();
+    $data['total_rows'] = $page['total_rows'];
+    if ($model) {
+        $data['list'] = $model->getList($tb, $field, $where, $page['per_page'], $page['offset'], $order);
+        $page['base_url'] = '';
+        $page['base_url'] .= $page_query ? $page['base_url'] . '/' . $page_query : $page['base_url'];
+        $page['base_url'] .= sprintf('?hash=1');
+        $page['base_url'] .= getQueryUrl();
+        $pagination->initialize($page);
+        $data['page_html'] = $pagination->create_links();
+    }
+    return $data;
+}
+
+function getQueryUrl()
+{
+    $url = '';
+    if (!empty($_SERVER['QUERY_STRING'])) {
+        $strA = explode('&', $_SERVER['QUERY_STRING']);
+        $con = '&';
+        $strA = array_unique($strA);
+        foreach ($strA as $k => $r) {
+            $rA = explode('=', $r);
+            if ($rA[0] != 'per_page') {
+                $url .= $con . $rA[0] . '=' . $rA[1];
+            }
+        }
+    }
+    return $url;
+}

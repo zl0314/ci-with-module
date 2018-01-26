@@ -1,4 +1,6 @@
+</div>
 <script>
+    $('.tablelist tbody tr:odd').addClass('odd');
 
     //列表批量删除
     function delitem(id) {

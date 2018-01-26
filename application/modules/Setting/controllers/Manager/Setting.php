@@ -17,21 +17,23 @@ class Setting extends Module_Controller
         if (!empty($_POST)) {
             //表单验证
             $result = $this->FormValidation();
-            if ($result) {
+            if ($result) { //保存数据
                 $data = _post('data');
-
-                if ($data['id'] == '') {
+                if (empty($data['id'])) {
                     $data['id'] = null;
                 }
-                $this->system_setting_model->saveData($data);
-                $this->jump('保存成功', site_url($this->siteclass . '/' . $this->sitemethod));
+                $this->rs_model->save('system_setting', ['id' => $data['id'], 'setting' => json_encode($data)]);
+                $this->message('保存成功', (ADMIN_MANAGER_FULL_PATH));
             }
         }
+
+        //读取数据
         $setting = $this->rs_model->getRow('system_setting', '*');
 
         $vars = [
-            'setting' => json_encode($setting, 1)
+            'setting' => json_decode($setting['setting'], 1)
         ];
+
         $this->tpl->assign($vars);
         $this->tpl->display();
     }
