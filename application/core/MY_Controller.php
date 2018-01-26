@@ -122,7 +122,7 @@ class Base_Controller extends Common_Controller
         if ($this->sitemethod != 'login' && $this->sitemethod != 'logout') {
             $this->admin_info = $this->session->userdata('admin_info');
             if (empty($this->admin_info['id'])) {
-                redirect_manager('admin/login');
+                redirect_manager('Admin/login');
             }
         }
     }

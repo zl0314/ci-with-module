@@ -403,7 +403,7 @@ $config['sess_regenerate_destroy'] = FALSE;
 $config['cookie_prefix']	= '';
 $config['cookie_domain']	= '';
 $config['cookie_path']		= '/';
-$config['cookie_secure']	= FALSE;
+$config['cookie_secure']	= true;
 $config['cookie_httponly'] 	= FALSE;
 
 /*
@@ -488,7 +488,7 @@ $config['compress_output'] = FALSE;
 | helper' page of the user guide for information regarding date handling.
 |
 */
-$config['time_reference'] = 'local';
+$config['time_reference'] = 'PRC';
 
 /*
 |--------------------------------------------------------------------------
