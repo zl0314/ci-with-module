@@ -274,7 +274,7 @@ class Result_model extends CI_Model
             $queries_default = $this->db->queries;
         }
         if (!empty($this->rwdb->queries)) {
-            $queries_rw = $this->rwdb->queries;
+          //  $queries_rw = $this->rwdb->queries;
         }
         $queries = array_merge($queries_default, $queries_rw);
         return $queries;

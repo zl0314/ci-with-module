@@ -43,34 +43,35 @@
 
     <span class="systemlogo"></span>
 
-    <form action="" method="post" onsubmit="return checkForm()">
-        <div class="loginbox">
 
-            <ul>
-                <li><input name="" type="text" autofocus class="loginuser" id="username" value=""/></li>
-                <li><input name="" type="password" class="loginpwd" id="password" value=""/></li>
-                <li>
-                    <input type='text' class="dfinput" maxlength="4" placeholder="验证码" name='captcha' id="captcha"
-                           class="dl_wbk"
-                           style="width:67.5%;float:left"/>
-                    <img src="<?= site_url('Api/Captcha') ?>" id="captcha"
-                         style="float:left;margin-left:2%;cursor: pointer;"
-                         onclick="this.src='<?= site_url('Api/Captcha') ?>'"/>
+    <?= form_open('', ['onsubmit' => 'return checkForm()']) ?>
+    <div class="loginbox">
 
-                </li>
-                <input type="hidden" name="data" id="data">
-                <div style="clear:both; height:8px;"></div>
-                <li><input name="" type="submit" class="loginbtn" value="登录"/>
-                    <!--
-                   <label>
-                        <input name="" type="checkbox" value="" checked="checked"/>记住密码
-                   </label>
-                   <label><a href="#">忘记密码？</a></label>
-                   -->
-                </li>
-            </ul>
-        </div>
-    </form>
+        <ul>
+            <li><input type="text" autofocus class="loginuser" id="username" value=""/></li>
+            <li><input type="password" class="loginpwd" id="password" value=""/></li>
+            <li>
+                <input type='text' class="dfinput" maxlength="4" placeholder="验证码" name='captcha' id="captcha"
+                       class="dl_wbk"
+                       style="width:67.5%;float:left"/>
+                <img src="<?= site_url('Api/Captcha') ?>" id="captcha"
+                     style="float:left;margin-left:2%;cursor: pointer;"
+                     onclick="this.src='<?= site_url('Api/Captcha') ?>'"/>
+
+            </li>
+            <input type="hidden" name="data" id="data">
+            <div style="clear:both; height:8px;"></div>
+            <li><input name="" type="submit" class="loginbtn" value="登录"/>
+                <!--
+               <label>
+                    <input name="" type="checkbox" value="" checked="checked"/>记住密码
+               </label>
+               <label><a href="#">忘记密码？</a></label>
+               -->
+            </li>
+        </ul>
+    </div>
+    <?=form_close()?>
 </div>
 
 

@@ -49,8 +49,6 @@ class Module_Controller extends Base_Controller
                 if ($this->form_validation->run() !== FALSE) {
                     return true;
                 }
-
-
             } else {
                 return true;
             }
