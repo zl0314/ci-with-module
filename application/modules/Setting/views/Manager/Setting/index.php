@@ -12,8 +12,10 @@
 
         <li>
             <label>关键字</label>
-            <input name="data[site_keyword]" type="text" class="dfinput"/><i>多个关键字用,隔开</i></li>
+            <input name="data[site_keyword]" type="text" class="dfinput"/><i>多个关键字用,隔开</i>
             <?= form_error('data[site_keyword]') ?>
+        </li>
+
         <li>
             <label>站点描述</label>
             <input name="data[site_description]" max="100" type="text" class="dfinput"/><i>描述不能超过100个字符</i>
