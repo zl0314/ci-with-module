@@ -23,7 +23,7 @@ CREATE TABLE `ci_system_setting` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `setting` text,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='系统设置';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='系统设置';
 
 -- ----------------------------
 -- Records of ci_system_setting

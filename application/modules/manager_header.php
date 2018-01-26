@@ -5,26 +5,45 @@
     <title>管理后台</title>
 
 
-<link href="<?= ADMIN_CSS_PATH ?>style.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="<?= ADMIN_JS_PATH ?>jquery.js"></script>
-<script type="text/javascript" src="<?= ADMIN_JS_PATH ?>layer/layer.js"></script>
+    <link href="<?= ADMIN_CSS_PATH ?>style.css" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" src="<?= ADMIN_JS_PATH ?>jquery.js"></script>
+    <script type="text/javascript" src="<?= ADMIN_JS_PATH ?>layer/layer.js"></script>
+    <link href="<?= ADMIN_CSS_PATH ?>select.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="<?= ADMIN_JS_PATH ?>select-ui.min.js"></script>
 
-<script type="text/javascript">
-    $(function () {
-        //顶部导航切换
-        $(".nav li a").click(function () {
-            $(".nav li a.selected").removeClass("selected")
-            $(this).addClass("selected");
+    <script type="text/javascript">
+        $(function () {
+            //顶部导航切换
+            $(".nav li a").click(function () {
+                $(".nav li a.selected").removeClass("selected")
+                $(this).addClass("selected");
+            })
         })
-    })
+        $(function () {
+            //导航切换
+            $(".menuson li").click(function () {
+                $(".menuson li.active").removeClass("active")
+                $(this).addClass("active");
+            });
 
-    var SITEC = '<?php echo SITEC;?>';
-    var SITEM = '<?php echo SITEM;?>';
-    var DOMAIN = 'http://' + document.domain + '/';
-    var doit = false;
-    var is_manager = true;
-    var ping = 0;
-</script>
+            $('.title').click(function () {
+                var $ul = $(this).next('ul');
+                $('dd').find('ul').slideUp();
+                if ($ul.is(':visible')) {
+                    $(this).next('ul').slideUp();
+                } else {
+                    $(this).next('ul').slideDown();
+                }
+            });
+        })
+
+        var SITEC = '<?php echo SITEC;?>';
+        var SITEM = '<?php echo SITEM;?>';
+        var DOMAIN = 'http://' + document.domain + '/';
+        var doit = false;
+        var is_manager = true;
+        var ping = 0;
+    </script>
 
 </head>
 
@@ -37,21 +56,27 @@
     </div>
 
     <ul class="nav">
+
         <li><a href="default.html" class="selected"><img src="<?= ADMIN_IMG_PATH ?>icon01.png"
                                                          title="工作台"/>
                 <h2>工作台</h2></a></li>
+
         <li><a href="imgtable.html"><img src="<?= ADMIN_IMG_PATH ?>icon02.png" title="模型管理"/>
                 <h2>模型管理</h2></a></li>
+
         <li><a href="imglist.html"><img src="<?= ADMIN_IMG_PATH ?>icon03.png" title="模块设计"/>
                 <h2>模块设计</h2></a></li>
-        <li><a href="tools.html"><img src="<?= ADMIN_IMG_PATH ?>icon04.png" title="常用工具"/>
-                <h2>常用工具</h2></a></li>
+
+        <li><a href="<?= manager_url('Privileges') ?>"><img src="<?= ADMIN_IMG_PATH ?>icon04.png" title="权限节点"/>
+                <h2>权限节点</h2></a></li>
+
         <li><a href="<?= manager_url('Adminuser') ?>"><img src="<?= ADMIN_IMG_PATH ?>i07.png"
                                                            style="width:45px;" title="管理员管理"/>
                 <h2>管理员管理</h2></a></li>
         <li><a href="<?= manager_url('Setting') ?>"><img src="<?= ADMIN_IMG_PATH ?>icon06.png"
                                                          title="系统设置"/>
                 <h2>系统设置</h2></a></li>
+
     </ul>
 
     <div class="topright">
@@ -72,7 +97,7 @@
 
 
 <!--left-->
-<div id="left">
+<div id="left" >
     <div class="lefttop"><span></span>通讯录</div>
     <dl class="leftmenu">
         <dd>
@@ -133,6 +158,6 @@
 
 <!--main-->
 <div id="right">
-<?php if (!empty($this->data['header'])): ?>
-    <?php $this->load->view('location'); ?>
-<?php endif; ?>
+    <?php if (!empty($this->data['header'])): ?>
+        <?php $this->load->view('location'); ?>
+    <?php endif; ?>
