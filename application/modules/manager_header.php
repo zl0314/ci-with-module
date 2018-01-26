@@ -6,7 +6,7 @@
 </head>
 
 <link href="<?= ADMIN_CSS_PATH ?>style.css" rel="stylesheet" type="text/css"/>
-
+<script src="/static/admin/js/jquery.js"></script>
 <script>
     var SITEC = '<?php echo SITEC;?>';
     var SITEM = '<?php echo SITEM;?>';
