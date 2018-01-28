@@ -5,7 +5,7 @@
  * FileName : Module_Controller.php
  */
 
-class Module_Controller extends Base_Controller
+class Module_Controller extends Common_Controller
 {
     /**
      * Module_Controller constructor.

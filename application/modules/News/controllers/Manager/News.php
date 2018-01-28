@@ -5,7 +5,7 @@
  * Date: 2017/12/19 20:30
  * FileName : controllers.php
  */
-class News extends Module_Controller
+class News extends Base_Controller
 {
 
     public function __construct ()
