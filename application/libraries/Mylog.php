@@ -13,9 +13,9 @@ class Mylog
      *
      * @param $str
      */
-    public static function debug ( $str )
+    public static function debug($str)
     {
-        self::checkPath( 'debug', $str );
+        self::checkPath('debug', $str);
     }
 
     /**
@@ -23,9 +23,9 @@ class Mylog
      *
      * @param $str
      */
-    public static function info ( $str )
+    public static function info($str)
     {
-        self::checkPath( 'info', $str );
+        self::checkPath('info', $str);
     }
 
     /**
@@ -33,9 +33,9 @@ class Mylog
      *
      * @param $str
      */
-    public static function warn ( $str )
+    public static function warn($str)
     {
-        self::checkPath( 'warn', $str );
+        self::checkPath('warn', $str);
     }
 
     /**
@@ -43,9 +43,9 @@ class Mylog
      *
      * @param $str
      */
-    public static function error ( $str )
+    public static function error($str)
     {
-        self::checkPath( 'error', $str );
+        self::checkPath('error', $str);
     }
 
     /**
@@ -53,9 +53,9 @@ class Mylog
      *
      * @param $str
      */
-    public static function db ( $str )
+    public static function db($str)
     {
-        self::checkPath( 'db', $str );
+        self::checkPath('db', $str);
     }
 
     /**
@@ -63,19 +63,19 @@ class Mylog
      *
      * @param string $type
      */
-    private static function checkPath ( $type = 'error', $str )
+    private static function checkPath($type = 'error', $str)
     {
-        if ( SHOW_DEBUG_BACKTRACE ) {
-            defined( 'ROOT' ) || define( 'ROOT', dirname( BASEPATH ) );
-            $file = ROOT . DIRECTORY_SEPARATOR . 'log' . DIRECTORY_SEPARATOR . $type . DIRECTORY_SEPARATOR . date( 'Y_m_d', time() ) . '.log';
-            if ( $type == 'db' ) {
-                $file = ROOT . DIRECTORY_SEPARATOR . 'log' . DIRECTORY_SEPARATOR . $type . DIRECTORY_SEPARATOR . date( 'Y_m_d_H', time() ) . '.log';
+        if (SHOW_DEBUG_BACKTRACE) {
+            defined('ROOT') || define('ROOT', dirname(BASEPATH));
+            $file = ROOT . DIRECTORY_SEPARATOR . 'log' . DIRECTORY_SEPARATOR . $type . DIRECTORY_SEPARATOR . date('Y_m_d', time()) . '.log';
+            if ($type == 'db') {
+                $file = ROOT . DIRECTORY_SEPARATOR . 'log' . DIRECTORY_SEPARATOR . $type . DIRECTORY_SEPARATOR . date('Y_m_d_H', time()) . '.log';
             }
 
-            if ( !file_exists( dirname( $file ) ) ) {
-                creat_dir_with_filepath( $file );
+            if (!file_exists(dirname($file))) {
+                creat_dir_with_filepath($file);
             }
-            error_log( date( 'Y-m-d H:i:s', time() ) . ': ' . $str . "\n", 3, $file );
+            error_log(date('Y-m-d H:i:s', time()) . ': ' . $str . "\n", 3, $file);
         }
 
     }
