@@ -54,9 +54,9 @@
                 <input type='text' class="dfinput" maxlength="4" placeholder="验证码" name='captcha' id="captcha"
                        class="dl_wbk"
                        style="width:67.5%;float:left"/>
-                <img src="<?= site_url('Api/Captcha') ?>" id="captcha"
+                <img src="<?= site_url('Captcha') ?>" id="captcha"
                      style="float:left;margin-left:2%;cursor: pointer;"
-                     onclick="this.src='<?= site_url('Api/Captcha') ?>'"/>
+                     onclick="this.src='<?= site_url('Captcha') ?>'"/>
 
             </li>
             <input type="hidden" name="data" id="data">

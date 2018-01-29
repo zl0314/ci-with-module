@@ -55,7 +55,7 @@ class Tpl
     {
         $this->CI = get_instance();
         $this->data = null;
-        $this->default_class = 'index';
+        $this->default_class = 'Welcome';
         $this->manager_path = MANAGER_PATH;
 
         $this->template_dir = VIEWPATH;

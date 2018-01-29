@@ -380,8 +380,8 @@ $method = $RTR->method;
 if (empty($class) OR !file_exists(APPPATH . 'controllers/' . $RTR->directory . $class . '.php')) {
     $e404 = true;
 }
-
-if (file_exists(MODULE_PATH . $class . '/controllers/' . $RTR->directory . $class . '.php')) {
+$module_file = MODULE_PATH . $class . '/controllers/' . $RTR->directory . $class . '.php';
+if (file_exists($module_file)) {
     $e404 = false;
     require_once(MODULE_PATH . $class . '/controllers/' . $RTR->directory . $class . '.php');
     if (!method_exists($class, $method)) {
@@ -422,7 +422,7 @@ if (file_exists(MODULE_PATH . $class . '/controllers/' . $RTR->directory . $clas
 if ($e404) {
     if (!empty($RTR->routes['404_override'])) {
         if (sscanf($RTR->routes['404_override'], '%[^/]/%s', $error_class, $error_method) !== 2) {
-            $error_method = 'index';
+            $error_method = 'Welcome';
         }
 
         $error_class = ucfirst($error_class);
