@@ -1,6 +1,6 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Setting extends Module_Controller
+class Setting extends Base_Controller
 {
     public $mail_model;
     public $system_setting_model;

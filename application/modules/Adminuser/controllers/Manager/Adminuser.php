@@ -6,7 +6,7 @@
  * Date: 2018/1/26
  * Time: 14:16
  */
-class Adminuser extends Module_Controller
+class Adminuser extends Base_Controller
 {
     public $statusArr;
 

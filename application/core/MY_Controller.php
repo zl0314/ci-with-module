@@ -84,10 +84,19 @@ class Common_Controller extends CI_Controller
 
 }
 
+
+/* 加载模块 主控制器*/
+if (file_exists(MODULE_PATH . MODULE_CONTROLLER . '.php')) {
+    require_once MODULE_PATH . MODULE_CONTROLLER . '.php';
+}
+
+
+
+
 /**
  * Class Base_Controller 后端主控制器
  */
-class Base_Controller extends Common_Controller
+class Base_Controller extends Module_Controller
 {
     /**
      * 登录的管理员信息
@@ -162,7 +171,7 @@ class Base_Controller extends Common_Controller
 /**
  * Class MY_Controller 前端主控制器
  */
-class MY_Controller extends Common_Controller
+class MY_Controller extends Module_Controller
 {
 
     public function __construct()
@@ -172,7 +181,3 @@ class MY_Controller extends Common_Controller
 
 }
 
-/* 加载模块 主控制器*/
-if (file_exists(MODULE_PATH . MODULE_CONTROLLER . '.php')) {
-    require_once MODULE_PATH . MODULE_CONTROLLER . '.php';
-}

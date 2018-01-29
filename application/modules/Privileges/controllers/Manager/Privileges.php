@@ -2,7 +2,7 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Privileges extends Module_Controller
+class Privileges extends Base_Controller
 {
     public function __construct()
     {
