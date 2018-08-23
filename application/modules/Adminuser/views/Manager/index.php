@@ -1,17 +1,3 @@
-<div class="rightinfo">
-
-    <div class="tools">
-
-        <ul class="toolbar">
-            <a href="<?= ADMIN_MANAGER_PATH ?>/add">
-                <li class="click"><span><img src="<?= ADMIN_IMG_PATH ?>t01.png"/></span>添加
-                </li>
-            </a>
-            <a href="<?= ADMIN_MANAGER_PATH ?>/delete_batch">
-                <li><span><img src="<?= ADMIN_IMG_PATH ?>t03.png"/></span>删除</li>
-            </a>
-        </ul>
-    </div>
 
     <table class="tablelist">
         <thead>

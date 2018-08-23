@@ -9,6 +9,11 @@ class Test
 {
     public function __construct ()
     {
+        echo 'this is test __construct method';
+    }
 
+    public function ec (  )
+    {
+        echo 'method is :' . __METHOD__;
     }
 }

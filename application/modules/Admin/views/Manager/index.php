@@ -1,7 +1,5 @@
 
-    <div class="mainindex">
-
-
+    <div class="mainindex" style="margin-top: -50px;">
         <div class="welinfo">
             <!--        <span><img src="--><? //=ADMIN_IMG_PATH?><!--sun.png" alt="天气"/></span>-->
             <b>Hello <?= $admin_info['nickname'] ?>，欢迎使用管理系统</b>

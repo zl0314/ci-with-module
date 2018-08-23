@@ -7,6 +7,9 @@ class Privileges extends Base_Controller
     public function __construct ()
     {
         parent::__construct();
+        $this->tb = 'privileges';
+        $this->listorder = 'listorder desc';
+        $this->needListOrder = true;
     }
 
     public function getWhere ()

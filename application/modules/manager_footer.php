@@ -54,6 +54,12 @@
         }
     }
 
+    //列表批量排序
+    function listOrder() {
+        $('#Form').attr('action', '<?php echo ( ADMIN_MANAGER_PATH . '/public_listorder' )?>');
+        $('#Form').append('<input type="hidden" value="<?= $this->security->get_csrf_hash(); ?>" name="<?= $this->security->get_csrf_token_name(); ?>">');
+        $('#Form').submit();
+    }
 
     var allow = 1;
     var allow_size = typeof(allow_size) == 'undefined' ? '<?php echo str_replace( 'M', '', ini_get( 'upload_max_filesize' ) ) * 1024 * 1024?>' : allow_size;

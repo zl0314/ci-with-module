@@ -47,6 +47,17 @@ class Common_Controller extends CI_Controller
      */
     public $primary = 'id';
 
+    /**
+     * 表名
+     * @var
+     */
+    public $tb;
+
+    /**
+     * @var 排序字段
+     */
+    public $listorder;
+
     public function __construct ()
     {
         parent::__construct();
@@ -105,9 +116,8 @@ class Common_Controller extends CI_Controller
     public function parseEncryptData ()
     {
         $data = _post( 'data' );
-        $rsa = $this->load->library( 'Rsa' );
-        $rsa = new Rsa();
-        $formData = $rsa->privateDecrypt( $data, $this->_config['rsa_private_key'] );
+        $this->load->library( 'Rsa' );
+        $formData = $this->rsa->privateDecrypt( $data, $this->_config['rsa_private_key'] );
         parse_str( $formData, $result );
 
         return $result;
@@ -131,11 +141,6 @@ class Base_Controller extends Module_Controller
      * 登录的管理员信息
      */
     public $admin_info;
-    /**
-     * 表名
-     * @var
-     */
-    public $tb;
 
     public function __construct ()
     {
@@ -144,6 +149,7 @@ class Base_Controller extends Module_Controller
 
         $this->admin_info = $this->session->userdata( 'admin_info' );
         $this->data['admin_info'] = $this->admin_info;
+        $this->is_manager = true;
 
         //定义后台路径
         define( 'ADMIN_MANAGER_PATH', site_url( MANAGER_PATH . '/' . SITEC ) ); //只到当前控制器
@@ -233,7 +239,7 @@ class Base_Controller extends Module_Controller
     {
         $where = $this->getWhere();
         //获取管理员总数
-        $data = get_page( $this->tb, $where );
+        $data = get_page( $this->tb, $where, 10, '*', $this->listorder );
         $vars = $this->getVars();
         $this->tpl->assign( $vars );
         $this->tpl->assign( $data );
@@ -248,6 +254,7 @@ class Base_Controller extends Module_Controller
         if ( !empty( _post() ) ) {
             $this->store();
         }
+        $this->tpl->display( 'form' );
     }
 
     /**
@@ -274,6 +281,7 @@ class Base_Controller extends Module_Controller
         if ( !empty( _post() ) ) {
             $this->update( $id );
         }
+        $this->tpl->display( 'form' );
     }
 
     /** 更新
@@ -336,12 +344,12 @@ class Base_Controller extends Module_Controller
      * $order_field 排序字段
      * @date 2015-5-12
      **/
-    public function commonListOrder ( $order_field = 'listorder' )
+    public function public_listorder ()
     {
         $data = _post( 'listorder' ) ? _post( 'listorder' ) : [];
         if ( $data ) {
             foreach ( $data as $k => $v ) {
-                $data = [ $order_field => !empty( $v ) ? $v : 0 ];
+                $data = [ 'listorder' => !empty( $v ) ? $v : 0 ];
                 $where = [ $this->primary => $k ];
                 $this->rs_model->update( $this->tb, $where, $data );
             }
