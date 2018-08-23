@@ -54,7 +54,7 @@ h2{font-weight:normal;}
 .topleft img{margin-top:12px;margin-left:10px;}
 .topright{height:88px;background:url(../images/topright.jpg) no-repeat right;float:right;}
 .nav{float:left;}
-.nav li{float:left;width:87px;height:88px; text-align:center;}
+.nav li{float:left;width:87px;height:88px; text-align:center;line-height:88px;}
 .nav li a{display:block;width:87px;height:88px;-moz-transition: none; transition: background-color 0.3s linear; -moz-transition: background-color 0.3s linear; -webkit-transition: background-color 0.3s linear; -o-transition: background-color 0.3s linear; }
 .nav li a.selected{background:url(../images/navbg.png) no-repeat;}
 .nav li a:hover{display:block;background:#000;color:#fff;background: none repeat scroll 0% 0% rgb(43, 127, 181);}
@@ -74,9 +74,9 @@ h2{font-weight:normal;}
 .user i{display:inline-block;margin-right:5px;font-style:normal;line-height:30px; font-size:14px;color:#b8ceda;}
 
 /*left.html*/
-.lefttop{background:url(../images/lefttop.gif) repeat-x;height:40px;color:#fff;font-size:14px;line-height:40px;}
+.lefttop{background:url(../images/lefttop.gif) ;repeat-x;height:40px;color:#fff;font-size:14px;line-height:40px;}
 .lefttop span{margin-left:8px; margin-top:10px;margin-right:8px; background:url(../images/leftico.png) no-repeat; width:20px; height:21px;float:left;}
-.leftmenu{width:187px;  overflow:hidden; background:url(../images/leftline.gif) repeat-y right;}
+.leftmenu{  overflow:hidden; background:url(../images/leftline.gif) repeat-y right;}
 .leftmenu dd{background:url(../images/leftmenubg.gif) repeat-x;line-height:35px;font-weight:bold;font-size:14px;border-right:solid 1px #b7d5df;}
 .leftmenu dd span{float:left;margin:10px 8px 0 12px;}
 .leftmenu dd .menuson{display:none;}
@@ -299,5 +299,10 @@ h2{font-weight:normal;}
 p.form_error{ color:#ff0000; margin-left:90px;margin-top:10px; }
 
 #top{height:88px;}
-#left { margin-left:0px; width:187px;float:left; }
-#right { float:right; width:90.11%;}
+#left { margin-left:0px; width:15%;float:left; }
+#right { float:right; width:85%;}
+
+@media  screen and (min-width:900px) and (max-width:1920px){
+    #left { margin-left:0px; width:10%;float:left; }
+    #right { float:right; width:90%;}
+}

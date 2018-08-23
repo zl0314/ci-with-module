@@ -134,3 +134,4 @@ define('RSA_LEN', '0x10001');
 */
 define('DB_PREFIX', 'ci_');
 
+define('HTTP_REFERER', $_SERVER['HTTP_REFERER']);
