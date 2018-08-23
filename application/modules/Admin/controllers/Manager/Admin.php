@@ -12,6 +12,8 @@ class Admin extends Base_Controller
     public function __construct ()
     {
         parent::__construct();
+        $this->dontNeedAdd = true;
+        $this->dontNeedDel = true;
     }
 
     public function index ()

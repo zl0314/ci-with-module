@@ -1,17 +1,4 @@
-<div class="rightinfo">
 
-    <div class="tools">
-
-        <ul class="toolbar">
-            <a href="<?= ADMIN_MANAGER_PATH ?>/add">
-                <li class="click"><span><img src="<?= ADMIN_IMG_PATH ?>t01.png"/></span>添加
-                </li>
-            </a>
-            <a href="javascript:delitem('a');">
-                <li><span><img src="<?= ADMIN_IMG_PATH ?>t03.png"/></span>删除</li>
-            </a>
-        </ul>
-    </div>
 
     <table class="tablelist">
         <thead>
@@ -19,8 +6,8 @@
             <th><input type="checkbox" onclick="selallck(this)" style="cursor:pointer;"/></th>
             <th>ID</th>
             <th>KEY</th>
-            <th>添加时间</th>
             <th>值</th>
+            <th>添加时间</th>
             <th>操作</th>
         </tr>
         </thead>

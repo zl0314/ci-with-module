@@ -46,7 +46,7 @@
     <?php endif;?>
     function jump() {
         if (url) {
-            window.location.href = url;
+           window.location.href = url;
         }
     }
 </script>

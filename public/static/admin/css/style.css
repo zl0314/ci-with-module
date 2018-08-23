@@ -306,3 +306,6 @@ p.form_error{ color:#ff0000; margin-left:90px;margin-top:10px; }
     #left { margin-left:0px; width:10%;float:left; }
     #right { float:right; width:90%;}
 }
+
+.listorder{ width:55px; height:25px;padding-left:2px;
+    border: 1px solid #ccc;}

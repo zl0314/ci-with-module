@@ -1,21 +1,16 @@
-<?php 
+<?php
 
-        defined('BASEPATH') OR exit('No direct script access allowed');
+defined( 'BASEPATH' ) OR exit( 'No direct script access allowed' );
 
-        class Privileges extends Module_Controller
-        {
-            public $statusArr;
-        
-            public function __construct()
-            {
-                parent::__construct();
-            }
-        
-            public function index()
-            {
-                $vars = [];
-                $this->tpl->assign($vars);
-            }
-        }
+class Privileges extends Module_Controller
+{
+    public function __construct ()
+    {
+        parent::__construct();
+        $this->tb = 'privileges';
+    }
+
+
+}
         
         

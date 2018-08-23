@@ -15,6 +15,6 @@ class News extends Base_Controller
 
     public function index ()
     {
-        $this->tpl->display();
+        $this->tpl->display('test');
     }
 }

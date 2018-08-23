@@ -159,3 +159,33 @@
     <?php if ( !empty( $this->data['header'] ) ): ?>
         <?php $this->load->view( 'location' ); ?>
     <?php endif; ?>
+
+
+    <?php if ( $sitemethod == 'index' ): ?>
+    <div class="rightinfo">
+
+        <div class="tools">
+            <ul class="toolbar">
+                <?php if ( !isset( $this->dontNeedAdd ) ): ?>
+                    <a href="<?= ADMIN_MANAGER_PATH ?>/create">
+                        <li class="click"><span><img src="<?= ADMIN_IMG_PATH ?>t01.png"/></span>添加</li>
+                    </a>
+                <?php endif; ?>
+                <?php if ( !isset( $this->dontNeedDel ) && $sitemethod == 'index' ): ?>
+                    <a href="javascript:;" onclick="delitem('a')">
+                        <li><span><img src="<?= ADMIN_IMG_PATH ?>t03.png"/></span>删除</li>
+                    </a>
+                <?php endif; ?>
+
+                <?php if ( isset( $this->needListOrder ) && $sitemethod == 'index' ): ?>
+                    <a href="javascript:;" onclick="listOrder()">
+                        <li><span><img src="<?= ADMIN_IMG_PATH ?>t02.png"/></span>排序</li>
+                    </a>
+                <?php endif; ?>
+            </ul>
+        </div>
+        <?php else: ?>
+        <div class="formbody">
+            <div class="formtitle"><span>基本信息</span></div>
+        </div>
+<?php endif; ?>

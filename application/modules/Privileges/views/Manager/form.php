@@ -54,7 +54,7 @@
 
                 </li>
 
-                <li><label>&nbsp;</label><input name="" type="button" class="btn" value="保 存"/></li>
+                <li><label>&nbsp;</label><input type="submit" class="btn" value="保 存"/></li>
             </ul>
             <?= form_close() ?>
         </div>
