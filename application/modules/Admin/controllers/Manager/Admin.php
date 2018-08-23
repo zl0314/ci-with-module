@@ -5,7 +5,7 @@
  * Date: 2017/12/19 23:13
  * FileName : admin.php
  */
-class Admin extends Module_Controller
+class Admin extends Base_Controller
 {
     public $_config;
 

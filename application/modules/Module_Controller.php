@@ -42,7 +42,7 @@ class Module_Controller extends Common_Controller
             if ($this->is_manager) {
                 $fetch_config = 'manager';
             }
-            $config = $validation_config[$fetch_config];
+            $config = @$validation_config[$fetch_config];
             if (!empty($config)) {
                 $this->form_validation->set_rules($config);
                 $this->form_validation->set_error_delimiters('<p class="form_error">', '</p>');

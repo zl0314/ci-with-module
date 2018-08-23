@@ -8,11 +8,17 @@
     <link href="<?= ADMIN_CSS_PATH ?>style.css" rel="stylesheet" type="text/css"/>
     <script type="text/javascript" src="<?= ADMIN_JS_PATH ?>jquery.js"></script>
     <script type="text/javascript" src="<?= ADMIN_JS_PATH ?>layer/layer.js"></script>
-    <link href="<?= ADMIN_CSS_PATH ?>select.css" rel="stylesheet" type="text/css" />
+    <link href="<?= ADMIN_CSS_PATH ?>select.css" rel="stylesheet" type="text/css"/>
     <script type="text/javascript" src="<?= ADMIN_JS_PATH ?>select-ui.min.js"></script>
-
+    <script src="/static/layer/layer.js"></script>
+    <script src="/static/js/global.js"></script>
     <script type="text/javascript">
         $(function () {
+            $.ajaxSetup({
+                headers: { // 默认添加请求头
+                    '<?= $this->security->get_csrf_token_name(); ?>': '<?= $this->security->get_csrf_hash(); ?>'
+                },
+            });
             //顶部导航切换
             $(".nav li a").click(function () {
                 $(".nav li a.selected").removeClass("selected")
@@ -37,6 +43,8 @@
             });
         })
 
+        var public_key = "<?=$config['rsa_module']?>";
+        var public_length = "<?=$config['rsa_e']?>";
         var SITEC = '<?php echo SITEC;?>';
         var SITEM = '<?php echo SITEM;?>';
         var DOMAIN = 'http://' + document.domain + '/';
@@ -57,24 +65,15 @@
 
     <ul class="nav">
 
-        <li><a href="default.html" class="selected"><img src="<?= ADMIN_IMG_PATH ?>icon01.png"
-                                                         title="工作台"/>
-                <h2>工作台</h2></a></li>
+        <li><a href="<?= manager_url( 'Admin' ) ?>" class="selected">
+                <h2>首页</h2></a></li>
 
-        <li><a href="imgtable.html"><img src="<?= ADMIN_IMG_PATH ?>icon02.png" title="模型管理"/>
-                <h2>模型管理</h2></a></li>
-
-        <li><a href="imglist.html"><img src="<?= ADMIN_IMG_PATH ?>icon03.png" title="模块设计"/>
-                <h2>模块设计</h2></a></li>
-
-        <li><a href="<?= manager_url('Privileges') ?>"><img src="<?= ADMIN_IMG_PATH ?>icon04.png" title="权限节点"/>
+        <li><a href="<?= manager_url( 'Privileges' ) ?>">
                 <h2>权限节点</h2></a></li>
 
-        <li><a href="<?= manager_url('Adminuser') ?>"><img src="<?= ADMIN_IMG_PATH ?>i07.png"
-                                                           style="width:45px;" title="管理员管理"/>
+        <li><a href="<?= manager_url( 'Adminuser' ) ?>">
                 <h2>管理员管理</h2></a></li>
-        <li><a href="<?= manager_url('Setting') ?>"><img src="<?= ADMIN_IMG_PATH ?>icon06.png"
-                                                         title="系统设置"/>
+        <li><a href="<?= manager_url( 'Setting' ) ?>">
                 <h2>系统设置</h2></a></li>
 
     </ul>
@@ -82,7 +81,7 @@
     <div class="topright">
         <ul>
             <!--<li><span><img src="<?= ADMIN_IMG_PATH ?>help.png" title="帮助" class="helpimg"/></span><a href="#">帮助</a></li>
-        <li><a href="#">关于</a></li>-->
+    <li><a href="#">关于</a></li>-->
             <li><a href="<?= ADMIN_MANAGER_PATH ?>/logout" target="_parent">【退出系统】</a></li>
         </ul>
 
@@ -97,12 +96,12 @@
 
 
 <!--left-->
-<div id="left" >
+<div id="left">
     <div class="lefttop"><span></span>通讯录</div>
     <dl class="leftmenu">
         <dd>
             <div class="title">
-                <span><img src="<?= ADMIN_IMG_PATH ?>leftico01.png"/></span>管理信息
+                <span></span>管理信息
             </div>
             <ul class="menuson">
                 <li><cite></cite><a href="index.html">首页模版</a><i></i></li>
@@ -121,7 +120,7 @@
 
         <dd>
             <div class="title">
-                <span><img src="<?= ADMIN_IMG_PATH ?>leftico02.png"/></span>其他设置
+                <span></span>其他设置
             </div>
             <ul class="menuson">
                 <li><cite></cite><a href="#">编辑内容</a><i></i></li>
@@ -132,7 +131,7 @@
 
 
         <dd>
-            <div class="title"><span><img src="<?= ADMIN_IMG_PATH ?>leftico03.png"/></span>编辑器</div>
+            <div class="title"><span></span>编辑器</div>
             <ul class="menuson">
                 <li><cite></cite><a href="#">自定义</a><i></i></li>
                 <li><cite></cite><a href="#">常用资料</a><i></i></li>
@@ -143,7 +142,7 @@
 
 
         <dd>
-            <div class="title"><span><img src="<?= ADMIN_IMG_PATH ?>leftico04.png"/></span>日期管理</div>
+            <div class="title"><span></span>日期管理</div>
             <ul class="menuson">
                 <li><cite></cite><a href="#">自定义</a><i></i></li>
                 <li><cite></cite><a href="#">常用资料</a><i></i></li>
@@ -155,9 +154,8 @@
 
     </dl>
 </div>
-
 <!--main-->
 <div id="right">
-    <?php if (!empty($this->data['header'])): ?>
-        <?php $this->load->view('location'); ?>
+    <?php if ( !empty( $this->data['header'] ) ): ?>
+        <?php $this->load->view( 'location' ); ?>
     <?php endif; ?>

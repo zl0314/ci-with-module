@@ -5,7 +5,7 @@ include_once 'application/helpers/common_helper.php';
 
 if (!empty($argv['1'])) {
     $module_path = 'application/modules/';
-    $module_name = $argv[1];
+    $module_name = ucfirst($argv[1]);
 
     //后台
     $module_dir = $module_path . $module_name . '/controllers/Manager/' . $module_name . '.php';

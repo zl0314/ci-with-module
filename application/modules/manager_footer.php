@@ -9,25 +9,40 @@
             ids[ids.length] = $(this).val();
         });
 
-        if (id == 'a' && ids.length > 0) {
+        if (id == 'a') {
             if (ids.length <= 0) {
                 alert('请选择删除项目');
                 return;
             }
-
-            if (confirm('确定删除这些信息吗？')) {
-                $('#Form').attr('action', '<?php echo site_url(MANAGER_PATH . '/' . SITEC . '/delete')?>');
-                $('#Form').submit();
-            }
+            doit = confirm('确定删除这些信息吗？', function () {
+                doDel(ids.toLocaleString(), 'batch_delete', function () {
+                    for (k in ids) {
+                        $('#item_' + ids[k]).remove();
+                    }
+                });
+            });
+            id = ids;
         } else if (id != 'a') {
-            if (confirm('确定删除这些信息吗？')) {
-                $('#Form').attr('action', '<?php echo site_url(MANAGER_PATH . '/' . SITEC . '/delete?id=')?>' + id);
-                $('#Form').submit();
+            if (!id) {
+                alert('请选择删除信息');
+                return false;
             }
-        } else {
-            alert('请选择删除信息');
+            doit = confirm('确定删除这些信息吗？', function () {
+                doDel(id, 'delete', function () {
+                    $('#item_' + id).remove();
+                });
+            });
         }
 
+    }
+
+    function doDel(id, method, cb) {
+        ajax('<?=manager_url( $siteclass )?>/' + method, 'id=' + id, function (res) {
+            layer.msg('删除成功', {icon: 1});
+            if (typeof(cb) == 'function') {
+                cb();
+            }
+        }, 'json', true, {'<?= $this->security->get_csrf_token_name(); ?>': '<?= $this->security->get_csrf_hash(); ?>'})
     }
 
     //全选操作
@@ -41,7 +56,7 @@
 
 
     var allow = 1;
-    var allow_size = typeof(allow_size) == 'undefined' ? '<?php echo str_replace('M', '', ini_get('upload_max_filesize')) * 1024 * 1024?>' : allow_size;
+    var allow_size = typeof(allow_size) == 'undefined' ? '<?php echo str_replace( 'M', '', ini_get( 'upload_max_filesize' ) ) * 1024 * 1024?>' : allow_size;
 
     function fileSelected(t) {
         var oid = 'Filedata_e';
@@ -76,7 +91,7 @@
 
         new AjaxUpload($("#" + id + "_button"), {
 
-            action: "<?php echo site_url(MANAGER_PATH . '/Publicpicprocess/upload');?>/" + upload,
+            action: "<?php echo site_url( MANAGER_PATH . '/Publicpicprocess/upload' );?>/" + upload,
             type: "POST",
             data: {width: width, height: height},
             autoSubmit: true,
