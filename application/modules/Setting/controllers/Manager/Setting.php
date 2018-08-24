@@ -5,7 +5,6 @@ class Setting extends Base_Controller
     public function __construct ()
     {
         parent::__construct();
-        $this->checkAdminLogin();
         $this->tb = 'settings';
         $this->hasCreated = true;
 

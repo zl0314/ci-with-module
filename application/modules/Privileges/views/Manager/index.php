@@ -19,8 +19,8 @@
                 <td><input type="text" name="listorder[<?= $r['id'] ?>]" value="<?= $r['listorder'] ?>"
                            class="listorder" id=""></td>
                 <td>
-                    <a href="<?= ADMIN_MANAGER_PATH ?>/edit" class="tablelink">编辑</a>
-                    | <a href="<?= ADMIN_MANAGER_PATH ?>/delete" class="tablelink"> 删除</a>
+                    <a href="<?= ADMIN_MANAGER_PATH ?>/edit?id=<?=$r['id']?>" class="tablelink">编辑</a>
+                    | <a href="javascript:;" onclick="delitem('<?=$r['id']?>')" class="tablelink"> 删除</a>
                 </td>
             </tr>
 

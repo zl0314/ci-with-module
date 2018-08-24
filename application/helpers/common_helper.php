@@ -264,9 +264,12 @@ function _get ( $key = '', $default = '', $strict = false )
  *
  * @return string 后台 URL
  */
-function manager_url ( $url )
+function manager_url ( $url, $param = '' )
 {
-    return site_url( MANAGER_PATH . '/' . $url );
+    $url = site_url( MANAGER_PATH . '/' . $url );
+    $url = $param ? $url . '?' . $param : $url;
+
+    return $url;
 }
 
 /**

@@ -13,7 +13,6 @@ class Adminuser extends Base_Controller
     public function __construct ()
     {
         parent::__construct();
-        $this->checkAdminLogin();
 
         $this->tb = 'adminuser';
 

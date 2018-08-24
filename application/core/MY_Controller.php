@@ -69,8 +69,6 @@ class Common_Controller extends CI_Controller
         }
 
         $this->listorder = $this->primary . ' desc';
-        $config = $this->config->config;
-        $this->_config = $config;
 
         $this->siteclass = $this->router->class;
         $this->sitemethod = $this->router->method;
@@ -83,7 +81,6 @@ class Common_Controller extends CI_Controller
          * 当前的方法
          */
         define( 'SITEM', ucfirst( $this->sitemethod ) );
-
 
         /**
          * 判断是否是微信
@@ -143,22 +140,25 @@ class Base_Controller extends Module_Controller
      */
     public $admin_info;
 
+    /**
+     *  是否检查 登录有效
+     * @var bool
+     */
+    public $checkLogin = true;
+
     public function __construct ()
     {
         parent::__construct();
-        $this->checkAdminLogin();
+        if ( $this->checkLogin ) {
+            $this->checkAdminLogin();
+        }
 
-        $this->admin_info = $this->session->userdata( 'admin_info' );
         $this->data['admin_info'] = $this->admin_info;
         $this->is_manager = true;
 
         //定义后台路径
         define( 'ADMIN_MANAGER_PATH', site_url( MANAGER_PATH . '/' . SITEC ) ); //只到当前控制器
         define( 'ADMIN_MANAGER_FULL_PATH', site_url( MANAGER_PATH . '/' . SITEC . '/' . SITEM ) ); // 到控制器下面的方法
-
-        //定义头尾文件
-//        $this->data['header'] = $this->is_manager ? SITEC . '/' . strtolower(MANAGER_PATH) . '_header' : SITEC . '/header';
-//        $this->data['footer'] = $this->is_manager ? SITEC . '/' . strtolower(MANAGER_PATH) . '_footer' : SITEC . '/footer';
 
         $this->data['header'] = strtolower( MANAGER_PATH ) . '_header';
         $this->data['footer'] = strtolower( MANAGER_PATH ) . '_footer';
@@ -173,11 +173,9 @@ class Base_Controller extends Module_Controller
      */
     public function checkAdminLogin ()
     {
-        if ( $this->sitemethod != 'login' && $this->sitemethod != 'logout' ) {
-            $this->admin_info = $this->session->userdata( 'admin_info' );
-            if ( empty( $this->admin_info['id'] ) ) {
-                redirect_manager( 'Admin/login' );
-            }
+        $this->admin_info = $this->session->userdata( 'admin_info' );
+        if ( empty( $this->admin_info['id'] ) ) {
+            redirect_manager( 'Admin/login' );
         }
     }
 
@@ -271,13 +269,13 @@ class Base_Controller extends Module_Controller
         //数据检查
         $result = $this->FormValidation();
         if ( $result ) {
-            if ( !empty($this->hasCreated) ) {
+            if ( !empty( $this->hasCreated ) ) {
                 $created_at = !empty( $data['data']['created_at'] ) ? $data['data']['created_at'] : date( 'Y-m-d H:i:s' );
                 $data['data']['created_at'] = $created_at;
             }
             $saveResult = $this->rs_model->save( $this->tb, $data['data'] );
             if ( $saveResult ) {
-                $this->saveCallback( $result );
+                $this->saveCallback( $result, $data['data'] );
                 $this->success_message( '保存成功', ADMIN_MANAGER_PATH );
             } else {
                 $this->message( '保存失败' );
@@ -320,7 +318,7 @@ class Base_Controller extends Module_Controller
         $result = $this->FormValidation();
 
         if ( $result ) {
-            if ( !empty($this->hasUpdated) ) {
+            if ( !empty( $this->hasUpdated ) ) {
                 $created_at = !empty( $data['data']['updated_at'] ) ? $data['data']['updated_at'] : date( 'Y-m-d H:i:s' );
                 $data['data']['updated_at'] = $created_at;
             }
@@ -433,7 +431,7 @@ class Base_Controller extends Module_Controller
      *
      * @return mixed
      */
-    public function saveCallback ( $result )
+    public function saveCallback ( $result, $data = [] )
     {
         return $result;
     }

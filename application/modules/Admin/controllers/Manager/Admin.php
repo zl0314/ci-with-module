@@ -23,6 +23,8 @@ class Admin extends Base_Controller
 
     public function login ()
     {
+        $this->checkLogin = false;
+
         $this->data['header'] = '';
         $this->data['footer'] = '';
 
@@ -83,6 +85,8 @@ class Admin extends Base_Controller
 
     public function logout ()
     {
+        $this->checkLogin = false;
+
         $this->session->set_userdata( 'admin_info', '' );
         $this->session->sess_destroy();
         $this->success_message( '退出成功', ADMIN_MANAGER_PATH . '/login' );

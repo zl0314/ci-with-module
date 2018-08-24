@@ -69,18 +69,11 @@
     </div>
 
     <ul class="nav">
-
-        <li><a href="<?= manager_url( 'Admin' ) ?>" class="selected">
-                <h2>首页</h2></a></li>
-
-        <li><a href="<?= manager_url( 'Privileges' ) ?>">
-                <h2>权限节点</h2></a></li>
-
-        <li><a href="<?= manager_url( 'Adminuser' ) ?>">
-                <h2>管理员管理</h2></a></li>
-        <li><a href="<?= manager_url( 'Setting' ) ?>">
-                <h2>系统设置</h2></a></li>
-
+        <?php foreach ( $this->menu->getMenuByShowAt( 0 ) as $r ): ?>
+            <li>
+                <a href="<?= manager_url( $r['controller'], $r['param'] ) ?>" <?php if ( $siteclass == $r['controller'] ): ?> class="selected" <?php endif; ?> >
+                    <h2><?= $r['name'] ?></h2></a></li>
+        <?php endforeach; ?>
     </ul>
 
     <div class="topright">
@@ -102,60 +95,23 @@
 
 <!--left-->
 <div id="left">
-    <div class="lefttop"><span></span>通讯录</div>
+    <!--    <div class="lefttop"><span></span>通讯录</div>-->
     <dl class="leftmenu">
-        <dd>
-            <div class="title">
-                <span></span>管理信息
-            </div>
-            <ul class="menuson">
-                <li><cite></cite><a href="index.html">首页模版</a><i></i></li>
-                <li class="active"><cite></cite><a href="right.html">数据列表</a><i></i></li>
-                <li><cite></cite><a href="imgtable.html">图片数据表</a><i></i></li>
-                <li><cite></cite><a href="form.html">添加编辑</a><i></i></li>
-                <li><cite></cite><a href="imglist.html">图片列表</a><i></i></li>
-                <li><cite></cite><a href="imglist1.html">自定义</a><i></i></li>
-                <li><cite></cite><a href="tools.html">常用工具</a><i></i></li>
-                <li><cite></cite><a href="filelist.html">信息管理</a><i></i></li>
-                <li><cite></cite><a href="tab.html">Tab页</a><i></i></li>
-                <li><cite></cite><a href="error.html">404页面</a><i></i></li>
-            </ul>
-        </dd>
-
-
-        <dd>
-            <div class="title">
-                <span></span>其他设置
-            </div>
-            <ul class="menuson">
-                <li><cite></cite><a href="#">编辑内容</a><i></i></li>
-                <li><cite></cite><a href="#">发布信息</a><i></i></li>
-                <li><cite></cite><a href="#">档案列表显示</a><i></i></li>
-            </ul>
-        </dd>
-
-
-        <dd>
-            <div class="title"><span></span>编辑器</div>
-            <ul class="menuson">
-                <li><cite></cite><a href="#">自定义</a><i></i></li>
-                <li><cite></cite><a href="#">常用资料</a><i></i></li>
-                <li><cite></cite><a href="#">信息列表</a><i></i></li>
-                <li><cite></cite><a href="#">其他</a><i></i></li>
-            </ul>
-        </dd>
-
-
-        <dd>
-            <div class="title"><span></span>日期管理</div>
-            <ul class="menuson">
-                <li><cite></cite><a href="#">自定义</a><i></i></li>
-                <li><cite></cite><a href="#">常用资料</a><i></i></li>
-                <li><cite></cite><a href="#">信息列表</a><i></i></li>
-                <li><cite></cite><a href="#">其他</a><i></i></li>
-            </ul>
-
-        </dd>
+        <?php foreach ( $this->menu->getMenuByShowAt( 1, $siteclass ) as $r ): ?>
+            <dd>
+                <div class="title">
+                    <span></span><?= $r['name'] ?>
+                </div>
+                <ul class="menuson">
+                    <?php foreach ( $this->menu->getMenuByShowAt( 1, $r['controller'] ) as $rr ): ?>
+                        <li <?php if ( $siteclass == $rr['controller'] ): ?> class="active" <?php endif; ?>>
+                            <cite></cite><a
+                                    href="<?= manager_url( $rr['controller'], $rr['param'] ) ?>"><?= $rr['name'] ?></a><i></i>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            </dd>
+        <?php endforeach; ?>
 
     </dl>
 </div>
