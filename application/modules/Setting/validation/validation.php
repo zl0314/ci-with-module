@@ -7,27 +7,21 @@ $validation_config = [];
 //后台验证
 $validation_config['manager'] = [
     [
-        'field' => 'data[site_title]',
-        'label' => '站点标题',
-        'rules' => 'required|trim|newhtmlspecialchars|max_length[30]',
+        'field'  => 'data[keys]',
+        'label'  => 'KEY',
+        'rules'  => 'required|trim|newhtmlspecialchars|max_length[30]|alpha_dash',
         'errors' => [
-            'required' => '站点标题不能为空',
-            'max_length' => '站点标题长度不能超过30'
+            'required'   => 'KEY不能为空',
+            'alpha'   => 'KEY只能由字母纪组成',
+            'max_length' => 'KEY长度不能超过30',
         ],
     ],
     [
-        'field' => 'data[site_keyword]',
-        'label' => '关键字',
-        'rules' => 'trim|newhtmlspecialchars',
-
-    ],
-    [
-        'field' => 'data[site_description]',
-        'label' => '站点描述',
-        'rules' => 'trim|newhtmlspecialchars|max_length[100]',
+        'field'  => 'data[value]',
+        'label'  => '值',
+        'rules'  => 'required|trim|newhtmlspecialchars',
         'errors' => [
-            'required' => '站点描述不能为空',
-            'max_length' => '站点描述长度不能超过100'
+            'required' => '值不能为空',
         ],
     ],
 ];

@@ -68,6 +68,7 @@ class Common_Controller extends CI_Controller
             $this->is_manager = true;
         }
 
+        $this->listorder = $this->primary . ' desc';
         $config = $this->config->config;
         $this->_config = $config;
 
@@ -192,7 +193,7 @@ class Base_Controller extends Module_Controller
     {
         if ( $err ) {
             $this->data['sec'] = $sec * 1000;
-            $this->data['url'] = ( $url );
+            $this->data['url'] = ( $url ? $url : HTTP_REFERER );
             $this->data['err'] = ( $err );
             $this->data['type'] = $is_right ? 'success' : 'fail';
             if ( isAjax() ) {
@@ -254,6 +255,10 @@ class Base_Controller extends Module_Controller
         if ( !empty( _post() ) ) {
             $this->store();
         }
+        $flashData = $this->session->flashdata( 'flash_post' );
+        if ( !empty( $flashData ) ) {
+            $this->tpl->assign( [ 'model' => $flashData ] );
+        }
         $this->tpl->display( 'form' );
     }
 
@@ -263,23 +268,39 @@ class Base_Controller extends Module_Controller
     public function store ()
     {
         $data = $this->getData();
-        $result = $this->rs_model->save( $this->tb, $data );
+        //数据检查
+        $result = $this->FormValidation();
         if ( $result ) {
-            $this->saveCallback( $result );
-            $this->success_message( '保存成功' );
+            if ( !empty($this->hasCreated) ) {
+                $created_at = !empty( $data['data']['created_at'] ) ? $data['data']['created_at'] : date( 'Y-m-d H:i:s' );
+                $data['data']['created_at'] = $created_at;
+            }
+            $saveResult = $this->rs_model->save( $this->tb, $data['data'] );
+            if ( $saveResult ) {
+                $this->saveCallback( $result );
+                $this->success_message( '保存成功', ADMIN_MANAGER_PATH );
+            } else {
+                $this->message( '保存失败' );
+            }
         } else {
-            $this->message( '保存失败' );
+            //验证不通过，跳转， 并把错误信息和提交时的数据放入session_flash中，
+            $errors = $this->form_validation->error_string();
+            $this->session->set_flashdata( 'errors', $errors );
+            $this->session->set_flashdata( 'flash_post', $data['data'] );
+            redirect( ADMIN_MANAGER_PATH . '/create' );
         }
+
     }
 
     /** 编辑表单
      *
      * @param $id ID
      */
-    public function edit ( $id )
+    public function edit ()
     {
+        $this->getRow();
         if ( !empty( _post() ) ) {
-            $this->update( $id );
+            $this->update();
         }
         $this->tpl->display( 'form' );
     }
@@ -288,15 +309,54 @@ class Base_Controller extends Module_Controller
      *
      * @param $id ID
      */
-    public function update ( $id )
+    public function update ()
     {
+        $this->getRow();
+        $id = _get( 'id' );
+
         $data = $this->getData();
-        $result = $this->rs_model->save( $this->tb, $data );
+
+        //数据检查
+        $result = $this->FormValidation();
+
         if ( $result ) {
-            $this->saveCallback( $result );
-            $this->success_message( '保存成功' );
+            if ( !empty($this->hasUpdated) ) {
+                $created_at = !empty( $data['data']['updated_at'] ) ? $data['data']['updated_at'] : date( 'Y-m-d H:i:s' );
+                $data['data']['updated_at'] = $created_at;
+            }
+            $saveResult = $this->rs_model->save( $this->tb, $data['data'] );
+            if ( $saveResult ) {
+                $this->saveCallback( $saveResult );
+                $this->success_message( '保存成功', ADMIN_MANAGER_PATH );
+            } else {
+                $this->message( '保存失败' );
+            }
         } else {
-            $this->message( '保存失败' );
+            //验证不通过，跳转， 并把错误信息和提交时的数据放入session_flash中，
+            $errors = $this->form_validation->error_string();
+            $this->session->set_flashdata( 'errors', $errors );
+            $this->session->set_flashdata( 'flash_post', $data['data'] );
+            redirect( ADMIN_MANAGER_PATH . '/edit?id=' . $id );
+        }
+    }
+
+    /**
+     * 根据主键得到记录值
+     *
+     * @param  $id 主键ID
+     */
+    public function getRow ()
+    {
+        $flashData = $this->session->flashdata( 'flash_post' );
+        if ( !empty( $flashData ) ) {
+            $this->tpl->assign( [ 'model' => $flashData ] );
+        } else {
+            $id = _get( 'id' );
+            $model = $this->rs_model->getRow( $this->tb, '*', [ $this->primary => $id ] );
+            if ( empty( $model[ $this->primary ] ) ) {
+                $this->message( '信息不存在 ' );
+            }
+            $this->tpl->assign( [ 'model' => $model ] );
         }
     }
 

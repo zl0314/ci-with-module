@@ -1,42 +1,51 @@
-
-
-    <table class="tablelist">
-        <thead>
-        <tr>
-            <th><input type="checkbox" onclick="selallck(this)" style="cursor:pointer;"/></th>
-            <th>ID</th>
-            <th>KEY</th>
-            <th>值</th>
-            <th>添加时间</th>
-            <th>操作</th>
+<table class="tablelist">
+    <thead>
+    <tr>
+        <th><input type="checkbox" onclick="selallck(this)" style="cursor:pointer;"/></th>
+        <th>ID</th>
+        <th>KEY</th>
+        <th>类别</th>
+        <th>值</th>
+        <th>添加时间</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php foreach ( $list as $k => $r ): ?>
+        <tr id="item_<?= $r['id'] ?>">
+            <td><input name="data[id]" type="checkbox" value="<?= $r['id'] ?>"/></td>
+            <td><?= $r['id'] ?></td>
+            <td><?= $r['keys'] ?></td>
+            <td><?= $typeArr[ $r['type'] ] ?></td>
+            <td>
+                <?php if ( $r['type'] == 3 ): ?>
+                    <div id="iframe_customize_html_<?= $r['id'] ?>" style="display:none;">
+                        <?= htmlspecialchars_decode( ( $r['value'] ) ) ?>
+                    </div>
+                    <a href="javascript:iframe_customize_html('<?= $r['id'] ?>');" style="color:red">内容可能过多，点击查看</a>
+                <?php else: ?>
+                    <?= htmlspecialchars_decode( ( $r['value'] ) ) ?>
+                <?php endif; ?>
+            </td>
+            <td><?= $r['created_at'] ?></td>
+            <td>
+                <a href="<?= ADMIN_MANAGER_PATH ?>/edit?id=<?= $r['id'] ?>" class="tablelink">编辑</a> |
+                <a href="javascript:delitem('<?= $r['id'] ?>');" class="tablelink"> 删除</a>
+            </td>
         </tr>
-        </thead>
-        <tbody>
-        <?php foreach ( $list as $k => $r ): ?>
-            <tr id="item_<?= $r['id'] ?>">
-                <td><input name="data[id]" type="checkbox" value="<?= $r['id'] ?>"/></td>
-                <td><?= $r['id'] ?></td>
-                <td><?= $r['keys'] ?></td>
-                <td><?= $r['value'] ?></td>
-                <td>2013-09-09 15:05</td>
-                <td>
-                    <a href="<?= ADMIN_MANAGER_PATH ?>/edit" class="tablelink">编辑</a> |
-                    <a href="javascript:delitem('<?= $r['id'] ?>');" class="tablelink"> 删除</a>
-                </td>
-            </tr>
 
-        <?php endforeach; ?>
+    <?php endforeach; ?>
 
-        </tbody>
-    </table>
+    </tbody>
+</table>
 
-    <div class="pagin">
-        <div class="message">共 <i class="blue"><?= $GLOBALS['total_rows'] ?></i> 条记录，当前显示第&nbsp;<i
-                    class="blue"> <?= $GLOBALS['curpage'] ?>&nbsp;</i>页
-        </div>
-
-        <ul class="paginList">
-            <?= $page_html ?>
-        </ul>
+<div class="pagin">
+    <div class="message">共 <i class="blue"><?= $GLOBALS['total_rows'] ?></i> 条记录，当前显示第&nbsp;<i
+                class="blue"> <?= $GLOBALS['curpage'] ?>&nbsp;</i>页
     </div>
+
+    <ul class="paginList">
+        <?= $page_html ?>
+    </ul>
+</div>
 

@@ -48,6 +48,8 @@ class Module_Controller extends Common_Controller
                 $this->form_validation->set_error_delimiters('<p class="form_error">', '</p>');
                 if ($this->form_validation->run() !== FALSE) {
                     return true;
+                }else{
+                    return false;
                 }
             } else {
                 return true;

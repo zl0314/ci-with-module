@@ -30,8 +30,7 @@ class Admin extends Base_Controller
             $captcha = _post( 'captcha' );
 
             $this->load->library( 'Rsa' );
-            $rsa = new Rsa();
-            $decrypt_data = $rsa->privateDecrypt( _post( 'data' ), $this->_config['rsa_private_key'] );
+            $decrypt_data = $this->rsa->privateDecrypt( _post( 'data' ), $this->_config['rsa_private_key'] );
             if ( !$decrypt_data ) {
                 $this->message( '信息被篡改，请重试', site_url( 'admincp/login' ) );
             }
@@ -77,7 +76,7 @@ class Admin extends Base_Controller
             unset( $admin_info['password'] );
             unset( $admin_info['addtime'] );
             $this->session->set_userdata( 'admin_info', $admin_info );
-            $this->message( '登录成功', manager_url( $this->siteclass . '/index' ) );
+            $this->success_message( '登录成功', manager_url( $this->siteclass . '/index' ) );
         }
         $this->tpl->display();
     }
@@ -86,6 +85,6 @@ class Admin extends Base_Controller
     {
         $this->session->set_userdata( 'admin_info', '' );
         $this->session->sess_destroy();
-        $this->message( '退出成功', ADMIN_MANAGER_PATH . '/login' );
+        $this->success_message( '退出成功', ADMIN_MANAGER_PATH . '/login' );
     }
 }
