@@ -96,8 +96,7 @@
         }
 
         new AjaxUpload($("#" + id + "_button"), {
-
-            action: "<?php echo site_url( MANAGER_PATH . '/Publicpicprocess/upload' );?>/" + upload,
+            action: "<?php echo site_url( '/Publicpicprocess/index' );?>?type=" + upload,
             type: "POST",
             data: {width: width, height: height},
             autoSubmit: true,

@@ -84,8 +84,8 @@
 <script type="text/javascript" src="<?= ADMIN_JS_PATH ?>layer/layer.js"></script>
 
 <script>
-    var public_key = "<?=RSA_KEY?>";
-    var public_length = "<?=RSA_LEN?>";
+    var public_key = "<?=$config['rsa_module']?>";
+    var public_length = "<?=$config['rsa_e']?>";
 
     function checkForm() {
         var username = password = captcha = '';

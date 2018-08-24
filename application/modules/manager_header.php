@@ -5,11 +5,16 @@
     <title>管理后台</title>
 
 
-    <link href="<?= ADMIN_CSS_PATH ?>style.css" rel="stylesheet" type="text/css"/>
     <script type="text/javascript" src="<?= ADMIN_JS_PATH ?>jquery.js"></script>
     <script type="text/javascript" src="<?= ADMIN_JS_PATH ?>layer/layer.js"></script>
-    <link href="<?= ADMIN_CSS_PATH ?>select.css" rel="stylesheet" type="text/css"/>
     <script type="text/javascript" src="<?= ADMIN_JS_PATH ?>select-ui.min.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- Latest compiled and minified JS -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/static/admin/font/css/font-awesome.min.css">
+    <link href="<?= ADMIN_CSS_PATH ?>style.css" rel="stylesheet" type="text/css"/>
+    <script src="/static/admin/js/ajaxupload.3.9.js"></script>
     <script src="/static/layer/layer.js"></script>
     <script src="/static/js/global.js"></script>
     <script type="text/javascript">
@@ -185,7 +190,39 @@
             </ul>
         </div>
         <?php else: ?>
-        <div class="formbody">
-            <div class="formtitle"><span>基本信息</span></div>
+            <div class="formbody">
+                <div class="formtitle"><span>基本信息</span></div>
+            </div>
+        <?php endif; ?>
+        <!--错误提示 模态框-->
+        <?php if ( !empty( $this->session->flashdata( 'errors' ) ) ): ?>
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="exampleModalLabel">错误提示！</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <i class="fa fa-info-circle fa-4x"></i>
+                            </div>
+
+                            <div class="col-sm-9">
+                                <?php echo $this->session->flashdata( 'errors' ) ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    </div>
+                </div>
+            </div>
         </div>
+        <script>
+            $('#exampleModal').modal()
+        </script>
+
 <?php endif; ?>

@@ -183,3 +183,21 @@ function iframe(url, params, w, h) {
         content: url
     });
 }
+/**
+ * LAYUI 打开IFRAME，自定义HTMl
+ */
+function iframe_customize_html(id) {
+    var content = typeof(id) == 'undefined'
+        ? $('#iframe_customize_html').html()
+        : $('#iframe_customize_html_' + id).html();
+
+    layer.open({
+        type: 1,
+        title: '内容',
+        area: ['80%', '560px'],
+        closeBtn: 0,
+        shadeClose: true,
+        skin: 'iframe_customize_html',
+        content: content
+    });
+}

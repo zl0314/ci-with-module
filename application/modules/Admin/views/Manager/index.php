@@ -3,7 +3,7 @@
         <div class="welinfo">
             <!--        <span><img src="--><? //=ADMIN_IMG_PATH?><!--sun.png" alt="天气"/></span>-->
             <b>Hello <?= $admin_info['nickname'] ?>，欢迎使用管理系统</b>
-            <a href="javascript:;">帐号设置</a>
+<!--            <a href="javascript:;">帐号设置</a>-->
         </div>
 
         <div class="welinfo">
