@@ -10,6 +10,18 @@ class Privileges extends Base_Controller
         $this->tb = 'privileges';
         $this->listorder = 'listorder desc';
         $this->needListOrder = true;
+
+    }
+
+    public function getData ()
+    {
+        $data = _post( 'data' );
+        if ( empty( $data['controller'] ) ) {
+            $data['controller'] = '#' . time();
+        }
+        $returnData['data'] = $data;
+
+        return $returnData;
     }
 
     public function getWhere ()

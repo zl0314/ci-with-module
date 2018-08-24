@@ -8,6 +8,7 @@ class Privileges extends Module_Controller
     {
         parent::__construct();
         $this->tb = 'privileges';
+
     }
 
 
