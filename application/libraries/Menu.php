@@ -112,19 +112,23 @@ class Menu extends BaseLib
     /**
      * 根据显示位置，获取菜单
      */
-    public function getMenuByShowAt ( $pos = 0, $contoller = '' )
+    public function getMenuByShowAt ( $where )
     {
-        $parent_id = 0;
-        if ( $contoller ) {
-            $menu = $this->CI->rs_model->getRow( 'privileges', '*', [ 'controller' => $contoller ] );
-            $parent_id = $menu['id'];
-        }
-        $lists = $this->CI->rs_model->getList( 'privileges', '*', [
-            'show_at'   => $pos,
-            'parent_id' => $parent_id,
-            'is_show'   => 1,
-        ], null, null, 'listorder desc' );
+        $lists = $this->CI->rs_model->getList( 'privileges', '*', $where, null, null, 'listorder desc' );
 
         return $lists;
+    }
+
+    /**
+     * 当前位置
+     *
+     * @param $siteclass
+     * @param $sitemethod
+     */
+    public function getPosition ( $siteclass, $sitemethod )
+    {
+        $menu = $this->CI->rs_model->getRow( 'privileges', 'name', [ 'controller' => $siteclass ] );
+
+        return $menu['name'];
     }
 }

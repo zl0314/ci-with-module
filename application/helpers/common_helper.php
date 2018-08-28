@@ -386,3 +386,4 @@ function isAjax ()
 
     return false;
 }
+

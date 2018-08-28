@@ -23,7 +23,6 @@ class Admin extends Base_Controller
 
     public function login ()
     {
-        $this->checkLogin = false;
 
         $this->data['header'] = '';
         $this->data['footer'] = '';

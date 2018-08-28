@@ -45,7 +45,7 @@
 
 
     <?= form_open('', ['onsubmit' => 'return checkForm()']) ?>
-    <div class="loginbox">
+    <div class="loginbox" style="top:25%;">
 
         <ul>
             <li><input type="text" autofocus class="loginuser" id="username" value=""/></li>

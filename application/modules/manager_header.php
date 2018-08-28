@@ -69,11 +69,7 @@
     </div>
 
     <ul class="nav">
-        <?php foreach ( $this->menu->getMenuByShowAt( 0 ) as $r ): ?>
-            <li>
-                <a href="<?= manager_url( $r['controller'], $r['param'] ) ?>" <?php if ( $siteclass == $r['controller'] ): ?> class="selected" <?php endif; ?> >
-                    <h2><?= $r['name'] ?></h2></a></li>
-        <?php endforeach; ?>
+
     </ul>
 
     <div class="topright">
@@ -97,13 +93,13 @@
 <div id="left">
     <!--    <div class="lefttop"><span></span>通讯录</div>-->
     <dl class="leftmenu">
-        <?php foreach ( $this->menu->getMenuByShowAt( 1, $siteclass ) as $r ): ?>
+        <?php foreach ( $this->menu->getMenuByShowAt( [ 'parent_id' => 0 ] ) as $r ): ?>
             <dd>
                 <div class="title">
                     <span></span><?= $r['name'] ?>
                 </div>
                 <ul class="menuson">
-                    <?php foreach ( $this->menu->getMenuByShowAt( 1, $r['controller'] ) as $rr ): ?>
+                    <?php foreach ( $this->menu->getMenuByShowAt( [ 'parent_id' => $r['id'] ] ) as $rr ): ?>
                         <li <?php if ( $siteclass == $rr['controller'] ): ?> class="active" <?php endif; ?>>
                             <cite></cite><a
                                     href="<?= manager_url( $rr['controller'], $rr['param'] ) ?>"><?= $rr['name'] ?></a><i></i>
