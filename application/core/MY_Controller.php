@@ -149,7 +149,8 @@ class Base_Controller extends Module_Controller
     public function __construct ()
     {
         parent::__construct();
-        if ( $this->checkLogin ) {
+
+        if ( !in_array( $this->sitemethod, [ 'login', 'logout' ] ) ) {
             $this->checkAdminLogin();
         }
 
