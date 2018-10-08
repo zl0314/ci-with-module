@@ -127,7 +127,7 @@ function ajax(url, data, callback, dataType, needrsa, dontNeedEc) {
 }
 
 function runAjax(url, sendData, callback, dataType) {
-
+    sendData[csrf_name] = csrf_token;
     var index = layer.load(2, {shade: false});
     $.ajax({
         type: "POST",
@@ -183,6 +183,7 @@ function iframe(url, params, w, h) {
         content: url
     });
 }
+
 /**
  * LAYUI 打开IFRAME，自定义HTMl
  */
