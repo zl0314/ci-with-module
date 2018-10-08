@@ -50,6 +50,8 @@
 
         var public_key = "<?=$config['rsa_module']?>";
         var public_length = "<?=$config['rsa_e']?>";
+        var csrf_name = '<?=$config['csrf_token_name']?>';
+        var csrf_token = '<?= $this->security->get_csrf_hash(); ?>';
         var SITEC = '<?php echo SITEC;?>';
         var SITEM = '<?php echo SITEM;?>';
         var DOMAIN = 'http://' + document.domain + '/';

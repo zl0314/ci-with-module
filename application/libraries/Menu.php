@@ -192,6 +192,17 @@ class Menu extends BaseLib
         return $menu;
     }
 
+    /**
+     * 获取所有子菜单
+     * @param $parent_id  父级ID
+     *
+     * @return mixed
+     */
+    public function getSubmenusByParentId ( $parent_id )
+    {
+        $menus = $this->CI->rs_model->getList( 'privileges', '*', [ 'parent_id' => $parent_id, ] );
+        return $menus;
+    }
     public function getMenuKeyBySiteclass ()
     {
         $menu = $this->getALLMenus();

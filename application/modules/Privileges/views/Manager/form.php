@@ -23,8 +23,8 @@
                 </li>
 
                 <li><label>是否初始化CURD节点</label>
-                    <label for="init_curd1"><input name="data[init_curd]" id="init_curd1" type="radio" value="1"> 是</label>
-                    <label for="init_curd0"><input name="data[init_curd]" id="init_curd0" type="radio" value="0"> 否</label>
+                    <label for="init_curd1"><input name="data[init_curd]"  <?php  if(!empty($model['id'])):?>  disabled <?php endif;?>  id="init_curd1" type="radio" value="1"> 是</label>
+                    <label for="init_curd0"><input name="data[init_curd]" <?php  if(!empty($model['id'])):?> checked disabled <?php endif;?> id="init_curd0" type="radio" value="0"> 否</label>
 
                 </li>
 
@@ -34,7 +34,7 @@
                             <?php if ( isset( $model['show_at'] ) && $model['show_at'] == 0 ): ?>checked<?php endif; ?>
                             name="data[show_at]" id="pos0" type="radio" value="0"> 页面顶部</label>
                     <label for="pos1"><input
-                            <?php if ( isset( $model['show_at'] ) && $model['show_at'] == 2 ): ?>checked<?php endif; ?>
+                            <?php if ( isset( $model['show_at'] ) && $model['show_at'] == 1 ): ?>checked<?php endif; ?>
                             name="data[show_at]" type="radio" id="pos1" value="1"> 左侧</label>
                     <label for="pos2"><input
                             <?php if ( isset( $model['show_at'] ) && $model['show_at'] == 2 ): ?>checked<?php endif; ?>

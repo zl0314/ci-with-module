@@ -229,7 +229,6 @@ class CI_Security {
 			&& hash_equals($_POST[$this->_csrf_token_name], $_COOKIE[$this->_csrf_cookie_name]);
 		// We kill this since we're done and we don't want to pollute the _POST array
 		unset($_POST[$this->_csrf_token_name]);
-
 		// Regenerate on every submission?
 		if (config_item('csrf_regenerate'))
 		{
