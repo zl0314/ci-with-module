@@ -12,7 +12,7 @@ class MY_Router extends CI_Router
         parent::__construct();
 
         //如果是后台管理， 对class method 重新赋值
-        if ( ucwords( $this->uri->segments[1] ) == MANAGER_PATH ) {
+        if ( !empty($this->uri->segments[1]) &&  ucwords( $this->uri->segments[1] ) == MANAGER_PATH ) {
             $this->class = !empty( $this->uri->segments[2] )
                 ? ucwords( $this->uri->segments[2] )
                 : ( !empty( $this->uri->segments[1] ) ? $this->uri->segments[1] : 'Welcome' );

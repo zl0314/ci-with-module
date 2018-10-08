@@ -51,7 +51,7 @@ function changeType(obj) {
             '            <input type="button" class="ajaxUploadBtn btn-primary btn" id="value_button"' +
             '                   onclick="ajaxUpload(\'value\',\'setting\')"' +
             '                   value="上传图片">' +
-            '            <br><img   alt=""  class="imglist " id="preview_value" style="width:auto;min-width:100px;margin-top:10px;" src="'+setting_value+'"></li>';
+            '            <br><img   alt=""  class="imglist " id="preview_value" style="max-width:100px;min-width:100px;margin-top:10px;" src="'+setting_value+'"></li>';
     } else if (type == 3) {
         $('#type_target').html(html);
         $('#type_ueditor').show();

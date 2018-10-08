@@ -6,17 +6,11 @@ class Banners extends Base_Controller
 {
     public function __construct ()
     {
+        $this->hasCreated = true;
+        $this->hasUpdated = true;
         parent::__construct();
         $this->tb = 'banners';
-        $this->listorder = 'id desc';
+        $this->listorder = 'listorder desc, id desc';
     }
 
-    public function index ()
-    {
-        $vars = [];
-        $this->tpl->assign( $vars );
-        $this->tpl->display();
-    }
 }
-        
-        

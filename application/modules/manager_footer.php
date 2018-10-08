@@ -38,7 +38,7 @@
 
     function doDel(id, method, cb) {
         ajax('<?=manager_url( $siteclass )?>/' + method, 'id=' + id, function (res) {
-            layer.msg('删除成功', {icon: 1});
+            layer.msg(res.message, {icon: 1});
             if (typeof(cb) == 'function') {
                 cb();
             }
@@ -56,7 +56,7 @@
 
     //列表批量排序
     function listOrder() {
-        $('#Form').attr('action', '<?php echo ( ADMIN_MANAGER_PATH . '/public_listorder' )?>');
+        $('#Form').attr('action', '<?php echo( ADMIN_MANAGER_PATH . '/public_listorder' )?>');
         $('#Form').append('<input type="hidden" value="<?= $this->security->get_csrf_hash(); ?>" name="<?= $this->security->get_csrf_token_name(); ?>">');
         $('#Form').submit();
     }

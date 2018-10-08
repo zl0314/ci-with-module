@@ -149,7 +149,6 @@ function P ( $arr )
     echo '<pre>';
     print_r( $arr );
     echo '</pre>';
-    exit;
 }
 
 /**
@@ -387,3 +386,24 @@ function isAjax ()
     return false;
 }
 
+
+function arraySort ( $arr, $keys, $type = 'desc' )
+{
+    $keysvalue = $new_array = [];
+    foreach ( $arr as $k => $v ) {
+        $keysvalue[ $k ] = $v[ $keys ];
+    }
+    if ( $type == 'asc' ) {
+        asort( $keysvalue );
+    } else {
+        arsort( $keysvalue );
+    }
+    reset( $keysvalue );
+    $i = 0;
+    foreach ( $keysvalue as $k => $v ) {
+        $new_array[ $i ] = $arr[ $k ];
+        $i++;
+    }
+
+    return $new_array;
+}

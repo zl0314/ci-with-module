@@ -232,6 +232,7 @@
      */
     window.AjaxUpload = function(button, options){
         this._settings = {
+            multiple : false,
             // Location of the server-side upload script
             action: 'upload.php',
             // File upload name
@@ -347,9 +348,12 @@
          */
         _createInput: function(){ 
             var self = this;
-                        
+
             var input = document.createElement("input");
             input.setAttribute('type', 'file');
+            if(self._settings.multiple){
+                input.setAttribute('multiple', 'multiple');
+            }
             input.setAttribute('name', this._settings.name);
             input.setAttribute('id', 'Filedata_e'+Math.round(Math.random()*10000));
 			input.setAttribute('accept', 'image/*');
