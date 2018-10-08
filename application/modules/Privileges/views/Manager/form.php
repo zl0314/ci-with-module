@@ -22,6 +22,12 @@
                     <input name="data[param]" value="<?= $model['param'] ?? '' ?>" type="text" class="dfinput"/> <i>例：a=1&b=2</i>
                 </li>
 
+                <li><label>是否初始化CURD节点</label>
+                    <label for="init_curd1"><input name="data[init_curd]" id="init_curd1" type="radio" value="1"> 是</label>
+                    <label for="init_curd0"><input name="data[init_curd]" id="init_curd0" type="radio" value="0"> 否</label>
+
+                </li>
+
                 <li>
                     <label>显示位置 <b>*</b></label>
                     <label for="pos0"><input

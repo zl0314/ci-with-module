@@ -146,6 +146,23 @@ class Base_Controller extends Module_Controller
      */
     public $checkLogin = true;
 
+    /**
+     * 默认每页显示数量
+     * @var int
+     */
+    public $pageNum = 10;
+
+    /**
+     * 是否有创建时间
+     * @var bool
+     */
+    public $hasUpdated = false;
+    /**
+     * 是否有修改时间
+     * @var bool
+     */
+    public $hasCreated = false;
+
     public function __construct ()
     {
         parent::__construct();
@@ -163,6 +180,9 @@ class Base_Controller extends Module_Controller
 
         $this->data['header'] = strtolower( MANAGER_PATH ) . '_header';
         $this->data['footer'] = strtolower( MANAGER_PATH ) . '_footer';
+
+        //当前菜单的信息--到siteclass
+        $this->data['curMenu'] = $this->menu->getMenuInfo( $this->siteclass, 'index' );
     }
 
     /**
@@ -175,6 +195,7 @@ class Base_Controller extends Module_Controller
     public function checkAdminLogin ()
     {
         $this->admin_info = $this->session->userdata( 'admin_info' );
+        $this->data['myMenus'] = $this->menu->treePermisstionsBySubMenus();
         if ( empty( $this->admin_info['id'] ) ) {
             redirect_manager( 'Admin/login' );
         }
@@ -235,11 +256,24 @@ class Base_Controller extends Module_Controller
         return [];
     }
 
+    /**
+     * 创建时，默认的数据
+     *
+     * @param string $variable
+     * @param  array $data
+     */
+    public function getInitData ( $variable = '', $data = [] )
+    {
+        $assign_var = $variable ? $variable : 'model';
+        $this->tpl->assign( $assign_var,$data );
+    }
+
     public function index ()
     {
         $where = $this->getWhere();
         //获取管理员总数
-        $data = get_page( $this->tb, $where, 10, '*', $this->listorder );
+        $data = get_page( $this->tb, $where, $this->pageNum, '*', $this->listorder );
+
         $vars = $this->getVars();
         $this->tpl->assign( $vars );
         $this->tpl->assign( $data );
@@ -254,10 +288,7 @@ class Base_Controller extends Module_Controller
         if ( !empty( _post() ) ) {
             $this->store();
         }
-        $flashData = $this->session->flashdata( 'flash_post' );
-        if ( !empty( $flashData ) ) {
-            $this->tpl->assign( [ 'model' => $flashData ] );
-        }
+        $this->getInitData('model', $this->session->flashdata( 'flash_post' ) );
         $this->tpl->display( 'form' );
     }
 
@@ -276,7 +307,7 @@ class Base_Controller extends Module_Controller
             }
             $saveResult = $this->rs_model->save( $this->tb, $data['data'] );
             if ( $saveResult ) {
-                $this->saveCallback( $result, $data['data'] );
+                $this->saveCallback( $saveResult );
                 $this->success_message( '保存成功', ADMIN_MANAGER_PATH );
             } else {
                 $this->message( '保存失败' );
@@ -413,6 +444,8 @@ class Base_Controller extends Module_Controller
                 $this->rs_model->update( $this->tb, $where, $data );
             }
             $this->success_message( '排序成功', HTTP_REFERER );
+        } else {
+            $this->success_message( '排序成功', HTTP_REFERER );
         }
     }
 
@@ -432,9 +465,9 @@ class Base_Controller extends Module_Controller
      *
      * @return mixed
      */
-    public function saveCallback ( $result, $data = [] )
+    public function saveCallback ( $result )
     {
-        return $result;
+
     }
 }
 
@@ -449,5 +482,42 @@ class MY_Controller extends Module_Controller
         parent::__construct();
     }
 
+
+    /**
+     * 跳转提示信息 错误
+     *
+     * @param string $err      输出信息
+     * @param string $url      跳转到URL
+     * @param int    $sec      跳转秒数
+     * @param int    $is_right 是否是正确的时候显示的信息
+     */
+    public function message ( $err = '', $url = '', $sec = '1', $is_right = false )
+    {
+        if ( $err ) {
+            $this->data['sec'] = $sec * 1000;
+            $this->data['url'] = ( $url ? $url : HTTP_REFERER );
+            $this->data['err'] = ( $err );
+            $this->data['type'] = $is_right ? 'success' : 'fail';
+            if ( isAjax() ) {
+                $type = $this->data['type'];
+                $type( $err );
+            } else {
+                $this->load->view( MANAGER_PATH . '/message', $this->data );
+            }
+        }
+    }
+
+    /**
+     * 跳转提示信息 成功
+     *
+     * @param string $err      输出信息
+     * @param string $url      跳转到URL
+     * @param int    $sec      跳转秒数
+     * @param int    $is_right 是否是正确的时候显示的信息
+     */
+    public function success_message ( $err = '', $url = '', $sec = '1', $is_right = true )
+    {
+        $this->message( $err, $url, $sec, $is_right );
+    }
 }
 

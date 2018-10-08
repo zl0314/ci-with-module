@@ -23,6 +23,12 @@
                         <?= htmlspecialchars_decode( ( $r['value'] ) ) ?>
                     </div>
                     <a href="javascript:iframe_customize_html('<?= $r['id'] ?>');" style="color:red">内容可能过多，点击查看</a>
+                <?php elseif ( $r['type'] == 2 ): ?>
+                    <div id="iframe_customize_html_<?= $r['id'] ?>" style="display:none;">
+                        <img src="<?= $r['value'] ?>" alt="">
+                    </div>
+                    <a href="javascript:iframe_customize_html('<?= $r['id'] ?>');" style="color:green">点击查看图片</a>
+
                 <?php else: ?>
                     <?= htmlspecialchars_decode( ( $r['value'] ) ) ?>
                 <?php endif; ?>

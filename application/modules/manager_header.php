@@ -62,6 +62,7 @@
 
 <body style="background:url(<?= ADMIN_IMG_PATH ?>topbg.gif) repeat-x;">
 
+
 <div id="top">
 
     <div class="topleft">
@@ -74,9 +75,8 @@
 
     <div class="topright">
         <ul>
-            <!--<li><span><img src="<?= ADMIN_IMG_PATH ?>help.png" title="帮助" class="helpimg"/></span><a href="#">帮助</a></li>
-    <li><a href="#">关于</a></li>-->
-            <li><a href="<?= ADMIN_MANAGER_PATH ?>/logout" target="_parent">【退出系统】</a></li>
+            <li><a href="/" target="_blank">站点首页</a></li>
+            <li><a href="/<?= MANAGER_PATH ?>/Admin/logout" target="_parent">【退出系统】</a></li>
         </ul>
 
         <div class="user">
@@ -88,29 +88,35 @@
     </div>
 </div>
 
-
 <!--left-->
 <div id="left">
     <!--    <div class="lefttop"><span></span>通讯录</div>-->
     <dl class="leftmenu">
-        <?php foreach ( $this->menu->getMenuByShowAt( [ 'parent_id' => 0 ] ) as $r ): ?>
+        <?php foreach ( $this->data['myMenus'] as $r ): ?>
             <dd>
                 <div class="title">
                     <span></span><?= $r['name'] ?>
                 </div>
-                <ul class="menuson">
-                    <?php foreach ( $this->menu->getMenuByShowAt( [ 'parent_id' => $r['id'] ] ) as $rr ): ?>
-                        <li <?php if ( $siteclass == $rr['controller'] ): ?> class="active" <?php endif; ?>>
-                            <cite></cite><a
-                                    href="<?= manager_url( $rr['controller'], $rr['param'] ) ?>"><?= $rr['name'] ?></a><i></i>
-                        </li>
-                    <?php endforeach; ?>
-                </ul>
+                <?php if (!empty($r['submenu'])): ?>
+                    <ul class="menuson">
+                        <?php foreach ( $r['submenu'] as $rr ): ?>
+                            <li id="menu_<?= $rr['controller'] ?>" <?php if ( $siteclass == $rr['controller'] ): ?> class="active" <?php endif; ?>>
+                                <cite></cite>
+                                <a href="<?= manager_url( $rr['controller'], $rr['param'] ) ?>"><?= $rr['name'] ?></a>
+                                <i></i>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php endif; ?>
             </dd>
         <?php endforeach; ?>
 
     </dl>
 </div>
+<script>
+    $('.menuson').hide();
+    $('#menu_<?=$siteclass?>').parent().show();
+</script>
 <!--main-->
 <div id="right">
     <?php if ( !empty( $this->data['header'] ) ): ?>
@@ -123,22 +129,24 @@
 
         <div class="tools">
             <ul class="toolbar">
-                <?php if ( !isset( $this->dontNeedAdd ) ): ?>
-                    <a href="<?= ADMIN_MANAGER_PATH ?>/create">
-                        <li class="click"><span><img src="<?= ADMIN_IMG_PATH ?>t01.png"/></span>添加</li>
-                    </a>
-                <?php endif; ?>
-                <?php if ( !isset( $this->dontNeedDel ) && $sitemethod == 'index' ): ?>
-                    <a href="javascript:;" onclick="delitem('a')">
-                        <li><span><img src="<?= ADMIN_IMG_PATH ?>t03.png"/></span>删除</li>
-                    </a>
-                <?php endif; ?>
+                <?php foreach ( $this->menu->getMenuByShowAt( [ 'show_at' => 2, 'parent_id' => $curMenu['id'] ] ) as $r ): ?>
+                    <?php if ( $r['method'] == 'listorder' ): ?>
 
-                <?php if ( isset( $this->needListOrder ) && $sitemethod == 'index' ): ?>
-                    <a href="javascript:;" onclick="listOrder()">
-                        <li><span><img src="<?= ADMIN_IMG_PATH ?>t02.png"/></span>排序</li>
-                    </a>
-                <?php endif; ?>
+                        <li onclick="listOrder()"><span><img  src="<?= ADMIN_IMG_PATH ?><?= $r['method'] ?>.png"/></span><?= $r['name'] ?></li>
+
+                    <?php elseif ( $r['method'] != 'batch_delete' ): ?>
+                        <a href="<?= ADMIN_MANAGER_PATH ?>/<?= $r['method'] ?>">
+                            <li class="click"><span><img
+                                            src="<?= ADMIN_IMG_PATH ?><?= $r['method'] ?>.png"/></span><?= $r['name'] ?>
+                            </li>
+                        </a>
+                    <?php else: ?>
+                        <a href="javascript:;" onclick="delitem('a')">
+                            <li><span><img src="<?= ADMIN_IMG_PATH ?><?= $r['method'] ?>.png"/></span><?= $r['name'] ?>
+                            </li>
+                        </a>
+                    <?php endif; ?>
+                <?php endforeach; ?>
             </ul>
         </div>
         <?php else: ?>

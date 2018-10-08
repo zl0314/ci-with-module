@@ -309,3 +309,5 @@ p.form_error{ color:#ff0000; margin-left:90px;margin-top:10px; }
 
 .listorder{ width:55px; height:25px;padding-left:2px;
     border: 1px solid #ccc;}
+.iframe_customize_html .layui-layer-content{ padding:15px;}
+.input-readonly{border:none; background: none;}

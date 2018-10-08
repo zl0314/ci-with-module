@@ -11,9 +11,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |	https://codeigniter.com/user_guide/general/hooks.html
 |
 */
-$hook['pre_controller'] = array(
+$hook['post_controller_constructor'] = array(
     'class'    => 'My_hook',
-    'function' => 'system_start',
+    'function' => 'pre_controller',
     'filename' => 'My_hook.php',
     'filepath' => 'hooks',
     'params'   => array()

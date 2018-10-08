@@ -70,6 +70,56 @@ class Menu extends BaseLib
         return $return;
     }
 
+
+    /**
+     * 获取所有权限菜单， 分上下级， 只要有下级菜单，就会有submenu属性， 用在后台导航栏循环
+     * @return mixed
+     */
+    public function treePermisstionsBySubMenus ()
+    {
+        $lists = self::getALLMenus();
+        $treeList = [];
+        foreach ( $lists as $k => $r ) {
+            if ( $r['parent_id'] != 0 ) {
+                continue;
+            }
+            $r['level'] = 0;
+            $treeList[ $r['id'] ] = $r;
+            unset( $r[ $k ] );
+            $temp = self::getSubmenusBySubMenus( $r['id'], $lists, $treeList[ $r['id'] ] );
+            if ( is_array( $temp ) && !empty( $temp ) ) {
+                $treeList[ $r['id'] ]['parent'] = $treeList[ $r['id'] ];
+                $treeList[ $r['id'] ]['submenu'] = $temp;
+            }
+        }
+
+        return $treeList;
+    }
+
+    /**
+     * 获取一级菜单下所有子菜单
+     *
+     * @param $cur_id 当前栏目ID
+     * @param $lists  所有菜单
+     *
+     * @return array
+     */
+    public static function getSubmenusBySubMenus ( $cur_id, $lists, $parent, $sparent = null )
+    {
+        $temp = [];
+        foreach ( $lists as $k => $r ) {
+            if ( $r['parent_id'] == $cur_id ) {
+                $temp[ $k ] = $r;
+                $temp[ $k ]['parent'] = $parent;
+                $temp[ $k ]['second_parent'] = $r['parent_id'];
+                unset( $lists[ $k ] );
+                $temp[ $k ]['submenu'] = self::getSubmenusBySubMenus( $r['id'], $lists, $parent );
+            }
+        }
+
+        return $temp;
+    }
+
     /**
      * 得到所有的权限菜单
      * @return mixed
@@ -79,9 +129,7 @@ class Menu extends BaseLib
         $admin_info = $this->admin_info;
         //查询管理员所在的角色， 获取所拥有角色的所有权限
         $admin = $this->CI->rs_model->getRow( 'adminuser', '*', [ 'id' => $admin_info['id'] ] );
-
         if ( !$admin['is_super'] ) { //不是超级管理员，获取角色所拥有的权限节点
-
             //获取所有所属的角色
             $roles = $this->CI->rs_model->getList( 'admin_user_role', '*', [ 'admin_user_id' => $admin_info['id'] ] );
             $permissions = [];
@@ -100,7 +148,7 @@ class Menu extends BaseLib
                 }
             }
 
-            return $permissions;
+            return arraySort( $permissions, 'listorder', 'desc' );
         } else {
             //超管返回所有权限节点
             $lists = $this->CI->rs_model->getList( 'privileges', '*', [], null, null, 'listorder desc' );
@@ -127,8 +175,31 @@ class Menu extends BaseLib
      */
     public function getPosition ( $siteclass, $sitemethod )
     {
-        $menu = $this->CI->rs_model->getRow( 'privileges', 'name', [ 'controller' => $siteclass ] );
+        $menu = $this->CI->rs_model->getRow( 'privileges', 'name', [ 'controller' => $siteclass, 'method' => 'index' ] );
 
         return $menu['name'];
+    }
+
+    /**
+     * 当前控制器菜单信息
+     *
+     * @param $siteclass
+     */
+    public function getMenuInfo ( $siteclass )
+    {
+        $menu = $this->CI->rs_model->getRow( 'privileges', '*', [ 'controller' => $siteclass, 'method' => 'index' ] );
+
+        return $menu;
+    }
+
+    public function getMenuKeyBySiteclass ()
+    {
+        $menu = $this->getALLMenus();
+        $menuBySiteclass = [];
+        foreach ( $menu as $k => $r ) {
+            $menuBySiteclass[ $r['controller'] ][ $r['method'] ] = $r;
+        }
+
+        return $menuBySiteclass;
     }
 }
