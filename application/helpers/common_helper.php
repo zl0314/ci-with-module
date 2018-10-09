@@ -407,3 +407,4 @@ function arraySort ( $arr, $keys, $type = 'desc' )
 
     return $new_array;
 }
+

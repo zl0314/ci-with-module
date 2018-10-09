@@ -474,7 +474,6 @@ class CI_Form_validation {
 			{
 				continue;
 			}
-
 			$this->_execute($row, $row['rules'], $row['postdata']);
 		}
 
@@ -665,7 +664,6 @@ class CI_Form_validation {
 					? NULL
 					: $this->_field_data[$row['field']]['postdata'];
 			}
-
 			// Is the rule a callback?
 			$callback = $callable = FALSE;
 			if (is_string($rule))
@@ -695,7 +693,6 @@ class CI_Form_validation {
 				$rule = $match[1];
 				$param = $match[2];
 			}
-
 			// Ignore empty, non-required inputs with a few exceptions ...
 			if (
 				($postdata === NULL OR $postdata === '')
@@ -704,7 +701,7 @@ class CI_Form_validation {
 				&& ! in_array($rule, array('required', 'isset', 'matches'), TRUE)
 			)
 			{
-				continue;
+				//continue;
 			}
 
 			// Call the function that corresponds to the rule

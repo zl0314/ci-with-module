@@ -21,6 +21,7 @@
 
                 <td><?= $r['created_at'] ?></td>
                 <td>
+                    <a href="<?= ADMIN_MANAGER_PATH ?>/power?id=<?= $r['id'] ?>" class="tablelink">权限分配</a> |
                     <a href="<?= ADMIN_MANAGER_PATH ?>/edit?id=<?= $r['id'] ?>" class="tablelink">编辑</a> |
                     <a href="javascript:delitem('<?= $r['id'] ?>');" class="tablelink"> 删除</a>
                 </td>
