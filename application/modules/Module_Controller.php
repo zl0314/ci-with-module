@@ -25,8 +25,9 @@ class Module_Controller extends Common_Controller
      */
     public function _remap ( $url_param_1 = '', $dataArr = [] )
     {
-        echo '我在方法 ' . $this->sitemethod . '不存在的时候执行^^';
-        P( $dataArr );
+        //show_404();
+        //echo '我在方法 ' . $this->sitemethod . '不存在的时候执行^^';
+        echo 'Welcome';
     }
 
 

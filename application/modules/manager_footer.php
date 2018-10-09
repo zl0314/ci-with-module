@@ -15,9 +15,11 @@
                 return;
             }
             doit = confirm('确定删除这些信息吗？', function () {
-                doDel(ids.toLocaleString(), 'batch_delete', function () {
-                    for (k in ids) {
-                        $('#item_' + ids[k]).remove();
+                doDel(ids.toLocaleString(), 'batch_delete', function (res) {
+                    if (res.success == 1) {
+                        for (k in ids) {
+                            $('#item_' + ids[k]).remove();
+                        }
                     }
                 });
             });
@@ -28,8 +30,10 @@
                 return false;
             }
             doit = confirm('确定删除这些信息吗？', function () {
-                doDel(id, 'delete', function () {
-                    $('#item_' + id).remove();
+                doDel(id, 'delete', function (res) {
+                    if (res.success == 1) {
+                        $('#item_' + id).remove();
+                    }
                 });
             });
         }
@@ -38,9 +42,13 @@
 
     function doDel(id, method, cb) {
         ajax('<?=manager_url( $siteclass )?>/' + method, 'id=' + id, function (res) {
-            layer.msg(res.message, {icon: 1});
+            icon_type = 1;
+            if(res.success != 1){
+                icon_type = 2;
+            }
+            layer.msg(res.message, {icon: icon_type});
             if (typeof(cb) == 'function') {
-                cb();
+                cb(res);
             }
         }, 'json', true, {'<?= $this->security->get_csrf_token_name(); ?>': '<?= $this->security->get_csrf_hash(); ?>'})
     }

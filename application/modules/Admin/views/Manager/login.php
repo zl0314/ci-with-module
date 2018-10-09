@@ -116,6 +116,6 @@
     }
 </script>
 
-<div class="loginbm"><a href="<?= site_url() ?>"><?= site_url() ?></a></div>
+<div class="loginbm">&copyright 2018 Aaron Zhang</div>
 </body>
 </html>

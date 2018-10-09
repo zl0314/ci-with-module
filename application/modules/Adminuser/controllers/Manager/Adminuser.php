@@ -27,7 +27,8 @@ class Adminuser extends Base_Controller
         ];
         $this->tpl->assign( 'statusArr', $this->statusArr );
 
-        $this->adminRoles = $this->rs_model->getList( 'admin_user_role', '*', [ 'admin_user_id' => $this->admin_info['id'] ] );
+        $id = _get( 'id' );
+        $this->adminRoles = $this->rs_model->getList( 'admin_user_role', '*', [ 'admin_user_id' => $id ] );
         $this->adminRoles = array_column( $this->adminRoles, 'role_id' );
     }
 
@@ -48,20 +49,25 @@ class Adminuser extends Base_Controller
     public function getData ()
     {
         $data = _post( 'data' );
+        $data['addtime'] = date('Y-m-d H:i:s');
         if ( empty( $data['password'] ) ) {
             unset( $data['password'] );
         } else {
-            $data['password'] = password_hash( $data['password'] );
+            $data['password'] = password_hash( $data['password'], 1 );
         }
-        if ( !empty( $data['roles'] ) ) {
-            $this->Adminuser_model->saveRoles();
-            unset( $data['roles'] );
-        }
+        unset($data['roles']);
         $returnData = [];
         $returnData['data'] = $data;
 
-
         return $returnData;
+    }
+
+    public function saveCallback ( $admin_user_id )
+    {
+        $data = _post( 'data' );
+        if ( !empty( $data['roles'] ) ) {
+            $this->Adminuser_model->saveRoles( $data['roles'], $admin_user_id );
+        }
     }
 
 }

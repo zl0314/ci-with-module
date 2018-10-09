@@ -288,7 +288,8 @@ class Base_Controller extends Module_Controller
         if ( !empty( _post() ) ) {
             $this->store();
         }
-        $this->getInitData('model', $this->session->flashdata( 'flash_post' ) );
+        $data = $this->session->flashdata( 'flash_post' );
+        $this->getInitData('model', $data );
         $this->tpl->display( 'form' );
     }
 

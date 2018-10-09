@@ -92,7 +92,6 @@ class Menu extends BaseLib
                 $treeList[ $r['id'] ]['submenu'] = $temp;
             }
         }
-
         return $treeList;
     }
 
@@ -143,7 +142,7 @@ class Menu extends BaseLib
                     ] );
                 if ( !empty( $perviligesRole ) ) {
                     foreach ( $perviligesRole as $r ) {
-                        $permissions[] = $this->CI->rs_model->getRow( 'privileges', '*', [ 'id' => $r['privileges_id'] ] );
+                        $permissions[] = $this->CI->rs_model->getRow( 'privileges', '*', [ 'id' => $r['permission_id'] ] );
                     }
                 }
             }

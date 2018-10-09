@@ -14,13 +14,13 @@ class My_hook
      */
     public function pre_controller ( $arg = [] )
     {
-        if(empty($this->CI->is_manager)){
+        if ( empty( $this->CI->is_manager ) ) {
             return true;
         }
-        if($this->CI->admin_info['is_super'] == 1){
+        if ( $this->CI->admin_info['is_super'] == 1 ) {
             return;
         }
-        if ( !in_array( $this->CI->data['siteclass'] , ['Captcha'])
+        if ( !in_array( $this->CI->data['siteclass'], [ 'Captcha', 'Admin' ] )
             && !in_array( $this->CI->data['sitemethod'], [ 'login', 'logout' ] ) ) {
             $menu = $this->CI->menu->getMenuKeyBySiteclass();
             if ( isset( $menu[ $this->CI->data['siteclass'] ] ) ) {

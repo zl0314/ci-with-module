@@ -1,0 +1,60 @@
+
+
+.table_div a:link,.table_div a:visited,.table_div a:active{ color:#000099; text-decoration:none;}
+.table_div a:hover{ color:#F90; text-decoration:underline;}
+
+.table_div td,.search td{font-size:14px;}
+
+
+.table_div_too {
+    width:960px;
+    margin:0px auto 0 auto;
+    font:14px/120% '微软雅黑',arial,'宋体';
+}
+.table_div_left{
+    float:left;
+    width:530px;
+    margin:10px auto 0 auto;
+    font:14px/120% '微软雅黑',arial,'宋体';
+}
+.table_div_right{
+    float:right;
+    width:410px;
+    margin:10px auto 0 auto;
+    font:14px/120% '微软雅黑',arial,'宋体';
+}
+.table_div2 {
+    width:980px;
+    margin:20px auto 0 auto;
+}
+.table, .table_form {
+    border-top: 1px solid #D8DEE3;
+    border-left: 1px solid #D8DEE3;
+}
+.table tr td{
+    font-size:13px;
+}
+.tr1 {
+    background-color: #F6F6F6;
+}
+
+.formbody .title {
+    margin-bottom: 15px;
+    padding-left: 10px;
+    line-height: 30px;
+    background: #ecf2f7;
+    font-size: 12px;
+}
+tr {
+    display: table-row;
+    vertical-align: inherit;
+    border-color: inherit;
+}
+.table td, .table_form td {
+    border-right: 1px solid #D8DEE3;
+    border-bottom: 1px solid #D8DEE3;
+}
+.table a:link, .table_div a:visited, .table a:active,.formbody .title a {
+    color: #000099;
+    text-decoration: none;
+}

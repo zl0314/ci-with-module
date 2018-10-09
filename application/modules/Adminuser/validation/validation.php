@@ -16,7 +16,7 @@ $validation_config['manager'] = [
         ],
     ],
     [
-        'field'  => 'data[nicekname]',
+        'field'  => 'data[nickname]',
         'label'  => '昵称',
         'rules'  => 'required|trim|newhtmlspecialchars|max_length[30]',
         'errors' => [
@@ -27,11 +27,11 @@ $validation_config['manager'] = [
     [
         'field'  => 'data[password]',
         'label'  => '密码',
-        'rules'  => 'required|trim|newhtmlspecialchars|min_length[6]|max_length[30]',
+        'rules'  => 'required_unless[data.id,0]|trim|newhtmlspecialchars',
+        //required_unless 只有ID为空时， 密码为必须填
         'errors' => [
-            'required'   => '密码不能为空',
-            'min_length' => '密码长度不能小于6位',
-            'max_length' => '密码长度不能超过30',
+            'required_unless' => '密码不能为空',
+            'min_length'      => '密码长度不能小于6位',
         ],
     ],
 ];
