@@ -9,7 +9,7 @@
                        class="dfinput"/><i>例：index,只能是英文字字母</i>
             </li>
             <li><label>图片<b>*</b></label>
-                <input id="image" type="hidden" name="data[image]" value="" class="input-txt"/>
+                <input id="image" type="hidden" name="data[image]" value="<?= $model['image'] ?? '' ?>" class="input-txt"/>
                 <input type="button" class="ajaxUploadBtn btn-primary btn" id="image_button"
                        onclick="ajaxUpload('image','banners')"
                        value="上传图片">

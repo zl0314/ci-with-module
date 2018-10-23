@@ -66,6 +66,7 @@ if ( !function_exists( 'manager_url' ) ) {
  */
 function success ( $data = [], $message = '', $success = '1' )
 {
+    header( 'Content-type:text/json' );
     $result = [
         'success' => $success,
         'data'    => $data,
