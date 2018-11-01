@@ -269,7 +269,14 @@ class Result_model extends CI_Model
                         }
                         break;
                     case 'join' :
-                        $this->db->join( $r[0], $r[1], $r[2] );
+                    case 'join' :
+                        if ( is_array( $r[0] ) ) {
+                            foreach ( $r as $joink => $joinr ) {
+                                $this->db->join( $joinr[0], $joinr[1], @$joinr[2] );
+                            }
+                        } else {
+                            $this->db->join( $r[0], $r[1], @$r[2] );
+                        }
                         break;
                     case 'like' :
                         foreach ( $r as $sk => $sr ) {

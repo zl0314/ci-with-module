@@ -44,7 +44,7 @@ $validation_config['manager'] = [
     [
         'field'  => 'data[parent_id]',
         'label'  => '上级菜单',
-        'rules'  => 'required|trim|newhtmlspecialchars',
+        'rules'  => 'trim|newhtmlspecialchars',
         'errors' => [
             'required' => '上级菜单不能为空',
         ],

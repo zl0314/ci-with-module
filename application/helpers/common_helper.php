@@ -317,7 +317,7 @@ function get_page ( $tb, $where = [], $perpage = 10, $field = '*', $order = '', 
         $page['per_page'] = 0;
     }
 
-    $page['first_link'] = ' 第一页 ';
+    $page['first_link'] = ' 首页 ';
     $page['last_link'] = ' 末页 ';
     $page['next_link'] = ' &gt; ';
     $page['prev_link'] = ' &lt; ';
@@ -327,8 +327,11 @@ function get_page ( $tb, $where = [], $perpage = 10, $field = '*', $order = '', 
     $tag_open = '<li class="paginItem">';
     $tag_close = '</li>';
 
+    $page['first_tag_open'] = $tag_open;
+    $page['first_tag_close'] = $tag_close;
+
     $page['prev_tag_open'] = $tag_open;
-    $page['prev_tag_close'] = '</li>';
+    $page['prev_tag_close'] = $tag_close;
 
     $page['cur_tag_open'] = $tag_open . '<a href="javascript:;">';
     $page['cur_tag_close'] = '</a>' . $tag_close;
@@ -338,6 +341,9 @@ function get_page ( $tb, $where = [], $perpage = 10, $field = '*', $order = '', 
 
     $page['next_tag_open'] = $tag_open;
     $page['next_tag_close'] = $tag_close;
+
+    $page['last_tag_open'] = $tag_open;
+    $page['last_tag_close'] = $tag_close;
 
     $GLOBALS['total_rows'] = $page['total_rows'];
     $GLOBALS['curpage'] = $page['cur_page'];
