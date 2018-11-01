@@ -9,12 +9,14 @@
                        class="dfinput"/><i>例：index,只能是英文字字母</i>
             </li>
             <li><label>图片<b>*</b></label>
-                <input id="image" type="hidden" name="data[image]" value="<?= $model['image'] ?? '' ?>" class="input-txt"/>
+                <input id="image" type="hidden" name="data[image]" value="<?= $model['image'] ?? '' ?>"
+                       class="input-txt"/>
                 <input type="button" class="ajaxUploadBtn btn-primary btn" id="image_button"
                        onclick="ajaxUpload('image','banners')"
                        value="上传图片">
                 <br>
-                <img   alt=""  class="imglist " id="preview_image" style="max-width:100px;min-width:100px;margin-top:10px;" src="<?= $model['image'] ?? '' ?>"></li>
+                <img alt="" class="imglist " id="preview_image" style="max-width:100px;min-width:100px;margin-top:10px;"
+                     src="<?= $model['image'] ?? '' ?>"></li>
             </li>
             <li><label>链接地址<b></b></label>
                 <input name="data[url]" value="<?= $model['url'] ?? '' ?>" type="text"
@@ -24,7 +26,6 @@
                 <input name="data[listorder]" value="<?= $model['listorder'] ?? '0' ?>" type="text"
                        class="dfinput"/>
             </li>
-
 
 
             <li><label>&nbsp;</label><input type="submit" class="btn" value="保 存"/></li>
