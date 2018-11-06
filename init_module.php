@@ -19,9 +19,11 @@ if ( !empty( $argv['1'] ) ) {
         {
             public function __construct()
             {
-                parent::__construct();
                 $this->tb = \'' . strtolower( $module_name ) . '\';
                 $this->listorder = \'id desc\';
+                
+                parent::__construct();
+                
             }
         
             public function index()

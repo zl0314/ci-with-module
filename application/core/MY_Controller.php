@@ -51,7 +51,7 @@ class Common_Controller extends CI_Controller
      * 表名
      * @var
      */
-    public $tb;
+    public $tb = '';
 
     /**
      * @var 排序字段
@@ -107,6 +107,7 @@ class Common_Controller extends CI_Controller
             'is_manager' => $this->is_manager,
             'config'     => $this->_config,
         ];
+
         $this->tpl->assign( $vars );
     }
 
@@ -163,14 +164,18 @@ class Base_Controller extends Module_Controller
      */
     public $hasCreated = false;
 
+    /**
+     * 控制器对应的模型名
+     * @var string
+     */
+    public $model = '';
+
     public function __construct ()
     {
         parent::__construct();
-
         if ( !in_array( $this->sitemethod, [ 'login', 'logout' ] ) ) {
             $this->checkAdminLogin();
         }
-
         $this->data['admin_info'] = $this->admin_info;
         $this->is_manager = true;
 
@@ -183,6 +188,19 @@ class Base_Controller extends Module_Controller
 
         //当前菜单的信息--到siteclass
         $this->data['curMenu'] = $this->menu->getMenuInfo( $this->siteclass, 'index' );
+
+        //加载模型
+        $model_path = MODULE_PATH . $this->siteclass . DIRECTORY_SEPARATOR . 'models' . DIRECTORY_SEPARATOR;
+        $model_name = $this->siteclass . '_model';
+        $model_file = $model_name . '.php';
+        if ( file_exists( $model_path . $model_file ) ) {
+            $this->load->model( $model_name );
+
+            //赋予模型属性
+            $this->model = $this->$model_name;
+            $this->model->tb = $this->tb;
+        }
+
     }
 
     /**
@@ -265,7 +283,7 @@ class Base_Controller extends Module_Controller
     public function getInitData ( $variable = '', $data = [] )
     {
         $assign_var = $variable ? $variable : 'model';
-        $this->tpl->assign( $assign_var,$data );
+        $this->tpl->assign( $assign_var, $data );
     }
 
     public function index ()
@@ -289,7 +307,7 @@ class Base_Controller extends Module_Controller
             $this->store();
         }
         $data = $this->session->flashdata( 'flash_post' );
-        $this->getInitData('model', $data );
+        $this->getInitData( 'model', $data );
         $this->tpl->display( 'form' );
     }
 
@@ -379,14 +397,22 @@ class Base_Controller extends Module_Controller
     public function getRow ()
     {
         $flashData = $this->session->flashdata( 'flash_post' );
+        $model = [];
         if ( !empty( $flashData ) ) {
             $this->tpl->assign( [ 'model' => $flashData ] );
         } else {
-            $id = _get( 'id' );
-            $model = $this->rs_model->getRow( $this->tb, '*', [ $this->primary => $id ] );
-            if ( empty( $model[ $this->primary ] ) ) {
-                $this->message( '信息不存在 ' );
+            $id = intval( _get( $this->primary ) );
+            if ( $id ) {
+                $model = $this->rs_model->getRow( $this->tb, '*', [ $this->primary => $id ] );
+                if ( empty( $model[ $this->primary ] ) ) {
+                    $this->message( '信息不存在 ' );
+                } else {
+                    if ( !empty( $this->model ) ) {
+                        $this->model->attributes = $model;
+                    }
+                }
             }
+
             $this->tpl->assign( [ 'model' => $model ] );
         }
     }

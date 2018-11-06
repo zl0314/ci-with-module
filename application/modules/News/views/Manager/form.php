@@ -27,7 +27,7 @@
             </li>
 
             <li><label>内容<b></b></label>
-                <script id="content" name="data[content]" type="text/plain" style="width:80%;height:450px;margin-left:80px;"><?= $model['content'] ?? '' ?></script>
+                <script id="content" name="data[content]" type="text/plain" style="width:80%;height:450px;margin-left:80px;"><?= $this->model->getContentAttribute() ?? '' ?></script>
             </li>
 
 
