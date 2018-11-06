@@ -24,10 +24,10 @@ class Captcha extends MY_Controller
 
             // White background and border, black text and red grid
             'colors'      => [
-                'background' => [ 255, 255, 255 ],
+                'background' => [ 28, 119, 172],
                 'border'     => [ 255, 255, 255 ],
-                'text'       => [ 0, 0, 0 ],
-                'grid'       => [ 255, 40, 40 ],
+                'text'       => [ 255, 255, 255 ],
+                'grid'       => [ 88, 170, 216 ],
             ],
         ];
         $cap = create_captcha( $config, './cap' );
