@@ -375,6 +375,9 @@ class Base_Controller extends Module_Controller
                 $created_at = !empty( $data['data']['updated_at'] ) ? $data['data']['updated_at'] : date( 'Y-m-d H:i:s' );
                 $data['data']['updated_at'] = $created_at;
             }
+            if(empty($data[$this->primary])){
+                $data['data'][$this->primary] = _get($this->primary);
+            }
             $saveResult = $this->rs_model->save( $this->tb, $data['data'] );
             if ( $saveResult ) {
                 $this->saveCallback( $saveResult );
