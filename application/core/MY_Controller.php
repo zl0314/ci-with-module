@@ -107,8 +107,22 @@ class Common_Controller extends CI_Controller
             'is_manager' => $this->is_manager,
             'config'     => $this->_config,
         ];
-
         $this->tpl->assign( $vars );
+
+        /**
+         * 加载模型
+         */
+        $model_path = MODULE_PATH . $this->siteclass . DIRECTORY_SEPARATOR . 'models' . DIRECTORY_SEPARATOR;
+        $model_name = $this->siteclass . '_model';
+        $model_file = $model_name . '.php';
+        if ( file_exists( $model_path . $model_file ) ) {
+            $this->load->model( $model_name );
+
+            //赋予模型属性
+            $this->model = $this->$model_name;
+            $this->model->tb = $this->tb;
+        }
+
     }
 
     //解密前端加密的数据
@@ -116,7 +130,7 @@ class Common_Controller extends CI_Controller
     {
         $data = _post( 'data' );
         $this->load->library( 'Rsa' );
-        $formData = $this->rsa->privateDecrypt( $data, $this->_config['rsa_private_key'] );
+        $formData = $this->rsa->privateDecrypt( $data );
         parse_str( $formData, $result );
 
         return $result;
@@ -188,18 +202,6 @@ class Base_Controller extends Module_Controller
 
         //当前菜单的信息--到siteclass
         $this->data['curMenu'] = $this->menu->getMenuInfo( $this->siteclass, 'index' );
-
-        //加载模型
-        $model_path = MODULE_PATH . $this->siteclass . DIRECTORY_SEPARATOR . 'models' . DIRECTORY_SEPARATOR;
-        $model_name = $this->siteclass . '_model';
-        $model_file = $model_name . '.php';
-        if ( file_exists( $model_path . $model_file ) ) {
-            $this->load->model( $model_name );
-
-            //赋予模型属性
-            $this->model = $this->$model_name;
-            $this->model->tb = $this->tb;
-        }
 
     }
 
@@ -529,7 +531,7 @@ class MY_Controller extends Module_Controller
                 $type = $this->data['type'];
                 $type( $err );
             } else {
-                $this->load->view( MANAGER_PATH . '/message', $this->data );
+                $this->load->view( 'message', $this->data );
             }
         }
     }
@@ -546,5 +548,30 @@ class MY_Controller extends Module_Controller
     {
         $this->message( $err, $url, $sec, $is_right );
     }
+
+    /**
+     * 根据主键得到记录值
+     *
+     * @param  $id 主键ID
+     */
+    public function getRow ( $where = [] )
+    {
+        $model = [];
+        $id = intval( _get( $this->primary ) );
+        $where[ $this->primary ] = $id;
+
+        if ( $id ) {
+            $model = $this->rs_model->getRow( $this->tb, '*', $where );
+            if ( empty( $model[ $this->primary ] ) ) {
+                $this->message( '信息不存在 ' );
+            } else {
+                if ( !empty( $this->model ) ) {
+                    $this->model->attributes = $model;
+                }
+            }
+        }
+        $this->tpl->assign( [ 'model' => $model ] );
+    }
+
 }
 
