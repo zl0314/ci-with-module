@@ -24,8 +24,8 @@
                 </li>
 
                 <li><label>是否初始化CURD节点</label>
-                    <label for="init_curd1"><input name="data[init_curd]"  <?php  if(!empty($model['id'])):?>  disabled <?php endif;?>  id="init_curd1" type="radio" value="1"> 是</label>
-                    <label for="init_curd0"><input name="data[init_curd]" <?php  if(!empty($model['id'])):?> checked disabled <?php endif;?> id="init_curd0" type="radio" value="0"> 否</label>
+                    <label for="init_curd1"><input name="data[init_curd]"  <?php  if(!empty($model['id'])):?> checked disabled <?php endif;?>  id="init_curd1" type="radio" value="1"> 是</label>
+                    <label for="init_curd0"><input name="data[init_curd]" <?php  if(!empty($model['id'])):?>  disabled <?php endif;?> id="init_curd0" type="radio" value="0"> 否</label>
 
                 </li>
 
