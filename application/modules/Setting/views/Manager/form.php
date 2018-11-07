@@ -4,7 +4,7 @@
     <script type="text/javascript" charset="utf-8" src="/static/ueditor1_4_3/lang/zh-cn/zh-cn.js"></script>
     <div id="tab1" class="tabson">
         <?= form_open( ADMIN_MANAGER_PATH . '/' . $sitemethod . '?id=' . _get( 'id' ) ) ?>
-        <input type="hidden" name="data[id]" value="<?= $model['id'] ?? '' ?>">
+        <input type="hidden" name="data[<?=$this->primary?>]" value="<?=$model[$this->primary]?>">
         <ul class="forminfo">
             <li><label>KEY<b>*</b></label>
                 <input name="data[keys]" value="<?= $model['keys'] ?? '' ?>" type="text" maxlength="30"

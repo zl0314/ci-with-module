@@ -1,5 +1,5 @@
 <?= form_open( ADMIN_MANAGER_PATH . '/' . $sitemethod . '?id=' . _get( 'id' ) ) ?>
-    <input type="hidden" name="data[id]" value="<?= $model['id'] ?? '0' ?>">
+    <input type="hidden" name="data[<?=$this->primary?>]" value="<?=$model[$this->primary]?>">
     <ul class="forminfo">
         <li><label>用户名</label>
             <?php if ( empty( $model['username'] ) ): ?>
