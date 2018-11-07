@@ -14,12 +14,6 @@ class BaseLib
     public $CI;
 
     /**
-     * 登录的管理员信息
-     * @var
-     */
-    public $admin_info;
-
-    /**
      * 全局配置项
      * @var array
      */
@@ -28,8 +22,6 @@ class BaseLib
     public function __construct ()
     {
         $this->CI = &get_instance();
-        $this->admin_info = $this->CI->session->userdata( 'admin_info' );
-
         $this->config = $this->CI->config->config;
     }
 }

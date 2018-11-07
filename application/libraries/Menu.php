@@ -7,6 +7,14 @@
  */
 class Menu extends BaseLib
 {
+    public $admin_info;
+
+    public function __construct ()
+    {
+        parent::__construct();
+        $this->admin_info = $this->CI->session->userdata( 'admin_info' );
+    }
+
     /**
      *  获取所有权限菜单， 用在添加菜单的时候， 级别选择,让所有的菜单有一个上下级别
      * @return mixed
@@ -92,6 +100,7 @@ class Menu extends BaseLib
                 $treeList[ $r['id'] ]['submenu'] = $temp;
             }
         }
+
         return $treeList;
     }
 
@@ -193,6 +202,7 @@ class Menu extends BaseLib
 
     /**
      * 获取所有子菜单
+     *
      * @param $parent_id  父级ID
      *
      * @return mixed
@@ -200,8 +210,10 @@ class Menu extends BaseLib
     public function getSubmenusByParentId ( $parent_id )
     {
         $menus = $this->CI->rs_model->getList( 'privileges', '*', [ 'parent_id' => $parent_id, ] );
+
         return $menus;
     }
+
     public function getMenuKeyBySiteclass ()
     {
         $menu = $this->getALLMenus();
