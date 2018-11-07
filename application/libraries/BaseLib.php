@@ -19,9 +19,17 @@ class BaseLib
      */
     public $admin_info;
 
+    /**
+     * 全局配置项
+     * @var array
+     */
+    public $config = [];
+
     public function __construct ()
     {
         $this->CI = &get_instance();
         $this->admin_info = $this->CI->session->userdata( 'admin_info' );
+
+        $this->config = $this->CI->config->config;
     }
 }

@@ -1,23 +1,21 @@
+var ping = 0;
+
 function layer_tip(msg, btn) {
     var btn = typeof(btn) == 'undefined' ? '确定' : btn;
-    setTimeout(function () {
-        layer.open({
-            content: msg,
-            btn: btn
-        })
-    }, 350);
+    layer.open({
+        content: msg,
+        btn: btn
+    })
 }
 
-function layer_tip_mini(msg, fun) {
+function layer_tip_mini(msg, cb) {
     layer.open({
         content: msg
         , skin: 'msg'
         , time: 2
     });
-    if (typeof(fun) == 'function') {
-        setTimeout(function () {
-            fun();
-        }, 1000);
+    if (typeof(cb) == 'function') {
+        cb();
     }
 }
 
@@ -34,12 +32,10 @@ var confirm = function (msg, cb) {
     });
 }
 
-function alert_mini(msg, fun) {
+function alert_mini(msg, cb) {
     layer.msg(msg);
-    if (typeof(fun) == 'function') {
-        setTimeout(function () {
-            fun();
-        }, 1000);
+    if (typeof(cb) == 'function') {
+        cb();
     }
 }
 
@@ -71,8 +67,6 @@ function ArrayDel(arr, index) {
     return arr;
 }
 
-
-var ping = 0;
 
 /**
  *  ajax请求, 对有些请求 要求安全性的时候， 进行加密

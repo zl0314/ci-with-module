@@ -14,6 +14,10 @@ class Test extends MY_Controller
 
     public function index ()
     {
-        echo __METHOD__;
+        $this->load->library( 'Rsa' );
+        $result = $this->rsa->publicDecrypt( '12312' );
+        echo '加密后：' . $result;
+        echo '<br>';
+        echo '解密后：' . $this->rsa->privateDecrypt( $result );
     }
 }
