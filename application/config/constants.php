@@ -127,3 +127,14 @@ define('ADMIN_IMG_PATH', '/static/admin/images/');
 define('DB_PREFIX', 'ci_');
 
 define('HTTP_REFERER', !empty($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '');
+
+
+
+/**
+ * 微信 公众号
+ */
+define( 'TK', '' ); //TOKEN
+define( 'EK', '' ); //消息加密密钥
+
+define( 'APPID', 'wxa19f6b4b8c630d6f' );
+define( 'APPSEC', '2fac5c52c50bb4afb61fc33eeeffd036' );
