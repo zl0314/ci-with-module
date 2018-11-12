@@ -18,12 +18,12 @@ class Adminuser extends Base_Controller
         $this->tb = 'adminuser';
 
         $this->statusArr = [
-            '0' => '正常',
-            '1' => '禁用',
+            '0' => lang( 'admin_user_normal' ),
+            '1' => lang( 'admin_user_disabled' ),
         ];
         $this->isSuper = [
-            '0' => '不是',
-            '1' => '是',
+            '0' => lang( 'admin_user_no' ),
+            '1' => lang( 'admin_user_yes' ),
         ];
         $this->tpl->assign( 'statusArr', $this->statusArr );
 
@@ -40,29 +40,31 @@ class Adminuser extends Base_Controller
     public function getInitData ( $variable = '', $data = [] )
     {
         $assign_var = $variable ? $variable : 'model';
-        $this->tpl->assign( $assign_var, [
+        $initData = [
             'is_super' => '0',
             'status'   => 0,
-        ] );
+        ];
+        $data = !empty( $data ) ? $data : $initData;
+        $this->tpl->assign( $assign_var, $data );
     }
 
     public function getData ()
     {
         $data = _post( 'data' );
-        $data['addtime'] = date('Y-m-d H:i:s');
+        $data['addtime'] = date( 'Y-m-d H:i:s' );
         if ( empty( $data['password'] ) ) {
             unset( $data['password'] );
         } else {
             $data['password'] = password_hash( $data['password'], 1 );
         }
-        unset($data['roles']);
+        unset( $data['roles'] );
         $returnData = [];
         $returnData['data'] = $data;
 
         return $returnData;
     }
 
-    public function saveCallback ( $admin_user_id )
+    public function saveCallback ( $admin_user_id, $data = [] )
     {
         $data = _post( 'data' );
         if ( !empty( $data['roles'] ) ) {

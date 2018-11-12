@@ -42,15 +42,5 @@
 
         </tbody>
     </table>
-    <?php if ( !empty( $GLOBALS['total_rows'] ) ): ?>
-    <div class="pagin">
-        <div class="message">共 <i class="blue"><?= $GLOBALS['total_rows'] ?? '' ?></i> 条记录，当前显示第&nbsp;<i
-                    class="blue"> <?= $GLOBALS['curpage'] ?? '' ?>&nbsp;</i>页
-        </div>
-
-        <ul class="paginList">
-            <?= $page_html ?? '' ?>
-        </ul>
-    </div>
-<?php endif;?>
+        <?php $this->load->view('Manager/list_page')?>
 </form>

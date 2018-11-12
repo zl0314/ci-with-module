@@ -15,25 +15,22 @@
             })
         });
     </script>
-
-
 </head>
-
-
 <body style="background:#edf6fa;">
-<div class="error" style="background:url(/static/admin/images/<?=$type?>.png) top left no-repeat;">
+<div class="error" style="background:url(/static/admin/images/<?= $type ?>.png) top left no-repeat;">
 
     <h2><?= $err ?></h2>
     <p>
-<!--        看到这个提示，就自认倒霉吧!-->
-        <?php if(!empty($url)):?>
-        <i id="sec_jump" style="font-weight: bold;"><?php echo $sec / 1000 ?></i> 秒后浏览器自动跳转...</i> </p>
-    <?php endif;?>
+        <!--        看到这个提示，就自认倒霉吧!-->
+        <?php if ( !empty( $url ) ): ?>
+        <i id="sec_jump"
+           style="font-weight: bold;"><?php echo $sec / 1000 ?></i> <?= lang( 'redirect_after_n_second' ) ?></i> </p>
+    <?php endif; ?>
 
-    <?php if (empty($url)): ?>
-        <div class="reindex"><a href="/">返回首页</a></div>
+    <?php if ( empty( $url ) ): ?>
+        <div class="reindex"><a href="/"><?= lang( 'back_to_index' ) ?></a></div>
     <?php else: ?>
-        <div class="reindex"><a href="<?php echo $url; ?>">点击进行跳转</a></div>
+        <div class="reindex"><a href="<?php echo $url; ?>"><?= lang( 'click_to_redirect' ) ?></a></div>
     <?php endif; ?>
 
 </div>
@@ -46,7 +43,7 @@
     <?php endif;?>
     function jump() {
         if (url) {
-           window.location.href = url;
+            window.location.href = url;
         }
     }
 </script>

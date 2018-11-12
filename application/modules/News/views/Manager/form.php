@@ -1,7 +1,7 @@
 <div id="usual1" class="usual">
     <div id="tab1" class="tabson">
         <?= form_open( ADMIN_MANAGER_PATH . '/' . $sitemethod . '?id=' . _get( 'id' ) ) ?>
-        <input type="hidden" name="data[<?=$this->primary?>]" value="<?=$model[$this->primary]?>">
+        <input type="hidden" name="data[<?=$this->primary?>]" value="<?=$model[$this->primary]??''?>">
         <ul class="forminfo">
             <li><label>标题<b>*</b></label>
 

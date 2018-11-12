@@ -77,8 +77,8 @@
 
     <div class="topright">
         <ul>
-            <li><a href="/" target="_blank">站点首页</a></li>
-            <li><a href="/<?= MANAGER_PATH ?>/Admin/logout" target="_parent">【退出系统】</a></li>
+            <li><a href="/" target="_blank"><?=lang('site_index')?></a></li>
+            <li><a href="/<?= MANAGER_PATH ?>/Admin/logout" target="_parent"><?=lang('logout_system')?></a></li>
         </ul>
 
         <div class="user">
@@ -153,7 +153,7 @@
         </div>
         <?php else: ?>
             <div class="formbody">
-                <div class="formtitle"><span>基本信息</span></div>
+                <div class="formtitle"><span><?=lang('base_info')?></span></div>
             </div>
         <?php endif; ?>
         <!--错误提示 模态框-->
@@ -164,7 +164,7 @@
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                     aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="exampleModalLabel">错误提示！</h4>
+                        <h4 class="modal-title" id="exampleModalLabel"><?=lang('error_tip')?></h4>
                     </div>
                     <div class="modal-body">
                         <div class="row">
@@ -178,7 +178,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal"><?=lang('model_close')?></button>
                     </div>
                 </div>
             </div>

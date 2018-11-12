@@ -25,7 +25,7 @@ class Privileges extends Base_Controller
         return $returnData;
     }
 
-    public function saveCallback ( $result )
+    public function saveCallback ( $result, $data = [] )
     {
         $data = _post( 'data' );
         if ( !empty( $data['init_curd'] ) ) {
@@ -87,7 +87,7 @@ class Privileges extends Base_Controller
                 $html .= '<td>' . $hasSubMenus . '</td>';
                 $html .= '<td>' . str_repeat( '&nbsp;&nbsp;', $level * 2 ) . '|--&nbsp;' . $r['name'] . '</td>';
                 $html .= '<td>' . $r['addtime'] . '</td>';
-                $html .= '<td><input type="text" name="listorder['.$r['id'].']" id="" class="listorder" value="'.intval($r['listorder']).'"></td>';
+                $html .= '<td><input type="text" name="listorder[' . $r['id'] . ']" id="" class="listorder" value="' . intval( $r['listorder'] ) . '"></td>';
                 $html .= '<td>
                                 <a class="tablelink"
                                    href="' . manager_url( $this->siteclass . '/edit?id=' . $r['id'] ) . '"><span > 编辑</span></a> | 

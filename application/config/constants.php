@@ -131,7 +131,7 @@ define( 'HTTP_REFERER', !empty( $_SERVER['HTTP_REFERER'] ) ? $_SERVER['HTTP_REFE
 /**
  * 语言开关， 是否多语言
  */
-define( 'LANG_ON', false );
+define( 'LANG_ON', true );
 
 
 /**

@@ -8,30 +8,30 @@ $validation_config = [];
 $validation_config['manager'] = [
     [
         'field'  => 'data[username]',
-        'label'  => '名称',
+        'label'  => lang( 'username' ),
         'rules'  => 'required|trim|newhtmlspecialchars|max_length[30]',
         'errors' => [
-            'required'   => '用户名不能为空',
-            'max_length' => '用户名长度不能超过30',
+            'required'   => lang( 'username' ) . lang( 'not_empty' ),
+            'max_length' => lang( 'username' ) . lang( 'less_than_30' ),
         ],
     ],
     [
         'field'  => 'data[nickname]',
-        'label'  => '昵称',
+        'label'  => lang( 'display_name' ),
         'rules'  => 'required|trim|newhtmlspecialchars|max_length[30]',
         'errors' => [
-            'required'   => '昵称不能为空',
-            'max_length' => '昵称长度不能超过30',
+            'required'   => lang( 'display_name' ) . lang( 'not_empty' ),
+            'max_length' => lang( 'display_name' ) . lang( 'less_than_30' ),
         ],
     ],
     [
         'field'  => 'data[password]',
-        'label'  => '密码',
+        'label'  => lang( 'password' ),
         'rules'  => 'required_unless[data.id,0]|trim|newhtmlspecialchars',
         //required_unless 只有ID为空时， 密码为必须填
         'errors' => [
-            'required_unless' => '密码不能为空',
-            'min_length'      => '密码长度不能小于6位',
+            'required_unless' => lang( 'password' ) . lang( 'not_empty' ),
+            'min_length'      => lang( 'password' ) . lang( 'less_than_30' ),
         ],
     ],
 ];

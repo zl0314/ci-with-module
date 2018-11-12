@@ -153,6 +153,12 @@ class Common_Controller extends CI_Controller
             if ( file_exists( $lang_path . $lang_file ) ) {
                 $this->lang->load( strtolower( $this->siteclass ) );
             }
+
+            //加载公共语言包
+            $lang = $this->_config['language'];
+            if ( file_exists( APPPATH . 'language/' . $lang . '/public_lang.php' ) ) {
+                $this->lang->load( 'public' );
+            }
         }
     }
 

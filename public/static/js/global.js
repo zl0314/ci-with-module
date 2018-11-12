@@ -12,7 +12,6 @@ function layer_tip_mini(msg, cb) {
     layer.open({
         content: msg
         , skin: 'msg'
-        , time: 2
     });
     if (typeof(cb) == 'function') {
         cb();

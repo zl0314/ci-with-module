@@ -3,7 +3,7 @@
 
         <div id="tab1" class="tabson">
             <?= form_open( ADMIN_MANAGER_PATH . '/' . $sitemethod . '?id=' . _get( 'id' ) ) ?>
-            <input type="hidden" name="data[<?=$this->primary?>]" value="<?=$model[$this->primary]?>">
+            <input type="hidden" name="data[<?=$this->primary?>]" value="<?=$model[$this->primary]??''?>">
             <ul class="forminfo">
                 <li><label>角色名称<b>*</b></label>
                     <input  name="data[name]" value="<?= $model['name'] ?? '' ?>" type="text" maxlength="30"
