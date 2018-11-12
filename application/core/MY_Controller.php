@@ -110,8 +110,22 @@ class Common_Controller extends CI_Controller
         $this->tpl->assign( $vars );
 
         /**
-         * 加载模型
+         * 加载模块对应的模型
          */
+        $this->isLoadModel();
+
+        /**
+         * 加载模块对应的语言包
+         */
+        $this->isLoadLang();
+    }
+
+    /**
+     * 加载模块对应的模型
+     */
+    private function isLoadModel ()
+    {
+
         $model_path = MODULE_PATH . $this->siteclass . DIRECTORY_SEPARATOR . 'models' . DIRECTORY_SEPARATOR;
         $model_name = $this->siteclass . '_model';
         $model_file = $model_name . '.php';
@@ -123,6 +137,23 @@ class Common_Controller extends CI_Controller
             $this->model->tb = $this->tb;
         }
 
+    }
+
+    /**
+     * 多语言开关， 是否开户多语言
+     */
+    private function isLoadLang ()
+    {
+        if ( LANG_ON ) {
+            $this->load->helper( 'language' );
+
+            $lang_path = MODULE_PATH . $this->siteclass . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . $this->_config['language'] . DIRECTORY_SEPARATOR;
+            $lang_name = strtolower( $this->siteclass ) . '_lang';
+            $lang_file = $lang_name . '.php';
+            if ( file_exists( $lang_path . $lang_file ) ) {
+                $this->lang->load( strtolower( $this->siteclass ) );
+            }
+        }
     }
 
     //解密前端加密的数据
@@ -328,7 +359,7 @@ class Base_Controller extends Module_Controller
             }
             $saveResult = $this->rs_model->save( $this->tb, $data['data'] );
             if ( $saveResult ) {
-                $this->saveCallback( $saveResult );
+                $this->saveCallback( $saveResult, $data['data'] );
                 $this->success_message( '保存成功', ADMIN_MANAGER_PATH );
             } else {
                 $this->message( '保存失败' );
@@ -375,12 +406,12 @@ class Base_Controller extends Module_Controller
                 $created_at = !empty( $data['data']['updated_at'] ) ? $data['data']['updated_at'] : date( 'Y-m-d H:i:s' );
                 $data['data']['updated_at'] = $created_at;
             }
-            if(empty($data[$this->primary])){
-                $data['data'][$this->primary] = _get($this->primary);
+            if ( empty( $data[ $this->primary ] ) ) {
+                $data['data'][ $this->primary ] = _get( $this->primary );
             }
             $saveResult = $this->rs_model->save( $this->tb, $data['data'] );
             if ( $saveResult ) {
-                $this->saveCallback( $saveResult );
+                $this->saveCallback( $saveResult, $data['data'] );
                 $this->success_message( '保存成功', ADMIN_MANAGER_PATH );
             } else {
                 $this->message( '保存失败' );
@@ -497,7 +528,7 @@ class Base_Controller extends Module_Controller
      *
      * @return mixed
      */
-    public function saveCallback ( $result )
+    public function saveCallback ( $result, $data = [] )
     {
 
     }

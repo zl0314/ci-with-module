@@ -4,10 +4,14 @@ class Setting extends Base_Controller
 {
     public function __construct ()
     {
-        parent::__construct();
         $this->tb = 'settings';
         $this->hasCreated = true;
 
+        parent::__construct();
+        //echo lang( 'test' );
+
+        $this->load->config( 'Setting/config' );
+        
         $typeArr = [
             '1' => '文本框',
             '2' => '图片',
