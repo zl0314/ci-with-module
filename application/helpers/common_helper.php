@@ -159,7 +159,7 @@ function P ( $arr )
  */
 function dd ( $var )
 {
-    var_dump( $var );
+    P( $var );
     exit;
 }
 
@@ -415,3 +415,175 @@ function arraySort ( $arr, $keys, $type = 'desc' )
     return $new_array;
 }
 
+
+/**
+ * +----------------------------------------------------------
+ * 字符串命名风格转换
+ * type
+ * =0 将Java风格转换为C的风格
+ * =1 将C风格转换为Java的风格
+ * +----------------------------------------------------------
+ * @access protected
+ * +----------------------------------------------------------
+ *
+ * @param string  $name 字符串
+ * @param integer $type 转换类型
+ *                      +----------------------------------------------------------
+ *
+ * @return string
++----------------------------------------------------------
+ */
+function ParseVarName ( $name, $type = 0 )
+{
+    if ( $type ) {
+        return ucfirst( preg_replace( "/_([a-zA-Z])/e", "strtoupper('\\1')", $name ) );
+    } else {
+        $name = preg_replace( "/[A-Z]/", "_\\0", $name );
+
+        return strtolower( trim( $name, "_" ) );
+    }
+}
+
+//判断是否为邮箱格式
+function isEmail ( $email )
+{
+    return strlen( $email ) > 8 && preg_match( "/^[-_+.[:alnum:]]+@((([[:alnum:]]|[[:alnum:]][[:alnum:]-]*[[:alnum:]])\.)+([a-z]{2,4})|(([0-9][0-9]?|[0-1][0-9][0-9]|[2][0-4][0-9]|[2][5][0-5])\.){3}([0-9][0-9]?|[0-1][0-9][0-9]|[2][0-4][0-9]|[2][5][0-5]))$/i", $email );
+}
+
+function isUserName ( $string )
+{
+    //只允许汉字，大小写字母，数字作为用户名
+    return preg_match( "/^[\x{4e00}-\x{9fa5}|a-z|A-Z|0-9]+$/u", $string );
+}
+
+//是否是正确的URL
+function isUrl ( $url )
+{
+    return preg_match( '/http:\/\/([a-zA-Z0-9-]*\.)+[a-zA-Z]{2,3}/', $url );
+}
+
+//是否是中文格式的姓名
+function isCnName ( $string )
+{
+    //只允许汉字，大小写字母，数字作为用户名
+    return preg_match( "/^[\x{4e00}-\x{9fa5}]+$/u", $string );
+}
+
+/**
+ * @desc 检查是否是合法的手机号格式，现阶段合法的格式：以13,15,18,17,14,19开头的11位数字
+ *
+ * @param $cellphone
+ */
+function isTelphone ( $cellphone )
+{
+    $pattern = "/^(13|15|18|17|14|16|19){1}\d{9}$/";
+
+    return strMatch( $pattern, $cellphone );
+}
+
+//检查是否是合法的固定电话
+function isCellphone ( $telphone )
+{
+    $pattern = "/^(0){1}[0-9]{2,3}\-\d{7,8}(\-\d{1,6})?$/";
+
+    return strMatch( $pattern, $telphone );
+}
+
+//是否身份证号
+function isIdcard ( $idcard )
+{
+    $cardnumPattern = '/^\d{6}((1[89])|(2\d))\d{2}((0\d)|(1[0-2]))((3[01])|([0-2]\d))\d{3}(\d|X)$/i';
+    $match = preg_match( $cardnumPattern, $idcard );
+
+    return $match;
+}
+
+//字符串匹配
+function strMatch ( $pattern, $str )
+{
+    if ( !empty( $str ) ) {
+        if ( preg_match( $pattern, $str ) ) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+//如果URL没有HTTP， 添加HTTP， 如果URL为空，则链接为javascript:;
+function getAddHttpUrl ( $url, $id = '' )
+{
+    if ( $url ) {
+        if ( strpos( $url, 'http' ) !== false ) {
+            return $url;
+        } else {
+            return 'http://' . $url;
+        }
+    } else {
+        return 'javascript:;';
+    }
+}
+
+
+/**
+ * 隐藏手机号中间部分
+ *
+ * @param $tel 手机号
+ *
+ * @return string
+ */
+function formatTel ( $tel )
+{
+    if ( $tel ) {
+        $telpre = substr( $tel, 0, 3 );
+        $telsuffix = substr( $tel, strlen( $tel ) - 4 );
+        $tel = $telpre . str_repeat( '*', strlen( $tel ) - 7 ) . $telsuffix;
+
+        return $tel;
+    }
+}
+
+
+/**
+ * 隐藏身份证中间部分
+ *
+ * @param $idcard 身份证号
+ *
+ * @return string
+ */
+function formatIdcard ( $idcard )
+{
+    if ( $idcard ) {
+        $pre = substr( $idcard, 0, 3 );
+        $suffix = substr( $idcard, strlen( $idcard ) - 4 );
+        $idcard = $pre . str_repeat( '*', strlen( $idcard ) - 7 ) . $suffix;
+
+        return $idcard;
+    }
+
+    return '';
+}
+
+/**
+ * Lang
+ * Fetches a language variable and optionally outputs a form label
+ *
+ * @param    string $line       The language line
+ * @param    string $for        The "for" value (id of the form element)
+ * @param    array  $attributes Any additional HTML attributes
+ *
+ * @return    string
+ */
+function lang ( $line, $data = [] )
+{
+    $value = $line;
+    $line = get_instance()->lang->line( $line );
+    if ( !empty( $data ) ) {
+
+        foreach ( $data as $k => $r ) {
+            $line = str_replace( '{'.$k.'}', $r, $line );
+        }
+    }
+
+    return $line ? $line : $value;
+}

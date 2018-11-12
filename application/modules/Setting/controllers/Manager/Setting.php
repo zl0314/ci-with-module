@@ -8,10 +8,11 @@ class Setting extends Base_Controller
         $this->hasCreated = true;
 
         parent::__construct();
+        //只有常量LANG_ON为TRUE 时， 才有效
         //echo lang( 'test' );
 
         $this->load->config( 'Setting/config' );
-        
+
         $typeArr = [
             '1' => '文本框',
             '2' => '图片',

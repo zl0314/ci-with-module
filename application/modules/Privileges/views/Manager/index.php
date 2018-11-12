@@ -32,15 +32,7 @@
         </tbody>
     </table>
 </form>
-<div class="pagin">
-    <div class="message">共 <i class="blue"><?= $GLOBALS['total_rows'] ?></i> 条记录，当前显示第&nbsp;<i
-                class="blue"> <?= $GLOBALS['curpage'] ?>&nbsp;</i>页
-    </div>
-
-    <ul class="paginList">
-        <?= $page_html ?>
-    </ul>
-</div>
+<?php $this->load->view('Manager/list_page')?>
 
 <script>
     function getSubmenus(id) {

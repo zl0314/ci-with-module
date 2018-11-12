@@ -3,13 +3,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>欢迎登录后台管理系统</title>
+    <title><?= lang( 'login_title' ) ?></title>
     <link href="<?= ADMIN_CSS_PATH ?>style.css" rel="stylesheet" type="text/css"/>
 
     <!--    <link href="--><? //=JS_PATH?><!--layer/layer.css" rel="stylesheet" type="text/css">-->
 
     <script language="JavaScript" src="<?= ADMIN_JS_PATH ?>jquery.js"></script>
-    <script language="JavaScript" src="<?= ADMIN_JS_PATH ?>global.js"></script>
+    <script language="JavaScript" src="/static/js/global.js"></script>
     <!--    <script src="--><? //= JS_PATH ?><!--cloud.js" type="text/javascript"></script>-->
 
     <script language="javascript">
@@ -24,18 +24,10 @@
 </head>
 
 <body style="background-color:#1c77ac; background-image:url(<?= ADMIN_IMG_PATH ?>light.png); background-repeat:no-repeat; background-position:center top; overflow:hidden;">
-<!---->
-<!---->
-<!--<div id="mainBody">-->
-<!--    <div id="cloud1" class="cloud"></div>-->
-<!--    <div id="cloud2" class="cloud"></div>-->
-<!--</div>-->
-
-
 <div class="logintop">
-    <span>欢迎登录后台管理界面平台</span>
+    <span><?= lang( 'login_welcome' ) ?></span>
     <ul>
-        <li><a href="/" target="_blank">回首页</a></li>
+        <li><a href="/" target="_blank"><?=lang('back_to_index')?></a></li>
     </ul>
 </div>
 
@@ -44,34 +36,29 @@
     <span class="systemlogo"></span>
 
 
-    <?= form_open('', ['onsubmit' => 'return checkForm()']) ?>
+    <?= form_open( '', [ 'onsubmit' => 'return checkForm()' ] ) ?>
     <div class="loginbox" style="top:25%;">
 
         <ul>
             <li><input type="text" autofocus class="loginuser" id="username" value=""/></li>
             <li><input type="password" class="loginpwd" id="password" value=""/></li>
             <li>
-                <input type='text' class="dfinput" maxlength="4" placeholder="验证码" name='captcha' id="captcha"
+                <input type='text' class="dfinput" maxlength="4" placeholder="<?= lang( 'login_captcha' ) ?>"
+                       name='captcha' id="captcha"
                        class="dl_wbk"
                        style="width:67.5%;float:left"/>
-                <img src="<?= site_url('Captcha') ?>" id="captcha"
+                <img src="<?= site_url( 'Captcha' ) ?>" id="captcha"
                      style="float:left;margin-left:2%;cursor: pointer;"
-                     onclick="this.src='<?= site_url('Captcha') ?>'"/>
+                     onclick="this.src='<?= site_url( 'Captcha' ) ?>'"/>
 
             </li>
             <input type="hidden" name="data" id="data">
             <div style="clear:both; height:8px;"></div>
-            <li><input name="" type="submit" class="loginbtn" value="登录"/>
-                <!--
-               <label>
-                    <input name="" type="checkbox" value="" checked="checked"/>记住密码
-               </label>
-               <label><a href="#">忘记密码？</a></label>
-               -->
+            <li><input name="" type="submit" class="loginbtn" value="<?=lang('login')?>"/>
             </li>
         </ul>
     </div>
-    <?=form_close()?>
+    <?= form_close() ?>
 </div>
 
 
@@ -93,18 +80,17 @@
         password = $('#password').val();
         captcha = $('#captcha').val();
         if (username == '') {
-            layer_tip_mini('用户名不能为空');
+            layer_tip_mini('<?=lang('user_name_not_empty')?>');
             return false;
         }
         if (password == '') {
-            layer_tip_mini('密码不能为空');
+            layer_tip_mini('<?=lang('pwd_not_empty')?>');
             return false;
         }
         if (captcha == '') {
-            layer_tip_mini('验证码不能为空');
+            layer_tip_mini('<?=lang('captcha_not_empty')?>');
             return false;
         }
-
         var rsa = new RSAKey();
         rsa.setPublic(public_key, public_length);
         var res = rsa.encrypt('username=' + $('#username').val() + '&password=' + $('#password').val());
@@ -116,6 +102,6 @@
     }
 </script>
 
-<div class="loginbm">&copyright 2018 Aaron Zhang</div>
+<div class="loginbm"><?=lang('copyright')?></div>
 </body>
 </html>

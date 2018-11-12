@@ -1,7 +1,7 @@
 <?= form_open( ADMIN_MANAGER_PATH . '/' . $sitemethod . '?id=' . _get( 'id' ) ) ?>
-    <input type="hidden" name="data[<?=$this->primary?>]" value="<?=$model[$this->primary]?>">
+    <input type="hidden" name="data[<?=$this->primary?>]" value="<?=$model[$this->primary]??''?>">
     <ul class="forminfo">
-        <li><label>用户名</label>
+        <li><label><?= lang( 'username' ) ?></label>
             <?php if ( empty( $model['username'] ) ): ?>
                 <input type="text" maxlength="30" name="data[username]"
                        class="dfinput "/>
@@ -10,15 +10,15 @@
                        class="dfinput input-readonly"/>
             <?php endif; ?>
         </li>
-        <li><label>密码</label>
+        <li><label><?= lang( 'password' ) ?></label>
             <input name="data[password]" minlength="6" type="text" maxlength="30"
-                   class="dfinput"/> 不修改请留空
+                   class="dfinput"/> <?= lang( 'password_tip' ) ?>
         </li>
-        <li><label>显示名</label>
+        <li><label><?= lang( 'display_name' ) ?></label>
             <input value="<?= $model['nickname'] ?? '' ?>" name="data[nickname]" type="text" maxlength="30"
                    class="dfinput"/>
         </li>
-        <li><label>状态</label>
+        <li><label><?= lang( 'status' ) ?></label>
             <div class="form-check">
                 <?php foreach ( $this->statusArr as $k => $r ): ?>
                     <label class="form-check-label">
@@ -29,7 +29,7 @@
                 <?php endforeach; ?>
             </div>
         </li>
-        <li><label>是否超管</label>
+        <li><label><?= lang( 'is_super' ) ?></label>
             <div class="form-check">
                 <?php foreach ( $this->isSuper as $k => $r ): ?>
                     <label class="form-check-label">
@@ -42,7 +42,7 @@
         </li>
         <?php if ( empty( $model['is_super'] ) ): ?>
             <hr style="clear: both;">
-            <li><label>选择角色</label>
+            <li><label><?= lang( 'choose_role' ) ?></label>
                 <?php foreach ( $this->rs_model->getList( 'roles', '*', [] ) as $r ): ?>
                     <div class="form-check">
                         <label class="form-check-label">
@@ -56,7 +56,7 @@
             </li>
         <?php endif; ?>
 
-        <li><label>&nbsp;</label><input type="submit" class="btn btn-primary" value="保 存"/></li>
+        <li><label>&nbsp;</label><input type="submit" class="btn btn-primary" value="<?= lang( 'save' ) ?>"/></li>
 
     </ul>
 <?= form_close() ?>
