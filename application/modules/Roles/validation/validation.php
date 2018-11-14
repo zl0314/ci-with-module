@@ -17,3 +17,9 @@ $validation_config['manager'] = [
         ],
     ],
 ];
+
+$validation_config['front'] = [
+    [
+
+    ],
+];

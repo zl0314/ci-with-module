@@ -1,3 +1,4 @@
+<script src="/static/js/wdate/WdatePicker.js"></script>
 <div id="usual1" class="usual">
     <div id="tab1" class="tabson">
         <?= form_open( ADMIN_MANAGER_PATH . '/' . $sitemethod . '?id=' . _get( 'id' ) ) ?>
@@ -24,6 +25,10 @@
             </li>
             <li><label>页面描述<b></b></label>
                 <textarea name="data[description]" id="" class="textinput"><?= $model['description'] ?? '' ?></textarea>
+            </li>
+
+            <li><label>添加时间<b></b></label>
+                <input type="text" name="data[created_at]" value="<?= $model['keyword'] ?? date('Y-m-d H:i:s') ?>" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" readonly class="dfinput Wdate" style="height:35px;"  id="">
             </li>
 
             <li><label>内容<b></b></label>

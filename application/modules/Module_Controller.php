@@ -27,7 +27,7 @@ class Module_Controller extends Common_Controller
     {
         //show_404();
         //echo '我在方法 ' . $this->sitemethod . '不存在的时候执行^^';
-        echo 'Welcome';
+        echo 'Welcome _remap';
     }
 
 

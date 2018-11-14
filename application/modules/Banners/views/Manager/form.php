@@ -24,7 +24,7 @@
             </li>
             <li><label>排序<b></b></label>
                 <input name="data[listorder]" value="<?= $model['listorder'] ?? '0' ?>" type="text"
-                       class="dfinput"/>
+                       class="dfinput"/> <i>排序越大越靠前</i>
             </li>
 
 

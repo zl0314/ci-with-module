@@ -240,6 +240,7 @@ class Base_Controller extends Module_Controller
         //当前菜单的信息--到siteclass
         $this->data['curMenu'] = $this->menu->getMenuInfo( $this->siteclass, 'index' );
 
+        $this->load->library( 'Systemlog' );
     }
 
     /**
@@ -314,6 +315,14 @@ class Base_Controller extends Module_Controller
     }
 
     /**
+     * 查询的字段
+     * @return string
+     */
+    public function getField (  )
+    {
+        return '*';
+    }
+    /**
      * 创建时，默认的数据
      *
      * @param string $variable
@@ -328,8 +337,9 @@ class Base_Controller extends Module_Controller
     public function index ()
     {
         $where = $this->getWhere();
+        $field = $this->getField();
         //获取管理员总数
-        $data = get_page( $this->tb, $where, $this->pageNum, '*', $this->listorder );
+        $data = get_page( $this->tb, $where, $this->pageNum, $field, $this->listorder );
 
         $vars = $this->getVars();
         $this->tpl->assign( $vars );
@@ -365,18 +375,31 @@ class Base_Controller extends Module_Controller
             }
             $saveResult = $this->rs_model->save( $this->tb, $data['data'] );
             if ( $saveResult ) {
+                $success = true;
+                $msg = '添加成功， ID：' . $saveResult;
+                $this->systemlog->saveLog( $msg, $success );
+
                 $this->saveCallback( $saveResult, $data['data'] );
                 $this->success_message( '保存成功', ADMIN_MANAGER_PATH );
             } else {
+                $success = false;
+                $msg = '表单验证通过，添加失败';
+                $this->systemlog->saveLog( $msg, $success );
+
                 $this->message( '保存失败' );
             }
         } else {
+            $success = false;
+            $msg = '表单验证未通过';
+            $this->systemlog->saveLog( $msg, $success );
+
             //验证不通过，跳转， 并把错误信息和提交时的数据放入session_flash中，
             $errors = $this->form_validation->error_string();
             $this->session->set_flashdata( 'errors', $errors );
             $this->session->set_flashdata( 'flash_post', $data['data'] );
             redirect( ADMIN_MANAGER_PATH . '/create' );
         }
+
 
     }
 
@@ -417,9 +440,12 @@ class Base_Controller extends Module_Controller
             }
             $saveResult = $this->rs_model->save( $this->tb, $data['data'] );
             if ( $saveResult ) {
+                $this->systemlog->saveLog( '修改成功，修改的ID：' . $saveResult );
+
                 $this->saveCallback( $saveResult, $data['data'] );
                 $this->success_message( '保存成功', ADMIN_MANAGER_PATH );
             } else {
+                $this->systemlog->saveLog( '修改失败，修改的ID：' . $saveResult );
                 $this->message( '保存失败' );
             }
         } else {
@@ -427,6 +453,8 @@ class Base_Controller extends Module_Controller
             $errors = $this->form_validation->error_string();
             $this->session->set_flashdata( 'errors', $errors );
             $this->session->set_flashdata( 'flash_post', $data['data'] );
+            $this->systemlog->saveLog( '提交修改时， 表单验证失败', false );
+
             redirect( ADMIN_MANAGER_PATH . '/edit?id=' . $id );
         }
     }
@@ -447,6 +475,7 @@ class Base_Controller extends Module_Controller
             if ( $id ) {
                 $model = $this->rs_model->getRow( $this->tb, '*', [ $this->primary => $id ] );
                 if ( empty( $model[ $this->primary ] ) ) {
+                    $this->systemlog->saveLog( '修改时， 查找的记录不存在， ID：' . $id, false );
                     $this->message( '信息不存在 ' );
                 } else {
                     if ( !empty( $this->model ) ) {
@@ -491,7 +520,7 @@ class Base_Controller extends Module_Controller
                     $where = [ $this->primary => $id ];
                     $res = $this->rs_model->delete( $this->tb, $where );
                 }
-
+                $this->systemlog->saveLog( '批量删除成功，ID：' . $data['id'] );
                 $this->success_message( '删除成功', HTTP_REFERER );
             }
         }
@@ -512,6 +541,9 @@ class Base_Controller extends Module_Controller
                 $where = [ $this->primary => $k ];
                 $this->rs_model->update( $this->tb, $where, $data );
             }
+
+            $this->systemlog->saveLog( '批量排序成功' );
+
             $this->success_message( '排序成功', HTTP_REFERER );
         } else {
             $this->success_message( '排序成功', HTTP_REFERER );

@@ -16,7 +16,7 @@ class News extends MY_Controller
         parent::__construct();
     }
 
-    public function index ()
+    public function index ($c = '')
     {
         $this->load->library( 'Test' );
         $this->test->ec();
@@ -28,5 +28,6 @@ class News extends MY_Controller
         $this->getRow();
         P( $this->model->attributes );
     }
+
 
 }
