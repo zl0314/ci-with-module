@@ -31,8 +31,14 @@
                 权限&nbsp;&nbsp;
                 (<a href="javascript:;" onclick="checkALLPrivileges2('<?php echo $mr['id'] ?>','on');">全选</a> / <a
                         href="javascript:;" onclick="checkALLPrivileges2('<?php echo $mr['id'] ?>','off');">反选</a>)
+                <?php
+                $checkstr = '';
+                if ( in_array( $mr['id'], $roles_privileges ) ) {
+                    $checkstr = ' checked';
+                }
+                ?>
                 <input type="checkbox" style="display: none" id="parent_input_<?= $mr['id'] ?>"
-                       name="privileges[<?php echo $mr['id'] ?>][]" value="<?= $mr['id'] ?>">
+                       name="privileges[<?php echo $mr['id'] ?>][]" <?=$checkstr?> value="<?= $mr['id'] ?>">
 
             </div>
 

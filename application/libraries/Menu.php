@@ -188,14 +188,15 @@ class Menu extends BaseLib
         return $menu['name'];
     }
 
+
     /**
      * 当前控制器菜单信息
      *
      * @param $siteclass
      */
-    public function getMenuInfo ( $siteclass )
+    public function getMenuInfo ( $siteclass, $sitemethod = 'index' )
     {
-        $menu = $this->CI->rs_model->getRow( 'privileges', '*', [ 'controller' => $siteclass, 'method' => 'index' ] );
+        $menu = $this->CI->rs_model->getRow( 'privileges', '*', [ 'controller' => $siteclass, 'method' => $sitemethod ] );
 
         return $menu;
     }
