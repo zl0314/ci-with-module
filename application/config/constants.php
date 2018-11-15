@@ -137,8 +137,9 @@ define( 'LANG_ON', true );
 /**
  * 微信 公众号
  */
-define( 'TK', '' ); //TOKEN
-define( 'EK', '' ); //消息加密密钥
+define( 'TK', '3aa67e49024bbfd96e3dedc2353d6f95' ); //TOKEN
+define( 'EK', 'aBw0SM3XrDApNCIemcuJ9kY5G2C6T96TnQm5PMxT734' ); //消息加密密钥
 
-define( 'APPID', 'wxa19f6b4b8c630d6f' );
-define( 'APPSEC', '2fac5c52c50bb4afb61fc33eeeffd036' );
+define( 'APPID', 'wx6901202603d4cc5c' ); //nice5good=wxce4dd8cf4e8aa782 测试账号=wx6901202603d4cc5c
+define( 'APPSEC', '385bc76899052c25b37d9d6a8baadec9' ); //nice5good = f3291de69dffe9391292cfdb8224fe9d 测试=385bc76899052c25b37d9d6a8baadec9
+define( 'WECHAT_RESPONSE_TYPE', 2 ); //1 安全加密 2明文

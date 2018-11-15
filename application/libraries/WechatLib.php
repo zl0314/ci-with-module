@@ -31,8 +31,13 @@ class WechatLib extends BaseLib
     {
         parent::__construct();
 
-        return static::init();
+        //return static::init();
     }
+
+
+    //public function init ()
+    //{
+    //}
 
     /**
      * 设置APPID
@@ -54,9 +59,6 @@ class WechatLib extends BaseLib
         $this->appsec = $appsec;
     }
 
-    public function init ()
-    {
-    }
 
     /**
      * 获取access_token
@@ -77,7 +79,7 @@ class WechatLib extends BaseLib
     }
 
     /**
-     * 去微信获取Token
+     * CGI以接口方式， 去微信获取Token
      * @return mixed
      */
     protected function generateToken ( $fetchResult = null )
@@ -102,33 +104,6 @@ class WechatLib extends BaseLib
 
         return $result->access_token;
     }
-
-    /**
-     * 返回Json数据
-     *
-     * @param     $data  数据
-     * @param int $code  CODE
-     *
-     * @return mixed
-     */
-    public function json ( $data, $code = 0 )
-    {
-        $returnData = is_object( $data ) ? (array) $data : ( is_array( $data ) ? $data : [] );
-        $returnData['message'] = !empty( $data['errmsg'] ) ? $data['errmsg'] : '';
-
-        if ( is_string( $data ) ) {
-            $returnData['message'] = $data;
-        }
-        $returnData['code'] = $code ? $code : ( !empty( $data['errcode'] ) ? $data['errcode'] : 0 );
-
-        if ( isAjax() ) {
-            echo json_encode( $returnData );
-        } else {
-            exit( $data );
-        }
-        exit;
-    }
-
     /**
      * 获取网页版Access_token
      *
@@ -157,7 +132,31 @@ class WechatLib extends BaseLib
         }
     }
 
+    /**
+     * 返回Json数据
+     *
+     * @param     $data  数据
+     * @param int $code  CODE
+     *
+     * @return mixed
+     */
+    public function json ( $data, $code = 0 )
+    {
+        $returnData = is_object( $data ) ? (array) $data : ( is_array( $data ) ? $data : [] );
+        $returnData['message'] = !empty( $data['errmsg'] ) ? $data['errmsg'] : '';
 
+        if ( is_string( $data ) ) {
+            $returnData['message'] = $data;
+        }
+        $returnData['code'] = $code ? $code : ( !empty( $data['errcode'] ) ? $data['errcode'] : 0 );
+
+        if ( isAjax() ) {
+            echo json_encode( $returnData );
+        } else {
+            exit( $data );
+        }
+        exit;
+    }
     /**
      * 发送HTTP请求
      *
