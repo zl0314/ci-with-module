@@ -13,10 +13,10 @@ class GetWechatUserinfo extends WechatLib
         parent::__construct();
     }
 
-    public function init ()
-    {
-
-    }
+    //public function init ()
+    //{
+    //
+    //}
 
     /**
      * 网页版获取用户信息
@@ -35,13 +35,41 @@ class GetWechatUserinfo extends WechatLib
             $tokenResult = $this->getWechatSnsToken( urlencode( $redirect ) );
             $tokenUrl = 'https://api.weixin.qq.com/sns/userinfo?access_token=' . $tokenResult->access_token . '&openid=' . $tokenResult->openid . '&lang=zh_CN';
             $userResult = $this->curlHttPost( $tokenUrl );
+
             if ( !empty( $userResult->openid ) ) {
                 $this->CI->session->set_userdata( 'sns_wechat_userinfo', $userResult );
 
                 return $userResult;
             }
         }
+    }
 
+    /**
+     * 以CGI接口的形式，直接获取用户信息
+     *
+     * @param $openid  用户唯一Openid
+     *
+     * @return mixed
+     */
+    public function getCgiUserInfo ( $openid )
+    {
+        Mylog::error( 'getCgiuserInfo openid = ' . $openid );
+
+        $userInfo = $this->CI->session->userdata( 'cgi_wechat_userinfo' );
+        if ( !empty( $userInfo->openid ) ) {
+            return $userInfo;
+        } else {
+            $token = $this->getToken();
+            $url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=$token&openid=$openid&lang=zh_CN";
+            $result = $this->curlHttPost( $url );
+            if ( !empty( $result->openid ) ) {
+                $this->CI->session->set_userdata( 'cgi_wechat_userinfo', $result );
+
+                return $result;
+            }
+        }
+
+        return $result;
     }
 
 
