@@ -22,4 +22,31 @@ class News extends Base_Controller
         parent::__construct();
     }
 
+    /**
+     * 保存成功后， 保存关键字
+     *
+     * @param       $id
+     * @param array $data
+     *
+     * @return mixed|void
+     */
+    public function saveCallback ( $id, $data = [] )
+    {
+        if ( !empty( $data['keyword'] ) ) {
+            $this->model->saveKeyword( $id, $this->tb, $data['keyword'] );
+        }
+    }
+
+    /**
+     * 删除后， 也删除关键字
+     *
+     * @param $ids
+     *
+     * @return mixed|void
+     */
+    public function deleteCallback ( $ids )
+    {
+        $this->model->deleteKeyword( $ids, 'news' );
+    }
+
 }

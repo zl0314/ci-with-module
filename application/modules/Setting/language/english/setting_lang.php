@@ -1,2 +1,2 @@
 <?php
-$lang['test'] = '测试';
+$lang['NewsLib'] = '测试';

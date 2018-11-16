@@ -5,5 +5,5 @@
  * FileName : setting.php
  */
 $config['setting'] = [
-    'test' => '123',
+    'NewsLib' => '123',
 ];

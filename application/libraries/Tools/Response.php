@@ -30,6 +30,44 @@ class Response extends WechatLib
     }
 
     /**
+     * 向微信客户端输出消息
+     *
+     * @param $respondMsg 返回的消息实体
+     */
+    public function echoMsgToWechat ( $respondMsg )
+    {
+        $time = time();
+        $encryptMsg = '';
+        if ( WECHAT_RESPONSE_TYPE == 1 ) {
+            $this->CI->wxcrypt->encryptMsg( $respondMsg, $time, $time, $encryptMsg );
+            $msg = $encryptMsg;
+        } else {
+            $msg = $respondMsg;
+        }
+        echo $msg;
+        Mylog::error( 'response text ' . $msg . var_export( $this->postObj, true ) );
+        exit;
+    }
+
+    /**
+     * 获取响应模板
+     *
+     * @param string $fetch [text | news | news_item]
+     *
+     * @return mixed
+     */
+    public function getResponseMsgTmp ( $fetch = 'text' )
+    {
+        $arr = [
+            'text'      => '<xml><ToUserName><![CDATA[%s]]></ToUserName><FromUserName><![CDATA[%s]]></FromUserName><CreateTime>%s</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[%s]]></Content></xml>',
+            'NewsLib'   => '<xml><ToUserName><![CDATA[%s]]></ToUserName><FromUserName><![CDATA[%s]]></FromUserName><CreateTime>%s</CreateTime><MsgType><![CDATA[news]]></MsgType><ArticleCount>%s</ArticleCount><Articles>%s</Articles></xml>',
+            'news_item' => '<item><Title><![CDATA[%s]]></Title> <Description><![CDATA[%s]]></Description><PicUrl><![CDATA[%s]]></PicUrl><Url><![CDATA[%s]]></Url></item>',
+        ];
+
+        return $arr[ $fetch ];
+    }
+
+    /**
      * 获取用户信息
      *
      * @param $openid
@@ -54,6 +92,8 @@ class Response extends WechatLib
      */
     public function prepareSendMsg ( $postStr )
     {
+        Mylog::error( 'poststr ' . $postStr );
+
         $postObj = $this->parseMsg( $postStr );
         if ( !empty( $postObj ) ) {
             $msgType = ucfirst( $postObj->MsgType );

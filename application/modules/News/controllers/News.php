@@ -16,17 +16,16 @@ class News extends MY_Controller
         parent::__construct();
     }
 
-    public function index ($c = '')
+    public function index ( $c = '' )
     {
-        $this->load->library( 'Test' );
-        $this->test->ec();
+        $this->lib->ec();
         $this->tpl->display();
     }
 
-    public function show ( $type = '' )
+    public function show ( $id = '' )
     {
-        $this->getRow();
-        P( $this->model->attributes );
+        $this->getRow( $id );
+        echo $this->model->getContentAttribute();
     }
 
 

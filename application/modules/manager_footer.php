@@ -43,7 +43,7 @@
     function doDel(id, method, cb) {
         ajax('<?=manager_url( $siteclass )?>/' + method, 'id=' + id, function (res) {
             icon_type = 1;
-            if(res.success != 1){
+            if (res.success != 1) {
                 icon_type = 2;
             }
             layer.msg(res.message, {icon: icon_type});
@@ -104,11 +104,11 @@
         }
 
         new AjaxUpload($("#" + id + "_button"), {
-            action: "<?php echo site_url( '/Publicpicprocess/index' );?>?type=" + upload,
+            action: "<?php echo site_url( '/UploadPic/index' );?>?path=" + upload,
             type: "POST",
             data: {width: width, height: height},
             autoSubmit: true,
-            responseType: 'html',//"json",
+            responseType: 'json',//"json",
             name: upload,
             onChange: function (file, ext) {
                 var o = this._input;
@@ -130,14 +130,14 @@
             },
             onComplete: function (file, resp) {
                 if (typeof(resp['error']) != 'undefined') {
-                    console.log(resp);
+                    // console.log(resp);
                 } else {
-                    console.log(resp);
-                    if (resp.indexOf('uploads') < 0) {
-                        alert(resp);
+                    // console.log(resp);
+                    if (resp.data.state==0) {
+                        alert_mini(resp.data.errmsg);
                     } else {
-                        $('#' + id).val(resp);
-                        $('#preview_' + id).attr('src', resp);
+                        $('#' + id).val(resp.data.path);
+                        $('#preview_' + id).attr('src', resp.data.path);
                     }
                     if (typeof(upload_callback) == 'function') {
                         upload_callback(resp);

@@ -5,11 +5,11 @@
  * FileName : Test.php
  */
 
-class Test extends BaseLib
+class News_lib extends BaseLib
 {
     public function __construct ()
     {
-        echo 'this is test __construct method';
+        parent::__construct();
     }
 
     public function ec ()
