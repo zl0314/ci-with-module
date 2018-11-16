@@ -27,4 +27,5 @@ class Wxlogin extends MY_Controller
         $this->tpl->assign( $vars );
         $this->tpl->display();
     }
+
 }

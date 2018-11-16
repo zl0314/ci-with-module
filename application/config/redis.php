@@ -1,9 +1,12 @@
 <?php
 /**
- * Redis 配置
+ * Created by Aaron Zhang.
+ * Date: 2018/9/11 14:52
+ * FileName : redis.php
  */
-$config['socket_type'] = 'tcp'; //`tcp` or `unix`
-$config['host'] = '127.0.0.1';
-$config['password'] = NULL;
+
+$config['socket_type'] = 'tcp';
+$config['host'] = 'localhost';
+$config['password'] = 'myredis';
 $config['port'] = 6379;
 $config['timeout'] = 0;

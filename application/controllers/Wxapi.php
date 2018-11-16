@@ -12,7 +12,7 @@ class Wxapi extends MY_Controller
     public function index ()
     {
         $postStr = file_get_contents( 'php://input' );
-
+        
         if ( !empty( $postStr ) ) {
             $this->load->library( 'Tools/Response' );
             $this->response->prepareSendMsg( $postStr );
@@ -21,15 +21,6 @@ class Wxapi extends MY_Controller
                 $this->checkSignature();
             }
         }
-    }
-
-    public function userinfo ()
-    {
-        $this->load->library( 'Tools/GetWechatUserinfo', null, 'userobj' );
-        $this->userobj->setAppid( APPID );
-        $this->userobj->setAppSec( APPSEC );
-        $result = $this->userobj->getCgiUserInfo( 'oy8WduEeEMOkaV6I-dzLF222DtqY' );
-        P( $result );
     }
 
     private function checkSignature ()
