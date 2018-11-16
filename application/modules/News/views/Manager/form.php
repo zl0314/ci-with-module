@@ -16,7 +16,7 @@
                        onclick="ajaxUpload('thumb','<?= $siteclass ?>')"
                        value="上传图片">
                 <br>
-                <img alt="" class="imglist " id="preview_image" style="max-width:100px;min-width:100px;margin-top:10px;"
+                <img alt="" class="imglist " id="preview_thumb" style="max-width:100px;min-width:100px;margin-top:10px;"
                      src="<?= $model['thumb'] ?? '' ?>"></li>
             </li>
             <li><label>页面关键字<b></b></label>
@@ -28,7 +28,7 @@
             </li>
 
             <li><label>添加时间<b></b></label>
-                <input type="text" name="data[created_at]" value="<?= $model['keyword'] ?? date('Y-m-d H:i:s') ?>" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" readonly class="dfinput Wdate" style="height:35px;"  id="">
+                <input type="text" name="data[created_at]" value="<?= $model['created_at'] ?? date('Y-m-d H:i:s') ?>" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" readonly class="dfinput Wdate" style="height:35px;"  id="">
             </li>
 
             <li><label>内容<b></b></label>

@@ -31,7 +31,7 @@ class Systemlog extends BaseLib
         $data = [
             'siteclass'  => $siteClass,
             'sitemethod' => $siteMethod,
-            'addtime'    => date( 'Y-m-d H:i:s' ),
+            'created_at'    => date( 'Y-m-d H:i:s' ),
             'admin_id'   => $adminId,
             'msg'        => $msg,
             'pos'        => $pos,

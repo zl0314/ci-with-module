@@ -118,6 +118,10 @@ class Common_Controller extends CI_Controller
          * 加载模块对应的语言包
          */
         $this->isLoadLang();
+        /**
+         * 自动加载类
+         */
+        $this->isLoadLibrary();
     }
 
     /**
@@ -137,6 +141,22 @@ class Common_Controller extends CI_Controller
             $this->model->tb = $this->tb;
         }
 
+    }
+
+    /**
+     * 加载模块对应的类
+     */
+    private function isLoadLibrary ()
+    {
+        $model_path = MODULE_PATH . $this->siteclass . DIRECTORY_SEPARATOR . 'libraries' . DIRECTORY_SEPARATOR;
+        $model_name = $this->siteclass . '_lib';
+        $model_file = $model_name . '.php';
+        if ( file_exists( $model_path . $model_file ) ) {
+            $this->load->library( $model_name, null, 'lib' );
+
+            //赋予模型属性
+            $this->lib->tb = $this->tb;
+        }
     }
 
     /**
@@ -318,10 +338,11 @@ class Base_Controller extends Module_Controller
      * 查询的字段
      * @return string
      */
-    public function getField (  )
+    public function getField ()
     {
         return '*';
     }
+
     /**
      * 创建时，默认的数据
      *
@@ -521,6 +542,8 @@ class Base_Controller extends Module_Controller
                     $res = $this->rs_model->delete( $this->tb, $where );
                 }
                 $this->systemlog->saveLog( '批量删除成功，ID：' . $data['id'] );
+                $this->deleteCallback( $ids );
+
                 $this->success_message( '删除成功', HTTP_REFERER );
             }
         }
@@ -567,6 +590,18 @@ class Base_Controller extends Module_Controller
      * @return mixed
      */
     public function saveCallback ( $result, $data = [] )
+    {
+
+    }
+
+    /**
+     * 删除成功之后调用
+     *
+     * @param $result
+     *
+     * @return mixed
+     */
+    public function deleteCallback ( $result )
     {
 
     }
@@ -626,10 +661,10 @@ class MY_Controller extends Module_Controller
      *
      * @param  $id 主键ID
      */
-    public function getRow ( $where = [] )
+    public function getRow ( $id = '' )
     {
         $model = [];
-        $id = intval( _get( $this->primary ) );
+        $id = !empty( _get( $this->primary ) ) ? intval( _get( $this->primary ) ) : $id;
         $where[ $this->primary ] = $id;
 
         if ( $id ) {

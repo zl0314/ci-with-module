@@ -43,4 +43,45 @@ class MY_Model extends CI_Model
     {
         return $this->$name;
     }
+
+    /**
+     * 保存关键字
+     *
+     * @param       $id
+     * @param       $source_t 目标表
+     * @param       $keyword  关键字
+     *
+     * @return mixed|void
+     */
+    public function saveKeyword ( $id, $source_t, $keyword )
+    {
+        if ( !empty( $id ) ) {
+            $row = $this->CI->rs_model->getOne( 'keyword', 'id', [ 'target_id' => $id, 'source' => $source_t ] );
+            if ( empty( $row ) ) {
+                $this->CI->rs_model->save( 'keyword', [
+                    'target_id'  => $id,
+                    'keyword'    => $keyword,
+                    'source'     => ucfirst( $source_t ),
+                    'created_at' => date( 'Y-m-d H:i:s' ),
+                ] );
+            }
+        }
+    }
+
+    /**
+     * 删除关键字
+     *
+     * @param       $ids
+     * @param       $source_t 目标表
+     *
+     * @return mixed|void
+     */
+    public function deleteKeyword ( $ids, $source_t )
+    {
+        if ( !empty( $ids ) ) {
+            foreach ( $ids as $k => $r ) {
+                $this->CI->rs_model->delete( 'keyword', [ 'target_id' => $r, 'source' => $source_t ] );
+            }
+        }
+    }
 }

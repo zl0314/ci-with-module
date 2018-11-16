@@ -16,7 +16,7 @@
             <?php foreach ( $list as $k => $r ): ?>
                 <tr id="item_<?= $r['id'] ?>">
                     <td><input name="data[id]" type="checkbox" value="<?= $r['id'] ?>"/></td>
-                    <td><?= $r['title'] ?></td>
+                    <td><?php if(!empty($r['thumb'])):?><img src="/static/admin/images/d05.png"> <?php endif;?><?= $r['title'] ?></td>
                     <td><?= $r['keyword'] ?></td>
                     <td><?= $r['description'] ?></td>
                     <td><?= $r['created_at'] ?></td>
