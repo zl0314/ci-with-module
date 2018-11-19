@@ -1,3 +1,10 @@
+<div id="search2">
+    <form action="">
+        关键字：<input type="text" name="keyword" value="<?=_get('keyword')?>" id="" class="dfinput">
+        <input type="submit" value="搜 索" class="btn" style="width:70px;">
+
+    </form>
+</div>
 <table class="tablelist">
     <thead>
     <tr>

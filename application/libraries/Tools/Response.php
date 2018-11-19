@@ -31,6 +31,7 @@ class Response extends WechatLib
     public function __construct ()
     {
         parent::__construct();
+
         $this->CI->load->library( 'Wechat/wxBizMsgCrypt', null, 'wxcrypt' );
         $this->CI->load->driver( 'cache', [ 'adapter' => 'redis', 'backup' => 'file' ] );
     }
@@ -46,11 +47,13 @@ class Response extends WechatLib
     public function getResponseMsgTmp ( $fetch = 'text' )
     {
         $arr = [
-            'text'      => '<xml><ToUserName><![CDATA[%s]]></ToUserName><FromUserName><![CDATA[%s]]></FromUserName><CreateTime>%s</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[%s]]></Content></xml>',
-            'news'      => '<xml><ToUserName><![CDATA[%s]]></ToUserName><FromUserName><![CDATA[%s]]></FromUserName><CreateTime>%s</CreateTime><MsgType><![CDATA[news]]></MsgType><ArticleCount>%s</ArticleCount><Articles>%s</Articles></xml>',
             'news_item' => '<item><Title><![CDATA[%s]]></Title> <Description><![CDATA[%s]]></Description><PicUrl><![CDATA[%s]]></PicUrl><Url><![CDATA[%s]]></Url></item>',
-            'image'     => '<xml><ToUserName><![CDATA[%s]]></ToUserName><FromUserName><![CDATA[%s]]></FromUserName><CreateTime>%s</CreateTime><MsgType><![CDATA[image]]></MsgType><Image><MediaId><![CDATA[%s]]></MediaId></Image></xml>',
-            'voice'     => '<xml><ToUserName><![CDATA[%s]]></ToUserName><FromUserName><![CDATA[%s]]></FromUserName><CreateTime>%s</CreateTime><MsgType><![CDATA[voice]]></MsgType><Voice><MediaId><![CDATA[%s]]></MediaId></Voice></xml>',
+
+            'text'  => '<xml><ToUserName><![CDATA[%s]]></ToUserName><FromUserName><![CDATA[%s]]></FromUserName><CreateTime>%s</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[%s]]></Content></xml>',
+            'news'  => '<xml><ToUserName><![CDATA[%s]]></ToUserName><FromUserName><![CDATA[%s]]></FromUserName><CreateTime>%s</CreateTime><MsgType><![CDATA[news]]></MsgType><ArticleCount>%s</ArticleCount><Articles>%s</Articles></xml>',
+            'image' => '<xml><ToUserName><![CDATA[%s]]></ToUserName><FromUserName><![CDATA[%s]]></FromUserName><CreateTime>%s</CreateTime><MsgType><![CDATA[image]]></MsgType><Image><MediaId><![CDATA[%s]]></MediaId></Image></xml>',
+            'voice' => '<xml><ToUserName><![CDATA[%s]]></ToUserName><FromUserName><![CDATA[%s]]></FromUserName><CreateTime>%s</CreateTime><MsgType><![CDATA[voice]]></MsgType><Voice><MediaId><![CDATA[%s]]></MediaId></Voice></xml>',
+            'video' => '<xml><ToUserName><![CDATA[%s]]></ToUserName><FromUserName><![CDATA[%s]]></FromUserName><CreateTime>%s</CreateTime><MsgType><![CDATA[video]]></MsgType><Video><MediaId><![CDATA[%s]]></MediaId><Title><![CDATA[%s]]></Title><Description><![CDATA[%s]]></Description></Video></xml>',
         ];
 
         return $arr[ $fetch ];
@@ -117,20 +120,17 @@ class Response extends WechatLib
      */
     public function FoundKeywordResource ()
     {
-        $keyword = $this->CI->rs_model->getRow( 'keyword', 'target_id,source', [
+        $keyword = $this->CI->rs_model->getRow( 'keyword', 'id,target_id,source', [
             'keyword' => $this->postObj->Content,
         ] );
 
         if ( !empty( $keyword['target_id'] ) ) {
-            $news = $this->CI->rs_model->getRow( strtolower( $keyword['source'] ), 'id,title,description,thumb', [ 'id' => $keyword['target_id'] ] );
-            if ( !empty( $news['id'] ) ) {
-                if ( strtolower( $keyword['source'] ) == 'news' ) {
-                    $this->responseNewsMsg( $news, 1 );
-                } else if ( strtolower( $keyword['source'] ) == 'material' ) {
-                    $this->responseImageMsg( $news['mediaId'] );
-                }
-            } else {
-                $this->responseTextMsg( '非常抱歉！ 没有发现您要找的内容^^，换一个关键词试一下吧~' );
+            if ( strtolower( $keyword['source'] ) == 'news' ) {
+                $news = $this->CI->rs_model->getRow( strtolower( $keyword['source'] ), 'id,title,description,thumb', [ 'id' => $keyword['target_id'] ] );
+                $this->responseNewsMsg( $news, 1 );
+            } else if ( strtolower( $keyword['source'] ) == 'material' ) {
+                $news = $this->CI->rs_model->getRow( strtolower( $keyword['source'] ), '*', [ 'id' => $keyword['target_id'] ] );
+                $this->responseMaterialMsg( $news );
             }
         } else {
             $this->responseTextMsg( '非常抱歉！ 没有发现您要找的内容^^，换一个关键词试一下吧~' );
@@ -145,7 +145,7 @@ class Response extends WechatLib
     protected function getDecryptedMsg ( $postStr )
     {
         if ( WECHAT_RESPONSE_TYPE == 1 ) {
-            $this->CI->wxcrypt->init( TK, EK, APPID );
+            $this->CI->wxcrypt->init( $this->CI->data['wechat_token'], $this->CI->data['wechat_aes_key'], $this->CI->data['wechat_appid'] );
             $decryptMsg = '';
             $errCode = $this->CI->wxcrypt->decryptMsg( _get( 'msg_signature' ), _get( 'timestamp' ), _get( 'nonce' ), $postStr, $decryptMsg );
             Mylog::error( 'decrypted errorno ' . $errCode );
@@ -170,6 +170,7 @@ class Response extends WechatLib
         }
     }
 
+
     /**
      * 向微信客户端输出消息
      *
@@ -185,9 +186,9 @@ class Response extends WechatLib
         } else {
             $msg = $respondMsg;
         }
-        Mylog::error( 'response text source ' . $respondMsg . ob_get_contents() );
+        Mylog::error( 'response text source ' . $respondMsg );
         echo $msg;
-        Mylog::error( 'response text ' . $msg . var_export( $this->postObj, true ) . ob_get_contents() );
+        Mylog::error( 'response text ' . $msg . var_export( $this->postObj, true ) );
         exit;
     }
 
@@ -259,14 +260,18 @@ class Response extends WechatLib
      *
      * @param $mediaId  媒体 ID
      */
-    public function responseImageMsg ( $mediaId )
+    public function responseMaterialMsg ( $material )
     {
-        $respondMsg = sprintf( $this->getResponseMsgTmp( 'image' ),
+        $type = $material['type'];
+        $respondMsg = sprintf( $this->getResponseMsgTmp( $type ),
             $this->postObj->FromUserName,
             $this->postObj->ToUserName,
             time(),
-            $mediaId
+            $material['media_id'],
+            $material['title'],
+            $material['title']
         );
         $this->echoMsgToWechat( $respondMsg );
     }
+
 }

@@ -13,6 +13,15 @@ class Keyword extends Base_Controller
 
     }
 
+    public function getWhere ()
+    {
+        $where = [];
+        if ( _get( 'keyword' ) ) {
+            $where['like']['keyword'] = _get( 'keyword' );
+        }
+
+        return $where;
+    }
 
 }
         

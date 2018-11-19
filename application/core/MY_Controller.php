@@ -101,11 +101,15 @@ class Common_Controller extends CI_Controller
         $this->_config = $config;
 
         $vars = [
-            'siteclass'  => $this->siteclass,
-            'sitemethod' => $this->sitemethod,
-            'is_mobile'  => $this->is_mobile,
-            'is_manager' => $this->is_manager,
-            'config'     => $this->_config,
+            'siteclass'     => $this->siteclass,
+            'sitemethod'    => $this->sitemethod,
+            'is_mobile'     => $this->is_mobile,
+            'is_manager'    => $this->is_manager,
+            'config'        => $this->_config,
+            'wechat_appid'  => APPID,
+            'wechat_appsec' => APPSEC,
+            'wechat_token'  => TK,
+            'wechat_aes_key' => EK,
         ];
         $this->tpl->assign( $vars );
 

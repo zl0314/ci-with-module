@@ -17,8 +17,6 @@ class Wxlogin extends MY_Controller
     {
         $this->load->library( 'Tools/GetWechatUserinfo', [], 'userinfo' );
         $redirect = site_url( '/' );
-        $this->userinfo->setAppid( APPID );
-        $this->userinfo->setAppSec( APPSEC );
 
         $result = $this->userinfo->getWechatSnsUserInfo( $redirect );
         $vars = [
