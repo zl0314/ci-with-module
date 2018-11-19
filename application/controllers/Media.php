@@ -10,14 +10,14 @@ class Media extends MY_Controller
     public function __construct ()
     {
         parent::__construct();
+        $this->load->library( 'WechatLib' );
+
     }
 
 
     public function userinfo ()
     {
         $this->load->library( 'Tools/GetWechatUserinfo', null, 'userobj' );
-        $this->userobj->setAppid( APPID );
-        $this->userobj->setAppSec( APPSEC );
         $result = $this->userobj->getCgiUserInfo( 'oy8WduEeEMOkaV6I-dzLF222DtqY' );
         P( $result );
     }
@@ -25,13 +25,12 @@ class Media extends MY_Controller
     public function index ()
     {
         $this->load->library( 'Tools/WechatMedia', [], 'media' );
-        $this->media->setAppid( APPID );
-        $this->media->setAppSec( APPSEC );
+        $result = false;
         //上传图片
         //$result = $this->media->upload( SITE_ROOT . 'static/admin/images/img14.png', 'image' );
-        //$result = $this->media->getMaterialCount();
-        //P( $result );
+        $result = $this->media->getMaterialCount();
 
+        //$result = getimagesize( 'http://mmbiz.qpic.cn/mmbiz_jpg/sicwjP9z9hS1PuyzYy4lEz56VaaaSK5Z77oCNV6VUWBKn7uicQHCQR314zphfMf7KZgonoZ5TOJiaAbK964aMK9uw/0' );
 
         /**
          * Tl4K-cmWmCB_DQe49FhPmSZ1vhIZhhvgi2Rfbh-z2Ww img14.png
@@ -40,8 +39,8 @@ class Media extends MY_Controller
          * Tl4K-cmWmCB_DQe49FhPmRIxpg5u4fpomUAJ5A5CxwY 3.mp4
          * Tl4K-cmWmCB_DQe49FhPmY5GflEzI72JvFb7cXroI1I  music.mp3
          */
-        //$result = $this->media->getMaterialInfo( 'Tl4K-cmWmCB_DQe49FhPmRIxpg5u4fpomUAJ5A5CxwY' );
-        //P( $result );
+        //$result = $this->media->getMaterialInfo( 'Tl4K-cmWmCB_DQe49FhPmY5GflEzI72JvFb7cXroI1I' );
+        P( $result );
     }
 
 

@@ -5,8 +5,14 @@
  * Date: 2018/8/24 15:20
  * FileName : BaseLib.php
  */
-class WechatLib extends BaseLib
+class WechatLib
 {
+    /**
+     * 全局CI对象
+     * @var CI_Controller
+     */
+    public $CI;
+
     /**
      * @var APPID
      */
@@ -27,38 +33,20 @@ class WechatLib extends BaseLib
      */
     public $tokenTb = 'tokens';
 
+    /**
+     * 全局配置项
+     * @var array
+     */
+    public $config = [];
+
     public function __construct ()
     {
-        parent::__construct();
+        $this->CI = &get_instance();
 
-        //return static::init();
+        $this->config = $this->CI->data['config'];
+        $this->appid = $this->CI->data['wechat_appid'];
+        $this->appsec = $this->CI->data['wechat_appsec'];
     }
-
-
-    //public function init ()
-    //{
-    //}
-
-    /**
-     * 设置APPID
-     *
-     * @param $appid
-     */
-    public function setAppid ( $appid )
-    {
-        $this->appid = $appid;
-    }
-
-    /**
-     * 设置APPSEC
-     *
-     * @param $appsec
-     */
-    public function setAppSec ( $appsec )
-    {
-        $this->appsec = $appsec;
-    }
-
 
     /**
      * 获取access_token
@@ -104,6 +92,7 @@ class WechatLib extends BaseLib
 
         return $result->access_token;
     }
+
     /**
      * 获取网页版Access_token
      *
@@ -157,6 +146,7 @@ class WechatLib extends BaseLib
         }
         exit;
     }
+
     /**
      * 发送HTTP请求
      *
@@ -189,6 +179,8 @@ class WechatLib extends BaseLib
         if ( !empty( $output->errcode ) ) {
             if ( isAjax() ) {
                 $this->json( $output->errmsg, $output->errcode );
+            } else if ( !empty( $this->postObj ) ) {
+                $this->responseTextMsg( $output->errmsg );
             } else {
                 exit( $output->errcode . ' ' . $output->errmsg );
             }
@@ -196,4 +188,5 @@ class WechatLib extends BaseLib
 
         return $output;
     }
+
 }

@@ -6,7 +6,7 @@ defined( 'BASEPATH' ) OR exit( 'No direct script access allowed' );
  * @author zhang
  * @date   2016-12-15
  */
-class Result_model extends CI_Model
+class Result_model extends MY_Model
 {
     public $db;
     public $rwdb;

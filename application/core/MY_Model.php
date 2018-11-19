@@ -29,20 +29,11 @@ class MY_Model extends CI_Model
      * @param $name  属性
      * @param $value 值
      */
-    public function __set ( $name, $value )
-    {
-        $this->$name = $value;
-    }
+    //public function __set ( $name, $value )
+    //{
+    //    $this->$name = $value;
+    //}
 
-    /**
-     * @param string $name 属性
-     *
-     * @return mixed
-     */
-    public function __get ( $name )
-    {
-        return $this->$name;
-    }
 
     /**
      * 保存关键字

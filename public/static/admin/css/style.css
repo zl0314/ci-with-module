@@ -316,6 +316,12 @@ p.form_error{ color:#ff0000; margin-left:90px;margin-top:10px; }
 #search{
     margin-top:-35px;
     margin-bottom: 15px;
+    clear:both;
+}
+#search2{
+    margin-top:15px;
+    margin-bottom: 15px;
+    clear:both;
 }
 .Wdate{
     width:150px;
