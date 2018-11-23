@@ -8,7 +8,6 @@ class Wxapi extends MY_Controller
     {
         parent::__construct();
         $this->load->library( 'WechatLib' );
-
     }
 
     public function index ()

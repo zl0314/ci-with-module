@@ -54,7 +54,7 @@ class UploadMaterial extends Response
                     //creat_dir_with_filepath( $uploadPath );
                     //file_put_contents( $uploadPath, $picContent );
                     //$data['media_url'] = ltrim( $uploadPath, '.' );
-                    $data['media_url_remote'] = $picUrl;
+                    $data['media_url_remote'] = (string) $picUrl;
 
                     //$this->CI->load->library( 'Tools/WechatMedia' );
                     //上传图片
