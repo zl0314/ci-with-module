@@ -13,6 +13,11 @@ defined( 'BASEPATH' ) OR exit( 'No direct script access allowed' );
 */
 defined( 'SHOW_DEBUG_BACKTRACE' ) OR define( 'SHOW_DEBUG_BACKTRACE', ENVIRONMENT == 'development' );
 
+/**
+ * 站点根目录
+ */
+define( 'SITE_ROOT', $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR );
+
 /*
 |--------------------------------------------------------------------------
 | File and Directory Modes
@@ -144,4 +149,8 @@ define( 'APPID', 'wx6901202603d4cc5c' ); //nice5good=wxce4dd8cf4e8aa782 测试�
 define( 'APPSEC', '385bc76899052c25b37d9d6a8baadec9' ); //nice5good = f3291de69dffe9391292cfdb8224fe9d 测试=385bc76899052c25b37d9d6a8baadec9
 define( 'WECHAT_RESPONSE_TYPE', 2 ); //1 安全加密 2明文
 
-define( 'SITE_ROOT', $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR );
+/**
+ * 小程序相关
+ */
+define( 'MINI_P_APPID', 'wxfcb340bece6d3231' );
+define( 'MINI_P_APPSEC', '634c9e5cd1067adfd9137d4d144cd7d0');

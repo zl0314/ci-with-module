@@ -58,6 +58,35 @@ class Common_Controller extends CI_Controller
      */
     public $listorder;
 
+    /**
+     * @var string 公众号APPID
+     */
+    public $wechat_appid;
+    /**
+     * @var string 公众号APPSEC
+     */
+    public $wechat_appsec;
+
+    /**
+     * @var string 公众号秘钥
+     */
+    public $wechat_token;
+
+    /**
+     * @var string 公众号aes加密串
+     */
+    public $wechat_aes_key;
+
+    /**
+     * @var string 小程序APPID
+     */
+    public $wechat_mini_p_appid;
+    /**
+     * @var string 小程序APPSEC
+     */
+    public $wechat_mini_p_appsec;
+
+
     public function __construct ()
     {
         parent::__construct();
@@ -101,17 +130,29 @@ class Common_Controller extends CI_Controller
         $this->_config = $config;
 
         $vars = [
-            'siteclass'     => $this->siteclass,
-            'sitemethod'    => $this->sitemethod,
-            'is_mobile'     => $this->is_mobile,
-            'is_manager'    => $this->is_manager,
-            'config'        => $this->_config,
-            'wechat_appid'  => APPID,
-            'wechat_appsec' => APPSEC,
-            'wechat_token'  => TK,
+            'siteclass'      => $this->siteclass,
+            'sitemethod'     => $this->sitemethod,
+            'is_mobile'      => $this->is_mobile,
+            'is_manager'     => $this->is_manager,
+            'config'         => $this->_config,
+            'wechat_appid'   => APPID,
+            'wechat_appsec'  => APPSEC,
+            'wechat_token'   => TK,
             'wechat_aes_key' => EK,
+
+            'wechat_mini_p_appid'  => MINI_P_APPID,
+            'wechat_mini_p_appsec' => MINI_P_APPSEC,
+
         ];
         $this->tpl->assign( $vars );
+
+        $this->wechat_appid = APPID;
+        $this->wechat_appsec = APPSEC;
+        $this->wechat_token = TK;
+        $this->wechat_aes_key = EK;
+        $this->wechat_mini_p_appid = MINI_P_APPID;
+        $this->wechat_mini_p_appsec = MINI_P_APPSEC;
+
 
         /**
          * 加载模块对应的模型

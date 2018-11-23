@@ -381,6 +381,7 @@ $config['sess_driver'] = 'files';
 $config['sess_cookie_name'] = 'CISESS';
 $config['sess_expiration'] = 7200;
 $config['sess_save_path'] = APPPATH . '/cache';
+//$config['sess_save_path'] = 'tcp://127.0.0.1:6379?auth=myredis&database=1';
 $config['sess_match_ip'] = false;
 $config['sess_time_to_update'] = 300;
 $config['sess_regenerate_destroy'] = false;

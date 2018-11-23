@@ -105,8 +105,15 @@
 </form>
 
 <script>
-    function checkPrivilegesParent(p, obj) {
-        $('#parent_input_' + p).prop('checked', $(obj).prop('checked'));
+    function checkPrivilegesParent(parent, obj) {
+        // $('#parent_input_' + p).prop('checked', $(obj).prop('checked'));
+        var checkLen = $('#' + parent + '_p').find('input[type="checkbox"]:checked').length;
+
+        if(checkLen <=0){
+            $('#parent_input_' + parent).prop('checked', false);
+        }else{
+            $('#parent_input_' + parent).prop('checked', true);
+        }
     }
 
     function checkALLPrivileges(b) {
