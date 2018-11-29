@@ -15,6 +15,14 @@ class Media extends MY_Controller
     }
 
 
+    public function deleteCustomerMenu (  )
+    {
+        $token = $this->wechatlib->getToken();
+        $url = 'https://api.weixin.qq.com/cgi-bin/menu/delete?access_token='.$token;
+        $result = $this->wechatlib->curlHttPost($url);
+        P($result);
+
+    }
     public function userinfo ()
     {
         $this->load->library( 'Tools/GetWechatUserinfo', null, 'userobj' );

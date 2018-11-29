@@ -11,67 +11,94 @@ class MY_Router extends CI_Router
 
     public function __construct ()
     {
-        //默认方法
         $this->method = 'index';
-        $this->is_manager = false;
         parent::__construct();
-
-        $class_index = 1;
-        $method_index = 2;
-
-        //如果是后台管理， 对class method 重新赋值
-        if ( !empty( $this->uri->segments[1] ) && ucwords( $this->uri->segments[1] ) == MANAGER_PATH ) {
-            $this->is_manager = true;
-            //$this->class = !empty( $this->uri->segments[2] )
-            //    ? ucwords( $this->uri->segments[2] )
-            //    : ( !empty( $this->uri->segments[1] ) ? $this->uri->segments[1] : 'Welcome' );
-            //
-            //$this->method = !empty( $this->uri->segments[3] )
-            //    ? strtolower( $this->uri->segments[3] )
-            //    : 'index';
-            $this->directory = !empty( $this->uri->segments[1] ) && ucwords( $this->uri->segments[1] ) == MANAGER_PATH ? MANAGER_PATH . '/' : '';
-
-            $class_index = 2;
-            $method_index = 3;
-        }
-
-        //控制器进行路由以后，
-        if ( !empty( $this->uri->rsegments[ $class_index ] ) ) {
-            if ( !empty( $this->uri->segments[ $class_index ] ) && !empty( $this->uri->rsegments[ $class_index ] ) ) {
-                if ( $this->uri->segments[ $class_index ] != $this->uri->rsegments[ $class_index ] ) {
-                    $this->set_class( $this->uri->rsegments[ $class_index ] );
-                    $this->class = $this->uri->rsegments[ $class_index ];
-                } else {
-                    $this->set_class( $this->uri->segments[ $class_index ] );
-                    $this->class = $this->uri->segments[ $class_index ];
-                }
-            }
-        }
-
-
-        //方法进行路由以后，
-        if ( !empty( $this->uri->rsegments[ $method_index ] ) ) {
-            if ( !empty( $this->uri->segments[ $method_index ] ) && !empty( $this->uri->rsegments[ $method_index ] ) ) {
-                if ( $this->uri->segments[ $method_index ] != $this->uri->rsegments[ $method_index ] ) {
-                    $this->set_method( $this->uri->rsegments[ $method_index ] );
-                    $this->method = $this->uri->rsegments[ $method_index ];
-                } else {
-                    $this->set_method( $this->uri->segments[ $method_index ] );
-                    $this->method = $this->uri->segments[ $method_index ];
-                }
-            }
-        }
-
-        //默认的方法
-        if ( empty( $this->uri->segments[ $class_index ] ) && empty( $this->uri->segments[ $method_index ] ) ) {
-            $this->set_method( 'index' );
-            $this->method = 'index';
-        } else if ( $this->is_manager && empty( $this->uri->segments[ $method_index ] ) ) {
-            $this->set_method( 'index' );
-            $this->method = 'index';
-
-        }
-
     }
 
+
+    // --------------------------------------------------------------------
+
+    /**
+     * Set request route
+     *
+     * Takes an array of URI segments as input and sets the class/method
+     * to be called.
+     *
+     * @used-by	CI_Router::_parse_routes()
+     * @param	array	$segments	URI segments
+     * @return	void
+     */
+    protected function _set_request($segments = array())
+    {
+
+        $segments = $this->_validate_request($segments);
+        // If we don't have any segments left - try the default controller;
+        // WARNING: Directories get shifted out of the segments array!
+        if (empty($segments))
+        {
+            $this->_set_default_controller();
+            return;
+        }
+
+        if ($this->translate_uri_dashes === TRUE)
+        {
+            $segments[0] = str_replace('-', '_', $segments[0]);
+            if (isset($segments[1]))
+            {
+                $segments[1] = str_replace('-', '_', $segments[1]);
+            }
+        }
+        $this->set_class($segments[0]);
+        if (isset($segments[1]))
+        {
+            $this->set_method($segments[1]);
+        }
+        else
+        {
+            $segments[1] = 'index';
+        }
+
+        array_unshift($segments, NULL);
+        unset($segments[0]);
+
+        $this->uri->rsegments = $segments;
+    }
+
+    // --------------------------------------------------------------------
+
+    /**
+     * Set default controller
+     *
+     * @return	void
+     */
+    protected function _set_default_controller()
+    {
+        if (empty($this->default_controller))
+        {
+            show_error('Unable to determine what should be displayed. A default route has not been specified in the routing file.');
+        }
+
+        // Is the method being specified?
+        if (sscanf($this->default_controller, '%[^/]/%s', $class, $method) !== 2)
+        {
+            $method = 'index';
+        }
+
+        if ( ! file_exists(APPPATH.'controllers/'.$this->directory.ucfirst($class).'.php'))
+        {
+            // This will trigger 404 later
+            return;
+        }
+
+        $this->set_class($class);
+        $this->set_method($method);
+
+        // Assign routed segments, index starting from 1
+        $this->uri->rsegments = array(
+            1 => $class,
+            2 => $method
+        );
+
+        log_message('debug', 'No URI present. Default controller set.');
+    }
 }
