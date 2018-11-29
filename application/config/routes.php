@@ -52,4 +52,13 @@ defined( 'BASEPATH' ) OR exit( 'No direct script access allowed' );
 $route['default_controller'] = 'Welcome';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = false;
-$route['Page/(:any)'] = "News/index/$1";
+
+
+$route['Manager/(:any)'] = "$1/Manager/$1";
+$route['Manager/(:any)/(:any)'] = "$1/Manager/$1/$2";
+
+$route['(:any)'] = "$1/$1";
+$route['(:any)/(:any)'] = "$1/$1/$2";
+$route['(:any)/(:any)/(:any)'] = "$1/$1/$2/$3";
+
+

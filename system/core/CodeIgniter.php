@@ -29,7 +29,6 @@
  * @filesource
  */
 defined( 'BASEPATH' ) OR exit( 'No direct script access allowed' );
-
 /**
  * System Initialization File
  * Loads the base classes and executes the request.
@@ -39,13 +38,11 @@ defined( 'BASEPATH' ) OR exit( 'No direct script access allowed' );
  * @author         EllisLab Dev Team
  * @link           https://codeigniter.com/user_guide/
  */
-
 /**
  * CodeIgniter Version
  * @var    string
  */
 const CI_VERSION = '3.1.6';
-
 /*
  * ------------------------------------------------------
  *  Load the framework constants
@@ -54,28 +51,22 @@ const CI_VERSION = '3.1.6';
 if ( file_exists( APPPATH . 'config/' . ENVIRONMENT . '/constants.php' ) ) {
     require_once( APPPATH . 'config/' . ENVIRONMENT . '/constants.php' );
 }
-
 if ( file_exists( APPPATH . 'config/constants.php' ) ) {
     require_once( APPPATH . 'config/constants.php' );
 }
-
 /*
  * ------------------------------------------------------
  *  Load the global functions
  * ------------------------------------------------------
  */
 require_once( BASEPATH . 'core/Common.php' );
-
-
 /*
  * ------------------------------------------------------
  * Security procedures
  * ------------------------------------------------------
  */
-
 if ( !is_php( '5.4' ) ) {
     ini_set( 'magic_quotes_runtime', 0 );
-
     if ( (bool) ini_get( 'register_globals' ) ) {
         $_protected = [
             '_SERVER',
@@ -94,13 +85,11 @@ if ( !is_php( '5.4' ) ) {
             '_protected',
             '_registered',
         ];
-
         $_registered = ini_get( 'variables_order' );
         foreach ( [ 'E' => '_ENV', 'G' => '_GET', 'P' => '_POST', 'C' => '_COOKIE', 'S' => '_SERVER' ] as $key => $superglobal ) {
             if ( strpos( $_registered, $key ) === false ) {
                 continue;
             }
-
             foreach ( array_keys( $$superglobal ) as $var ) {
                 if ( isset( $GLOBALS[ $var ] ) && !in_array( $var, $_protected, true ) ) {
                     $GLOBALS[ $var ] = null;
@@ -109,8 +98,6 @@ if ( !is_php( '5.4' ) ) {
         }
     }
 }
-
-
 /*
  * ------------------------------------------------------
  *  Define a custom error handler so we can log PHP errors
@@ -119,7 +106,6 @@ if ( !is_php( '5.4' ) ) {
 set_error_handler( '_error_handler' );
 set_exception_handler( '_exception_handler' );
 register_shutdown_function( '_shutdown_handler' );
-
 /*
  * ------------------------------------------------------
  *  Set the subclass_prefix
@@ -139,7 +125,6 @@ register_shutdown_function( '_shutdown_handler' );
 if ( !empty( $assign_to_config['subclass_prefix'] ) ) {
     get_config( [ 'subclass_prefix' => $assign_to_config['subclass_prefix'] ] );
 }
-
 /*
  * ------------------------------------------------------
  *  Should we use a Composer autoloader?
@@ -156,7 +141,6 @@ if ( $composer_autoload = config_item( 'composer_autoload' ) ) {
         log_message( 'error', 'Could not find the specified $config[\'composer_autoload\'] path: ' . $composer_autoload );
     }
 }
-
 /*
  * ------------------------------------------------------
  *  Start the timer... tick tock tick tock...
@@ -165,21 +149,18 @@ if ( $composer_autoload = config_item( 'composer_autoload' ) ) {
 $BM =& load_class( 'Benchmark', 'core' );
 $BM->mark( 'total_execution_time_start' );
 $BM->mark( 'loading_time:_base_classes_start' );
-
 /*
  * ------------------------------------------------------
  *  Instantiate the hooks class
  * ------------------------------------------------------
  */
 $EXT =& load_class( 'Hooks', 'core' );
-
 /*
  * ------------------------------------------------------
  *  Is there a "pre_system" hook?
  * ------------------------------------------------------
  */
 $EXT->call_hook( 'pre_system' );
-
 /*
  * ------------------------------------------------------
  *  Instantiate the config class
@@ -191,14 +172,12 @@ $EXT->call_hook( 'pre_system' );
  *
  */
 $CFG =& load_class( 'Config', 'core' );
-
 // Do we have any manually set config items in the index.php file?
 if ( isset( $assign_to_config ) && is_array( $assign_to_config ) ) {
     foreach ( $assign_to_config as $key => $value ) {
         $CFG->set_item( $key, $value );
     }
 }
-
 /*
  * ------------------------------------------------------
  * Important charset-related stuff
@@ -215,7 +194,6 @@ if ( isset( $assign_to_config ) && is_array( $assign_to_config ) ) {
  */
 $charset = strtoupper( config_item( 'charset' ) );
 ini_set( 'default_charset', $charset );
-
 if ( extension_loaded( 'mbstring' ) ) {
     define( 'MB_ENABLED', true );
     // mbstring.internal_encoding is deprecated starting with PHP 5.6
@@ -227,7 +205,6 @@ if ( extension_loaded( 'mbstring' ) ) {
 } else {
     define( 'MB_ENABLED', false );
 }
-
 // There's an ICONV_IMPL constant, but the PHP manual says that using
 // iconv's predefined constants is "strongly discouraged".
 if ( extension_loaded( 'iconv' ) ) {
@@ -238,50 +215,42 @@ if ( extension_loaded( 'iconv' ) ) {
 } else {
     define( 'ICONV_ENABLED', false );
 }
-
 if ( is_php( '5.6' ) ) {
     ini_set( 'php.internal_encoding', $charset );
 }
-
 /*
  * ------------------------------------------------------
  *  Load compatibility features
  * ------------------------------------------------------
  */
-
 require_once( BASEPATH . 'core/compat/mbstring.php' );
 require_once( BASEPATH . 'core/compat/hash.php' );
 require_once( BASEPATH . 'core/compat/password.php' );
 require_once( BASEPATH . 'core/compat/standard.php' );
-
 /*
  * ------------------------------------------------------
  *  Instantiate the UTF-8 class
  * ------------------------------------------------------
  */
 $UNI =& load_class( 'Utf8', 'core' );
-
 /*
  * ------------------------------------------------------
  *  Instantiate the URI class
  * ------------------------------------------------------
  */
 $URI =& load_class( 'URI', 'core' );
-
 /*
  * ------------------------------------------------------
  *  Instantiate the routing class and set the routing
  * ------------------------------------------------------
  */
 $RTR =& load_class( 'Router', 'core', isset( $routing ) ? $routing : null );
-
 /*
  * ------------------------------------------------------
  *  Instantiate the output class
  * ------------------------------------------------------
  */
 $OUT =& load_class( 'Output', 'core' );
-
 /*
  * ------------------------------------------------------
  *	Is there a valid cache file? If so, we're done...
@@ -290,28 +259,24 @@ $OUT =& load_class( 'Output', 'core' );
 if ( $EXT->call_hook( 'cache_override' ) === false && $OUT->_display_cache( $CFG, $URI ) === true ) {
     exit;
 }
-
 /*
  * -----------------------------------------------------
  * Load the security class for xss and csrf support
  * -----------------------------------------------------
  */
 $SEC =& load_class( 'Security', 'core' );
-
 /*
  * ------------------------------------------------------
  *  Load the Input class and sanitize globals
  * ------------------------------------------------------
  */
 $IN =& load_class( 'Input', 'core' );
-
 /*
  * ------------------------------------------------------
  *  Load the Language class
  * ------------------------------------------------------
  */
 $LANG =& load_class( 'Lang', 'core' );
-
 /*
  * ------------------------------------------------------
  *  Load the app controller and local controller
@@ -320,7 +285,6 @@ $LANG =& load_class( 'Lang', 'core' );
  */
 // Load the base controller class
 require_once BASEPATH . 'core/Controller.php';
-
 /**
  * Reference to the CI_Controller method.
  * Returns current CI instance object
@@ -334,11 +298,8 @@ function &get_instance ()
 if ( file_exists( APPPATH . 'core/' . $CFG->config['subclass_prefix'] . 'Controller.php' ) ) {
     require_once APPPATH . 'core/' . $CFG->config['subclass_prefix'] . 'Controller.php';
 }
-
-
 // Set a mark point for benchmarking
 $BM->mark( 'loading_time:_base_classes_end' );
-
 /*
  * ------------------------------------------------------
  *  Sanity checks
@@ -359,30 +320,16 @@ $BM->mark( 'loading_time:_base_classes_end' );
  *  or the loader class can be called via the URI, nor can
  *  controller methods that begin with an underscore.
  */
-
 $e404 = false;
 $class = ucfirst( $RTR->class );
 $method = $RTR->method;
-
 if ( empty( $class ) OR !file_exists( APPPATH . 'controllers/' . $RTR->directory . $class . '.php' ) ) {
     $e404 = true;
-}
-$module_file = MODULE_PATH . $class . '/controllers/' . $RTR->directory . $class . '.php';
-if ( file_exists( $module_file ) ) {
-    $e404 = false;
-    require_once( MODULE_PATH . $class . '/controllers/' . $RTR->directory . $class . '.php' );
-    if ( !method_exists( $class, $method ) ) {
-        $params = [ $method, array_slice( $URI->rsegments, 2 ) ];
-        $method = '_remap';
-    }
 } else {
-    if ( file_exists( APPPATH . 'controllers/' . $RTR->directory . $class . '.php' ) ) {
-        require_once( APPPATH . 'controllers/' . $RTR->directory . $class . '.php' );
-    }
-
+    require_once( APPPATH . 'controllers/' . $RTR->directory . $class . '.php' );
     if ( !class_exists( $class, false ) OR $method[0] === '_' OR method_exists( 'CI_Controller', $method ) ) {
         $e404 = true;
-    } elseif ( !method_exists( $class, $method ) && method_exists( $class, '_remap' ) ) {
+    } elseif ( method_exists( $class, '_remap' ) ) {
         $params = [ $method, array_slice( $URI->rsegments, 2 ) ];
         $method = '_remap';
     } elseif ( !method_exists( $class, $method ) ) {
@@ -403,15 +350,12 @@ if ( file_exists( $module_file ) ) {
         }
     }
 }
-
 if ( $e404 ) {
     if ( !empty( $RTR->routes['404_override'] ) ) {
         if ( sscanf( $RTR->routes['404_override'], '%[^/]/%s', $error_class, $error_method ) !== 2 ) {
-            $error_method = 'Welcome';
+            $error_method = 'index';
         }
-
         $error_class = ucfirst( $error_class );
-
         if ( !class_exists( $error_class, false ) ) {
             if ( file_exists( APPPATH . 'controllers/' . $RTR->directory . $error_class . '.php' ) ) {
                 require_once( APPPATH . 'controllers/' . $RTR->directory . $error_class . '.php' );
@@ -427,12 +371,10 @@ if ( $e404 ) {
             $e404 = false;
         }
     }
-
     // Did we reset the $e404 flag? If so, set the rsegments, starting from index 1
     if ( !$e404 ) {
         $class = $error_class;
         $method = $error_method;
-
         $URI->rsegments = [
             1 => $class,
             2 => $method,
@@ -441,18 +383,15 @@ if ( $e404 ) {
         show_404( $RTR->directory . $class . '/' . $method );
     }
 }
-
 if ( $method !== '_remap' ) {
     $params = array_slice( $URI->rsegments, 2 );
 }
-
 /*
  * ------------------------------------------------------
  *  Is there a "pre_controller" hook?
  * ------------------------------------------------------
  */
 $EXT->call_hook( 'pre_controller' );
-
 /*
  * ------------------------------------------------------
  *  Instantiate the requested controller
@@ -460,33 +399,27 @@ $EXT->call_hook( 'pre_controller' );
  */
 // Mark a start point so we can benchmark the controller
 $BM->mark( 'controller_execution_time_( ' . $class . ' / ' . $method . ' )_start' );
-
 $CI = new $class();
-
 /*
  * ------------------------------------------------------
  *  Is there a "post_controller_constructor" hook?
  * ------------------------------------------------------
  */
 $EXT->call_hook( 'post_controller_constructor' );
-
 /*
  * ------------------------------------------------------
  *  Call the requested method
  * ------------------------------------------------------
  */
 call_user_func_array( [ &$CI, $method ], $params );
-
 // Mark a benchmark end point
 $BM->mark( 'controller_execution_time_( ' . $class . ' / ' . $method . ' )_end' );
-
 /*
  * ------------------------------------------------------
  *  Is there a "post_controller" hook?
  * ------------------------------------------------------
  */
 $EXT->call_hook( 'post_controller' );
-
 /*
  * ------------------------------------------------------
  *  Send the final rendered output to the browser
@@ -495,7 +428,6 @@ $EXT->call_hook( 'post_controller' );
 if ( $EXT->call_hook( 'display_override' ) === false ) {
     $OUT->_display();
 }
-
 /*
  * ------------------------------------------------------
  *  Is there a "post_system" hook?

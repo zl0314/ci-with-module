@@ -58,26 +58,17 @@ class Tpl
         $this->default_class = 'index';
         $this->manager_path = MANAGER_PATH;
 
-        $this->template_dir = VIEWPATH;
-
         //站点控制器和方法定义
         $siteclass = $this->CI->router->class;
         $sitemethod = $this->CI->router->method;
         $this->siteclass = $siteclass;
         $this->sitemethod = $sitemethod;
 
-        $this->template_file = !empty( $this->CI->uri->segments[1] )
-            ? ucwords( $this->CI->uri->segments[1] )
-            : ucwords( $this->default_class );
 
-        $this->template_file .= !empty( $this->CI->uri->segments[2] ) && ( ucwords( $this->CI->uri->segments[1] ) == $this->manager_path )
-            ? '/' . ucwords( $this->CI->uri->segments[2] )
-            : ( !empty( $this->CI->uri->segments[2] ) ? '/' . $this->CI->uri->segments[2] : '/' . $this->default_class );
-
-        $this->template_file .= !empty( $this->CI->uri->segments[3] ) && ( ucwords( $this->CI->uri->segments[1] ) == $this->manager_path )
-            ? '/' . ( $this->CI->uri->segments[3] )
-            : ( !empty( $this->CI->uri->segments[1] ) && ucwords( $this->CI->uri->segments[1] ) == $this->manager_path ? '/' . $this->default_class : '' );
-
+        $this->template_dir = $this->CI->inModule ? APPPATH . 'controllers/' . $this->siteclass . '/' : VIEWPATH;
+        if ( $this->CI->is_manager ) {
+            $this->template_dir .= 'views/Manager/';
+        }
     }
 
 
@@ -104,8 +95,6 @@ class Tpl
     public function display ( $template = null )
     {
         $this->init_tpl_dir( $template );
-        //$template = $template ? $template : $this->template_file;
-        $template = $this->template_file;
 
         $data = !empty( $this->CI->data ) ? $this->CI->data : [];
 
@@ -114,16 +103,12 @@ class Tpl
             $this->CI->load->view( $this->CI->data['header'], $data );
         }
 
-        if ( !empty( $_GET['vue'] ) ) {
-            if ( !empty( $_GET['callback'] ) ) {
-                $json = json_encode( $data );
-                $callback = $_GET['callback'];
-                echo $callback . '(' . $json . ')';
-                exit;
-            }
-        }
 
         //加载内容文件
+        $template = $template ?
+            ( $this->CI->is_manager ? 'Manager/' . $template : $template ) :
+            ( $this->CI->is_manager ? 'Manager/' . $this->sitemethod : $this->sitemethod );
+
         $this->CI->load->view( $template, $data );
 
         //加载Footer文件
@@ -138,41 +123,15 @@ class Tpl
      */
     public function init_tpl_dir ( $template = '' )
     {
-        $source_template = $template;
 
-        //得到模块的真实路径， 判断是否来自模块
-        $ref = new ReflectionClass( $this->siteclass );
-        $source_file = $ref->getFileName();
-        $is_from_module = strpos( $source_file, MODULE_PATH ) !== false;
+        //创建目录 以及 当前方法的文件
+        $template = $template ? $template : $this->sitemethod;
+        $template_file = $this->template_dir . $template . '.php';
 
-        //控制器 是模块
-        if ( $is_from_module ) {
-            //模板路径
-            $path = MODULE_PATH
-                . ucfirst( $this->siteclass )
-                . DIRECTORY_SEPARATOR
-                . 'views' . DIRECTORY_SEPARATOR . $this->CI->router->directory;
-            $this->template_dir = $path;
-
-            //模板文件
-            $true_file = $source_template ? $source_template : $this->sitemethod;
-            $template_file = $this->template_dir . $true_file . '.php';
-
-            //重新设置模型模板路径
-            if ( file_exists( $template_file ) ) {
-                $this->template_file = str_replace( MODULE_PATH, '', $template_file );
-            }
-        } else {
-            //创建目录 以及 当前方法的文件
-            $template = $template ? $template : $this->template_file;
-            $template_file = $this->template_dir . $template . '.php';
-
-            //创建目录
-            if ( !file_exists( $template_file ) ) {
-                creat_dir_with_filepath( $template_file );
-            }
+        //创建目录
+        if ( !file_exists( $template_file ) ) {
+            creat_dir_with_filepath( $template_file );
         }
-
 
         //创建以当前方法为文件名的文件
         if ( !file_exists( $template_file ) ) {

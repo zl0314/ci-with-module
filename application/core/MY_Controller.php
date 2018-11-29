@@ -39,10 +39,6 @@ class Common_Controller extends CI_Controller
     public $_config;
 
     /**
-     * @var 是否是后台管理操作
-     */
-    public $is_manager = false;
-    /**
      * @var string 默认主键
      */
     public $primary = 'id';
@@ -90,12 +86,6 @@ class Common_Controller extends CI_Controller
     public function __construct ()
     {
         parent::__construct();
-
-        //判断是否是后台管理
-        $uri_first = $this->uri->segment( 1 );
-        if ( $uri_first == MANAGER_PATH ) {
-            $this->is_manager = true;
-        }
 
         $this->listorder = $this->primary . ' desc';
 
@@ -175,9 +165,10 @@ class Common_Controller extends CI_Controller
     private function isLoadModel ()
     {
 
-        $model_path = MODULE_PATH . $this->siteclass . DIRECTORY_SEPARATOR . 'models' . DIRECTORY_SEPARATOR;
+        $model_path = APPPATH . 'controllers/' . ucfirst( $this->siteclass ) . DIRECTORY_SEPARATOR . 'models' . DIRECTORY_SEPARATOR;
         $model_name = $this->siteclass . '_model';
         $model_file = $model_name . '.php';
+
         if ( file_exists( $model_path . $model_file ) ) {
             $this->load->model( $model_name );
 
@@ -193,7 +184,7 @@ class Common_Controller extends CI_Controller
      */
     private function isLoadLibrary ()
     {
-        $model_path = MODULE_PATH . $this->siteclass . DIRECTORY_SEPARATOR . 'libraries' . DIRECTORY_SEPARATOR;
+        $model_path = APPPATH . '/controllers/' . ucfirst( $this->siteclass ) . DIRECTORY_SEPARATOR . 'libraries' . DIRECTORY_SEPARATOR;
         $model_name = $this->siteclass . '_lib';
         $model_file = $model_name . '.php';
         if ( file_exists( $model_path . $model_file ) ) {
@@ -212,11 +203,11 @@ class Common_Controller extends CI_Controller
         if ( LANG_ON ) {
             $this->load->helper( 'language' );
 
-            $lang_path = MODULE_PATH . $this->siteclass . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . $this->_config['language'] . DIRECTORY_SEPARATOR;
+            $lang_path = APPPATH . '/controllers/' . ucfirst( $this->siteclass ) . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . $this->_config['language'] . DIRECTORY_SEPARATOR;
             $lang_name = strtolower( $this->siteclass ) . '_lang';
             $lang_file = $lang_name . '.php';
             if ( file_exists( $lang_path . $lang_file ) ) {
-                $this->lang->load( strtolower( $this->siteclass ) );
+                $this->lang->load( strtolower( $this->siteclass ), false, false, true, APPPATH . 'controllers/' . ucfirst( $this->siteclass ) . '/' );
             }
 
             //加载公共语言包
@@ -241,22 +232,21 @@ class Common_Controller extends CI_Controller
 }
 
 
-/* 加载模块 主控制器*/
-if ( file_exists( MODULE_PATH . MODULE_CONTROLLER . '.php' ) ) {
-    require_once MODULE_PATH . MODULE_CONTROLLER . '.php';
-}
-
-
 /**
  * Class Base_Controller 后端主控制器
  */
-class Base_Controller extends Module_Controller
+class Base_Controller extends Common_Controller
 {
     /**
      * 登录的管理员信息
      */
     public $admin_info;
 
+    /**
+     * 是否是模型
+     * @var bool
+     */
+    public $inModule = true;
     /**
      *  是否检查 登录有效
      * @var bool
@@ -286,6 +276,9 @@ class Base_Controller extends Module_Controller
      */
     public $model = '';
 
+
+    public $is_manager = true;
+
     public function __construct ()
     {
         parent::__construct();
@@ -293,11 +286,10 @@ class Base_Controller extends Module_Controller
             $this->checkAdminLogin();
         }
         $this->data['admin_info'] = $this->admin_info;
-        $this->is_manager = true;
 
         //定义后台路径
-        define( 'ADMIN_MANAGER_PATH', site_url( MANAGER_PATH . '/' . SITEC ) ); //只到当前控制器
-        define( 'ADMIN_MANAGER_FULL_PATH', site_url( MANAGER_PATH . '/' . SITEC . '/' . SITEM ) ); // 到控制器下面的方法
+        define( 'ADMIN_MANAGER_PATH', site_url( SITEC . '/' . MANAGER_PATH . '/' . SITEC ) ); //只到当前控制器
+        define( 'ADMIN_MANAGER_FULL_PATH', site_url( SITEC . '/' . MANAGER_PATH . '/' . SITEC . '/' . SITEM ) ); // 到控制器下面的方法
 
         $this->data['header'] = strtolower( MANAGER_PATH ) . '_header';
         $this->data['footer'] = strtolower( MANAGER_PATH ) . '_footer';
@@ -650,13 +642,44 @@ class Base_Controller extends Module_Controller
     {
 
     }
+
+
+    /**
+     * 表单提交， 进行信息合法性验证
+     */
+    public function FormValidation ()
+    {
+        $validation_config = [];
+        $validation_path = APPPATH . ucfirst( $this->siteclass ) . '/validation/validation.php';
+        if ( file_exists( $validation_path ) ) {
+            include_once $validation_path;
+            $config = @$validation_config['manager'];
+            if ( !empty( $config ) ) {
+                $this->form_validation->set_rules( $config );
+                $this->form_validation->set_error_delimiters( '<p class="form_error">', '</p>' );
+                $this->form_validation->set_data( $this->getData() );
+                if ( $this->form_validation->run() !== false ) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return true;
+            }
+        } else {
+            return true;
+        }
+    }
 }
 
 /**
  * Class MY_Controller 前端主控制器
  */
-class MY_Controller extends Module_Controller
+class MY_Controller extends Common_Controller
 {
+
+    public $inModule = true;
+    public $is_manager = false;
 
     public function __construct ()
     {
@@ -725,5 +748,40 @@ class MY_Controller extends Module_Controller
         $this->tpl->assign( [ 'model' => $model ] );
     }
 
+    /**
+     * 保存前的操作 && 重新改变保存数据
+     * @return array
+     */
+    public function getData ()
+    {
+        return _post();
+    }
+
+    /**
+     * 表单提交， 进行信息合法性验证
+     */
+    public function FormValidation ()
+    {
+        $validation_config = [];
+        $validation_path = APPPATH . ucfirst( $this->siteclass ) . '/validation/validation.php';
+        if ( file_exists( $validation_path ) ) {
+            include_once $validation_path;
+            $config = @$validation_config['front'];
+            if ( !empty( $config ) ) {
+                $this->form_validation->set_rules( $config );
+                $this->form_validation->set_error_delimiters( '<p class="form_error">', '</p>' );
+                $this->form_validation->set_data( $this->getData() );
+                if ( $this->form_validation->run() !== false ) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return true;
+            }
+        } else {
+            return true;
+        }
+    }
 }
 

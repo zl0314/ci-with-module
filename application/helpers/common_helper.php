@@ -39,23 +39,13 @@ if ( !function_exists( 'redirect_manager' ) ) {
      */
     function redirect_manager ( $url )
     {
-        return redirect( site_url( MANAGER_PATH . '/' . $url ) );
+        $prefx = explode('/',$url)[0];
+        //$prefx . '/' .
+        return redirect( site_url(  MANAGER_PATH . '/' . $url ) );
     }
 
 }
 
-if ( !function_exists( 'manager_url' ) ) {
-    /**
-     * 后台跳转地址
-     *
-     * @param $url 跳转的地址
-     */
-    function manager_url ( $url )
-    {
-        return site_url( MANAGER_PATH . '/' . $url );
-    }
-
-}
 /**
  * 执行成功输出, 用ajax请求输出JSON数据
  *
@@ -266,7 +256,9 @@ function _get ( $key = '', $default = '', $strict = false )
  */
 function manager_url ( $url, $param = '' )
 {
-    $url = site_url( MANAGER_PATH . '/' . $url );
+    $prefx = explode('/',$url)[0];
+    //$prefx . '/' .
+    $url = site_url(  MANAGER_PATH . '/' . $url );
     $url = $param ? $url . '?' . $param : $url;
 
     return $url;
@@ -581,7 +573,7 @@ function lang ( $line, $data = [] )
     if ( !empty( $data ) ) {
 
         foreach ( $data as $k => $r ) {
-            $line = str_replace( '{'.$k.'}', $r, $line );
+            $line = str_replace( '{' . $k . '}', $r, $line );
         }
     }
 
